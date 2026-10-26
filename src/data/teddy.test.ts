@@ -5,6 +5,8 @@
  * les décisions validées par Guillaume le 26/10/2026.
  */
 
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { BASE_SESSIONS } from './baseSessions';
 import { EXERCISES } from './exercises';
@@ -112,6 +114,13 @@ describe('programme 4 semaines — séances dupliquées', () => {
     expect(curl.superset).toBe('bras-lundi');
     expect(skull.restSec).toBe(0);
     expect(curl.restSec).toBe(90);
+  });
+
+  it('chaque mouvement du lundi a sa fiche, livrée avec l’appli', () => {
+    for (const e of getSession(1, 0, EMPTY_CONTEXT)!.exercises) {
+      expect(e.def.fiche, e.id).toBe(`fiches/${e.id}.webp`);
+      expect(existsSync(join(process.cwd(), 'public', e.def.fiche!)), e.id).toBe(true);
+    }
   });
 
   it('aucune suggestion de charge : Teddy gère ses charges', () => {

@@ -29,6 +29,7 @@ const LIST: ExerciseDef[] = [
   // ------------------------- LUNDI — épaules, triceps, biceps (Guillaume) --
   {
     id: 'reverse-pec-deck',
+    fiche: 'fiches/reverse-pec-deck.webp',
     name: 'Oiseau à la machine (reverse pec deck)',
     fn: 'pull',
     role: 'accessory',
@@ -44,6 +45,7 @@ const LIST: ExerciseDef[] = [
   },
   {
     id: 'smith-military-press',
+    fiche: 'fiches/smith-military-press.webp',
     name: 'Développé militaire à la Smith machine',
     fn: 'push',
     role: 'main',
@@ -58,6 +60,7 @@ const LIST: ExerciseDef[] = [
   },
   {
     id: 'front-raise',
+    fiche: 'fiches/front-raise.webp',
     name: 'Élévations frontales',
     fn: 'push',
     role: 'accessory',
@@ -66,6 +69,7 @@ const LIST: ExerciseDef[] = [
   },
   {
     id: 'bench-rear-delt-fly',
+    fiche: 'fiches/bench-rear-delt-fly.webp',
     name: 'Oiseau sur banc, haltères',
     fn: 'pull',
     role: 'accessory',
@@ -74,6 +78,7 @@ const LIST: ExerciseDef[] = [
   },
   {
     id: 'skull-crusher',
+    fiche: 'fiches/skull-crusher.webp',
     name: 'Barre au front',
     fn: 'push',
     role: 'accessory',
@@ -82,6 +87,7 @@ const LIST: ExerciseDef[] = [
   },
   {
     id: 'ez-curl',
+    fiche: 'fiches/ez-curl.webp',
     name: 'Curl biceps barre EZ',
     fn: 'pull',
     role: 'accessory',
@@ -90,6 +96,7 @@ const LIST: ExerciseDef[] = [
   },
   {
     id: 'suitcase-hold',
+    fiche: 'fiches/suitcase-hold.webp',
     name: 'Gainage debout, une haltère',
     fn: 'core',
     role: 'core',
@@ -255,6 +262,7 @@ const LIST: ExerciseDef[] = [
   },
   {
     id: 'lateral-raise',
+    fiche: 'fiches/lateral-raise.webp',
     name: 'Élévations latérales',
     fn: 'push',
     role: 'accessory',

@@ -5,6 +5,7 @@ import type { ResolvedExercise } from '../engine/getSession';
 import type { RestTimer } from '../state/useRestTimer';
 import { ExerciseMediaButton, type MediaContext } from './ExerciseMedia';
 import { ExerciseNote, type NoteContext } from './ExerciseNote';
+import { FicheMouvement } from './FicheMouvement';
 import { PainWatch } from './PainWatch';
 import { Stepper, stepValue } from './Stepper';
 import { KG_MAX, KG_MIN, loadEntryFor, parseKg } from '../engine/loadEntry';
@@ -365,6 +366,8 @@ export function ExerciseCard({
         son intention — Explosive Cable Row, One-Arm Cable Row, Cable Chop… —
         ne montrait donc RIEN, alors que le .md écrit bien quelque chose sur lui.
       */}
+      <FicheMouvement def={ex.def} />
+
       {(ex.def.intent || ex.def.cues?.length || ex.def.altBasicFit || ex.def.progressionRule) && (
         <>
           <button

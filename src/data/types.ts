@@ -323,6 +323,11 @@ export interface ExerciseDef {
    * absent = toutes.
    */
   secondPart?: { label: string; withLoad: boolean; onSets?: number[] };
+  /**
+   * Fiche technique livrée avec l'appli : chemin relatif à la racine du site
+   * (`fiches/<id>.webp`, dans `public/`). Disponible hors ligne.
+   */
+  fiche?: string;
 }
 
 /** Un exercice tel qu'il apparaît réellement dans une séance donnée. */

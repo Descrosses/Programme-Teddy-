@@ -28,7 +28,7 @@ export default defineConfig({
          * Après ça, l'appli fonctionne à 100 % hors ligne — c'est la condition
          * pour qu'elle serve en salle, où le réseau est aléatoire.
          */
-        globPatterns: ['**/*.{js,css,html,woff2,png,svg,ico}'],
+        globPatterns: ['**/*.{js,css,html,woff2,png,svg,ico,webp}'],
         navigateFallback: `${base}index.html`,
         cleanupOutdatedCaches: true,
       },

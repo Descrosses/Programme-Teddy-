@@ -1445,3 +1445,61 @@
   height: 1px;
   background: var(--accent-dim);
 }
+
+/* ------------------------------------------------- fiche du mouvement -- */
+.ficheOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  background: rgba(20, 32, 43, 0.96);
+}
+
+.ficheBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: calc(env(safe-area-inset-top, 0px) + 10px) var(--pad) 10px;
+  color: #ffffff;
+  font-size: var(--fs-small);
+}
+
+.ficheClose {
+  min-height: var(--tap);
+  padding: 0 16px;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: var(--ink-on-accent);
+  font-weight: 700;
+}
+
+.ficheScroll {
+  flex: 1 1 auto;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 0 calc(env(safe-area-inset-bottom, 0px) + 12px);
+}
+
+.ficheImgButton {
+  display: block;
+  padding: 0;
+  background: none;
+  border: 0;
+}
+
+.ficheImg {
+  display: block;
+  width: 100vw;
+  max-width: 560px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.ficheImgZoom {
+  display: block;
+  width: 220vw;
+  max-width: none;
+  height: auto;
+}

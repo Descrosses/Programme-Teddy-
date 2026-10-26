@@ -5,6 +5,7 @@ import type { ResolvedExercise } from '../engine/getSession';
 import { KG_MAX, KG_MIN, loadEntryFor, parseKg } from '../engine/loadEntry';
 import type { RestTimer } from '../state/useRestTimer';
 import type { SetPayload } from './ExerciseCard';
+import { FicheMouvement } from './FicheMouvement';
 import { Stepper, stepValue } from './Stepper';
 import styles from '../screens/Session.module.css';
 
@@ -72,6 +73,9 @@ export function SupersetCard({
           </div>
         )}
       </div>
+
+      <FicheMouvement def={a.def} label={`Fiche — ${a.name}`} />
+      <FicheMouvement def={b.def} label={`Fiche — ${b.name}`} />
 
       {Array.from({ length: tours }, (_, i) => {
         const sa = savedFor(a, i);
