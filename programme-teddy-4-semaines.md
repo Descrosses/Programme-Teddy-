@@ -34,10 +34,12 @@ sections 3-4 jusqu'à réception des feuilles.
 | 6 | Superset barre au front + curl barre EZ, descente 3 s | 4 × 12 | 1 min 30 après le duo |
 | 7 | Gainage debout, une haltère dans une main | 3 × 30 s / côté | — |
 
-Oiseau à la machine : série 1 = 8-10 reps « 1 + ½ », 5 s de pause, max de
+Oiseau à la machine : série 1 = 8-10 reps (demi-amplitude + amplitude complète = 1 rep), 5 s de pause, max de
 reps jusqu'à l'échec ; série 2 = (5 reps + 5 s de contraction) × 3 ;
 série 3 = 8-10 reps, ouverture explosive, retour en 3 s, 5 s de pause, max
 de reps.
+
+**Saisie des deuxièmes parties :** sous chaque série concernée, Teddy note les reps (et la charge pour les dégressives). Échec après pause : reps seulement, charge « — » (la même).
 
 **Série optionnelle (S2-S4)** : seulement si la séance du lundi précédent a
 tenu en 60 min ou moins (durée réelle de l'appli) et sans fatigue excessive

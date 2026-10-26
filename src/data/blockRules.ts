@@ -129,11 +129,11 @@ const S2_S4: BlockRuleSet[] = [
     rules: [
       patch('smith-military-press', {
         sets: 4,
-        note: `Puis aussitôt 10 à 12 reps à environ 60 % de la charge. Saisis la charge lourde. ${SERIE_OPTIONNELLE}`,
+        note: `Puis aussitôt 10 à 12 reps à environ 60 % de la charge : saisis-les sous la partie lourde. ${SERIE_OPTIONNELLE}`,
       }),
       patch('lateral-raise', {
         sets: 4,
-        note: `Puis aussitôt le max de reps à environ 60 % de la charge. ${SERIE_OPTIONNELLE}`,
+        note: `Puis aussitôt le max de reps à environ 60 % de la charge : saisis-les sous les 10 reps. ${SERIE_OPTIONNELLE}`,
       }),
     ],
   },

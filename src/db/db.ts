@@ -77,6 +77,13 @@ export interface SetRow {
   measureUnit?: string | null;
   /** §11 cas 5. */
   failed: boolean;
+  /**
+   * Deuxième partie de la série (dégressive ou échec après pause). Absente des
+   * lignes écrites avant ce champ. Aucun index : aucune migration de schéma.
+   * `secondKg` null = même charge que la première partie.
+   */
+  secondReps?: number | null;
+  secondKg?: number | null;
 
   doneAt: number;
 }

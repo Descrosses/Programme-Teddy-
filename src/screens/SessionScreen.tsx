@@ -139,6 +139,8 @@ export function SessionScreen({
       measureValue: payload.measureValue,
       measureUnit: payload.measureUnit,
       failed: payload.failed,
+      secondReps: payload.secondReps ?? null,
+      secondKg: payload.secondKg ?? null,
     });
     await data.reload();
   }

@@ -81,8 +81,8 @@ const LUNDI: SessionBlueprint = {
   notes: [],
   slots: [
     s('reverse-pec-deck', 3, reps(range(8, 10)), machine(), null, 45, 'Les 3 séries sont différentes : ouvre les consignes. 3 min de repos avant l’exercice suivant.'),
-    s('smith-military-press', 3, reps(6), barre(), rirRange(1, 2), 150, 'Puis aussitôt 10 à 12 reps à environ 60 % de la charge. Saisis la charge lourde.'),
-    s('lateral-raise', 3, reps(10), halteres(), rir(2), 90, 'Puis aussitôt le max de reps à environ 60 % de la charge.'),
+    s('smith-military-press', 3, reps(6), barre(), rirRange(1, 2), 150, 'Puis aussitôt 10 à 12 reps à environ 60 % de la charge : saisis-les sous la partie lourde.'),
+    s('lateral-raise', 3, reps(10), halteres(), rir(2), 90, 'Puis aussitôt le max de reps à environ 60 % de la charge : saisis-les sous les 10 reps.'),
     s('front-raise', 3, reps(15, true, 'côté'), halteres1(), null, 60, 'Contraction maximale en haut.'),
     s('bench-rear-delt-fly', 3, reps(12), halteres(), null, 60, 'Contraction maximale en fin de mouvement.'),
     s('skull-crusher', 4, reps(12), barre(), null, 0, 'Superset : enchaîne directement avec le curl barre EZ. Descente en 3 s.'),

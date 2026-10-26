@@ -36,6 +36,9 @@ export interface SetPayload {
    */
   measureUnit: string | null;
   failed: boolean;
+  /** Deuxième partie de la série (dégressive ou échec après pause). */
+  secondReps?: number | null;
+  secondKg?: number | null;
 }
 
 /**
@@ -559,6 +562,17 @@ function SetEntry({
     saved?.measureValue ?? plannedMeasureOf(ex) ?? ex.lastMeasure ?? measure?.min ?? 0,
   );
   const [failed, setFailed] = useState<boolean>(saved?.failed ?? false);
+  /*
+   * Deuxième partie de la série, quand l'exercice en a une sur cette série :
+   * dégressive (reps + charge) ou échec après pause (reps, même charge).
+   * Vide par défaut : rien n'est écrit tant que Teddy ne l'a pas saisie.
+   */
+  const second =
+    ex.def.secondPart && (ex.def.secondPart.onSets?.includes(index) ?? true)
+      ? ex.def.secondPart
+      : null;
+  const [secondReps, setSecondReps] = useState<number | null>(saved?.secondReps ?? null);
+  const [secondKg, setSecondKg] = useState<number | null>(saved?.secondKg ?? null);
 
   /*
    * Changer d'unité remet le champ sur une valeur qui a du sens dans la
@@ -595,6 +609,8 @@ function SetEntry({
       measureValue: measure ? value : null,
       measureUnit: measure ? (unite ?? measureBase?.unit ?? null) : null,
       failed,
+      secondReps: second ? secondReps : null,
+      secondKg: second?.withLoad ? secondKg : null,
     });
     setEditing(false);
     if (ex.restSec > 0) {
@@ -637,6 +653,14 @@ function SetEntry({
             </span>
           )}
           {saved.failed && <span className={styles.failFlag}>Rep ratée</span>}
+          {saved.secondReps != null && (
+            <span className={`${styles.setSummaryValue} tnum`}>
+              + {saved.secondReps}{' '}
+              <span className={styles.setSummaryUnit}>
+                reps{saved.secondKg != null ? ` à ${fr(saved.secondKg)} kg` : ' (échec, même charge)'}
+              </span>
+            </span>
+          )}
         </button>
       </div>
     );
@@ -720,6 +744,46 @@ function SetEntry({
             </div>
           )}
         </div>
+
+        {second && (
+          <div>
+            <div className={styles.secondLabel}>{second.label}</div>
+            <div className={styles.steppers}>
+              <div className={second.withLoad ? '' : styles.stepperWide}>
+                <Stepper
+                  label={second.withLoad ? 'Reps' : 'Échec — reps'}
+                  value={secondReps}
+                  step={1}
+                  min={0}
+                  max={60}
+                  onStep={(d) => setSecondReps((v) => stepValue(v ?? (second.withLoad ? 10 : 0), d, 0, 60))}
+                />
+              </div>
+              {second.withLoad && (
+                <div>
+                  <Stepper
+                    label="Charge · kg"
+                    value={secondKg}
+                    step={entry.step}
+                    min={KG_MIN}
+                    max={KG_MAX}
+                    unit="kg"
+                    onStep={(d) =>
+                      setSecondKg((v) =>
+                        // Premier appui : on part d'environ 60 % de la charge lourde.
+                        v === null && kg !== null
+                          ? Math.round((kg * 0.6) / entry.step) * entry.step
+                          : stepValue(v ?? 0, d, KG_MIN, KG_MAX),
+                      )
+                    }
+                    onCommitText={(brut: string) => setSecondKg((v) => parseKg(brut, v))}
+                  />
+                </div>
+              )}
+            </div>
+            {!second.withLoad && <div className={styles.secondHint}>Charge : — (la même)</div>}
+          </div>
+        )}
 
         {ex.def.role === 'main' && (
           <button

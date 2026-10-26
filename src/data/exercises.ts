@@ -34,8 +34,9 @@ const LIST: ExerciseDef[] = [
     role: 'accessory',
     measure: 'kg',
     intent: 'Les 3 séries sont différentes : lis la consigne de chacune avant de commencer.',
+    secondPart: { label: 'Après 5 s de pause : max de reps jusqu’à l’échec', withLoad: false, onSets: [0, 2] },
     cues: [
-      'Série 1 — 8 à 10 reps « 1 + ½ » : une répétition = une demi-amplitude puis une amplitude complète. Cherche la contraction maximale, pas d’ego lifting. Ensuite 5 s de pause, puis le maximum de reps jusqu’à l’échec.',
+      'Série 1 — 8 à 10 reps : une répétition = une demi-amplitude puis une amplitude complète. Cherche la contraction maximale, pas d’ego lifting. Ensuite 5 s de pause, puis le maximum de reps jusqu’à l’échec.',
       'Série 2 — contraction maintenue : 5 reps, puis tiens 5 s bras ouverts. Enchaîne ce bloc 3 fois de suite.',
       'Série 3 — tempo : 8 à 10 reps, ouverture explosive, retour en 3 s. Ensuite 5 s de pause, puis le maximum de reps.',
       'Repos : 45 s entre les séries, 3 min avant le développé militaire.',
@@ -48,10 +49,11 @@ const LIST: ExerciseDef[] = [
     role: 'main',
     measure: 'kg',
     intent: 'Chaque série en deux temps, sans repos entre les deux : 6 reps lourdes, puis 10 à 12 reps à environ 60 % de la charge.',
+    secondPart: { label: 'Puis aussitôt 10 à 12 reps à ≈ 60 %', withLoad: true },
     cues: [
       'Lourd = une charge qui t’en permettrait 7 à 8 au maximum : 1 à 2 reps en réserve.',
       'Exemple : 6 reps à 50 kg, puis aussitôt 12 reps à 30 kg.',
-      'Note la charge lourde dans l’appli : c’est elle qui sert de repère d’une semaine à l’autre.',
+      'Saisis les deux parties : la partie lourde en haut, la partie à ≈ 60 % juste en dessous (reps et charge).',
     ],
   },
   {
@@ -258,9 +260,10 @@ const LIST: ExerciseDef[] = [
     role: 'accessory',
     measure: 'kg',
     intent: 'Chaque série en deux temps : 10 reps à RPE 8 (2 en réserve), puis aussitôt le maximum de reps à environ 60 % de la charge.',
+    secondPart: { label: 'Puis aussitôt le max de reps à ≈ 60 %', withLoad: true },
     cues: [
       'Coudes légèrement fléchis, montée jusqu’à l’horizontale, sans élan.',
-      'Note la charge des 10 premières reps : c’est elle qui sert de repère.',
+      'Saisis les deux parties : les 10 premières reps en haut, la partie à ≈ 60 % juste en dessous (reps et charge).',
     ],
   },
   {

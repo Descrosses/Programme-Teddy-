@@ -314,6 +314,15 @@ export interface ExerciseDef {
    * n'est pas un diagnostic, et l'application n'en pose aucun.
    */
   painWatch?: string;
+  /**
+   * Deuxième partie d'une série, enchaînée sans repos : dégressive (« puis
+   * 10-12 reps à ≈ 60 % ») ou reps à l'échec après une courte pause.
+   *
+   * `withLoad: false` = même charge : on ne note que les reps, la charge
+   * s'affiche « — ». `onSets` = index (0 = 1re série) des séries concernées ;
+   * absent = toutes.
+   */
+  secondPart?: { label: string; withLoad: boolean; onSets?: number[] };
 }
 
 /** Un exercice tel qu'il apparaît réellement dans une séance donnée. */

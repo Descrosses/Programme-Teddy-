@@ -1321,3 +1321,17 @@
   --line: #3a5068;
   color: var(--ink);
 }
+
+/* Deuxième partie d'une série (dégressive, échec après pause). */
+.secondLabel {
+  margin: 4px 0 6px;
+  font-size: var(--fs-small);
+  font-weight: 700;
+  color: var(--ink-2);
+}
+
+.secondHint {
+  margin-top: 4px;
+  font-size: var(--fs-small);
+  color: var(--ink-3);
+}
