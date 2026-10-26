@@ -165,10 +165,8 @@ export function SettingsScreen({ onChanged }: { onChanged: () => void }) {
           )}
           {ancreValide && (
             <p className={styles.fieldHint}>
-              Semaine 1 (calibration + combine initial) le{" "}
-              {humanDate(dateFor(start, 1, 0))}, semaine 4 (deload + combine final) le{" "}
-              {humanDate(dateFor(start, 4, 0))}, dernière séance le{" "}
-              {humanDate(dateFor(start, 4, 5))}.
+              Première séance le {humanDate(dateFor(start, 1, 0))}, dernière
+              séance le {humanDate(dateFor(start, 4, 5))}.
             </p>
           )}
         </div>

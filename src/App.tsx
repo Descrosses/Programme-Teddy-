@@ -25,7 +25,7 @@ const TABS: Array<{ name: TabName; label: string; icon: string }> = [
   { name: 'week', label: 'Semaine', icon: '▦' },
   { name: 'nutrition', label: 'Nutrition', icon: '🍽' },
   { name: 'progress', label: 'Progrès', icon: '📈' },
-  { name: 'combine', label: 'Combine', icon: '⏱' },
+  { name: 'combine', label: 'Mesures', icon: '📏' },
   { name: 'settings', label: 'Réglages', icon: '⚙' },
 ];
 

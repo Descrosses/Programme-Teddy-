@@ -10,7 +10,7 @@ import { BASE_SESSIONS } from './baseSessions';
 import { EXERCISES } from './exercises';
 import { BLOCK_RULES } from './blockRules';
 import { PROGRAM_WEEKS, WEEK_DAYS } from './program';
-import { COMBINE_METRICS, maxEstime } from './testSessions';
+import { COMBINE_METRICS } from './testSessions';
 import { rir } from './types';
 import { getSession } from '../engine/getSession';
 import { EMPTY_CONTEXT, type Occurrence } from '../engine/types';
@@ -157,8 +157,8 @@ describe('double progression (J1, J2)', () => {
 });
 
 describe('combine et calendrier', () => {
-  it('le maximum estimé compte 10 reps + 3 en réserve', () => {
-    expect(maxEstime(60)).toBe(86);
+  it('les mesures se limitent au poids de corps et au tour de bras', () => {
+    expect([...COMBINE_METRICS]).toEqual(['test-bodyweight', 'test-arm-cm']);
   });
 
   it('lundi de départ = semaine 1, dernière séance le samedi de la semaine 4', () => {

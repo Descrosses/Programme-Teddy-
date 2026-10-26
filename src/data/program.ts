@@ -34,15 +34,7 @@ export {
 } from './blockRules';
 
 // Combines de la semaine 1 et de la semaine 4
-export {
-  AVEC_MAX_ESTIME,
-  COMBINE_METRICS,
-  REPS_POUR_ESTIMATION,
-  SPECIAL_SESSIONS,
-  isCombineDay,
-  maxEstime,
-  specialSession,
-} from './testSessions';
+export { COMBINE_METRICS, SPECIAL_SESSIONS, isCombineDay, specialSession } from './testSessions';
 
 export * from './types';
 

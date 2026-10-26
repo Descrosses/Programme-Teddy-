@@ -155,8 +155,7 @@ export function TodayScreen({
           <p className={styles.eyebrow}>POWERBUILDING — MASSE &amp; FORCE</p>
           <h1 className={styles.h1}>Bienvenue Teddy</h1>
           <p className={styles.lead}>
-            Il manque une seule chose pour démarrer : le <b>lundi</b> de ta semaine 1. Tout le
-            calendrier en découle : 4 séances par semaine pendant 4 semaines.
+            Il manque une seule chose pour démarrer : le <b>lundi</b> de ta semaine 1.
           </p>
         </header>
         <section className={styles.card}>
@@ -178,11 +177,6 @@ export function TodayScreen({
                 })()
               }
             />
-            <p className={styles.fieldHint}>
-              Pectoraux le lundi, dos le mardi, jambes le jeudi, épaules et bras le samedi. La
-              semaine 1 sert à trouver tes charges ; la semaine 4 est un deload qui refait les mêmes
-              tests pour comparer.
-            </p>
           </div>
         </section>
         <button type="button" className={styles.secondary} onClick={onGoSettings}>
@@ -247,8 +241,8 @@ export function TodayScreen({
           <>
             <h1 className={styles.todayTitle}>4 semaines bouclées</h1>
             <p className={styles.lead}>
-              Dernière séance le {humanDate(today.last.date)}. Compare tes deux combines dans
-              l’onglet Combine, puis fais le bilan avec Guillaume pour décider du bloc suivant.
+              Dernière séance le {humanDate(today.last.date)}. Note tes mesures de fin dans
+              l’onglet Mesures, puis fais le bilan avec Guillaume pour décider de la suite.
             </p>
           </>
         )}
@@ -293,8 +287,8 @@ export function TodayScreen({
           onClick={onGoSettings}
         >
           {state.bodyweightKg === null
-            ? 'Combine : n’oublie pas ta moyenne de poids de corps (3 matins, à jeun). Elle se saisit dans Réglages, pas en salle.'
-            : `Combine : poids de corps enregistré à ${fr(state.bodyweightKg)} kg. À mettre à jour dans Réglages si ta moyenne a bougé.`}
+            ? 'Mesures : n’oublie pas ta moyenne de poids de corps (3 matins, à jeun) et ton tour de bras. Ils se saisissent à la maison, pas en salle.'
+            : `Mesures : poids de corps enregistré à ${fr(state.bodyweightKg)} kg. À mettre à jour dans Réglages si ta moyenne a bougé.`}
         </button>
       )}
 

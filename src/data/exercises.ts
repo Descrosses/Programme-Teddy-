@@ -365,7 +365,7 @@ const LIST: ExerciseDef[] = [
     intent: 'Seulement si le niveau 2 est maîtrisé. Genoux vers la poitrine en enroulant le bassin, sans balancer.',
   },
 
-  // ------------------------------------------- COMBINE (S1 et S4) --
+  // ------------------------------------- MESURES (début et fin de cycle) --
   {
     id: 'test-bodyweight',
     name: 'Poids de corps',
@@ -381,38 +381,6 @@ const LIST: ExerciseDef[] = [
     role: 'test',
     measure: 'cm',
     intent: 'Bras droit, contracté, au point le plus large. Même mètre ruban, même moment de la journée.',
-  },
-  {
-    id: 'test-bench-10',
-    name: 'Développé couché — charge pour 10 reps',
-    fn: 'test',
-    role: 'test',
-    measure: 'kg',
-    intent: 'Charge de ta 1re série de travail : 10 reps en gardant 3 en réserve. Pas un maximum.',
-  },
-  {
-    id: 'test-pulldown-10',
-    name: 'Tirage vertical — charge pour 10 reps',
-    fn: 'test',
-    role: 'test',
-    measure: 'kg',
-    intent: 'Charge de ta 1re série de travail : 10 reps en gardant 3 en réserve. Pas un maximum.',
-  },
-  {
-    id: 'test-legpress-10',
-    name: 'Presse — charge pour 10 reps',
-    fn: 'test',
-    role: 'test',
-    measure: 'kg',
-    intent: 'Charge de ta 1re série de travail : 10 reps en gardant 3 en réserve. Pas un maximum.',
-  },
-  {
-    id: 'test-shoulder-10',
-    name: 'Développé épaules — charge pour 10 reps',
-    fn: 'test',
-    role: 'test',
-    measure: 'kg',
-    intent: 'Charge de ta 1re série de travail : 10 reps en gardant 3 en réserve. Pas un maximum.',
   },
 ];
 

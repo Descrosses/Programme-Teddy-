@@ -1,10 +1,6 @@
 /**
- * Combines de Teddy : semaine 1 (initial) et dernière semaine du cycle (final).
- *
- * Aucun test de maximum. Les tests sont sous-maximaux et se font DANS les
- * séances : la charge de la 1re série de travail sur chaque exercice
- * principal (10 reps, 3 en réserve), plus le poids de corps et le tour de
- * bras, relevés à la maison.
+ * Mesures de Teddy : semaine 1 (début) et dernière semaine du cycle (fin).
+ * Poids de corps et tour de bras, relevés à la maison.
  */
 
 import type { DayIndex, SessionBlueprint, WeekIndex } from './types';
@@ -34,33 +30,9 @@ export function isCombineDay(week: number, day: DayIndex): boolean {
   return (week === 1 || week === LAST_WEEK) && day === 0;
 }
 
-/** Les mesures relevées à chaque combine, dans l'ordre d'affichage. */
-export const COMBINE_METRICS = [
-  'test-bodyweight',
-  'test-arm-cm',
-  'test-bench-10',
-  'test-pulldown-10',
-  'test-legpress-10',
-  'test-shoulder-10',
-] as const;
-
 /**
- * Charge pour 10 reps → maximum ESTIMÉ (formule d'Epley).
- *
- * Les 3 reps gardées en réserve comptent : 10 reps à 3 en réserve ≈ 13 reps
- * possibles. C'est une estimation, jamais une mesure (règle I2), et elle ne
- * sert qu'à comparer la semaine 4 à la semaine 1 — pas à calculer des charges.
+ * Les mesures relevées au début et à la fin du cycle : poids de corps et tour
+ * de bras. Aucune mesure de force : le programme 4 semaines ne cherche pas à
+ * en développer, Teddy gère ses charges lui-même.
  */
-export const REPS_POUR_ESTIMATION = 10 + 3;
-
-export function maxEstime(kg: number): number {
-  return Math.round(kg * (1 + REPS_POUR_ESTIMATION / 30) * 2) / 2;
-}
-
-/** Les mesures pour lesquelles le combine affiche un maximum estimé. */
-export const AVEC_MAX_ESTIME = new Set<string>([
-  'test-bench-10',
-  'test-pulldown-10',
-  'test-legpress-10',
-  'test-shoulder-10',
-]);
+export const COMBINE_METRICS = ['test-bodyweight', 'test-arm-cm'] as const;

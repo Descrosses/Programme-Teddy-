@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Stepper, stepValue } from '../components/Stepper';
 import { EXERCISES } from '../data/exercises';
-import { AVEC_MAX_ESTIME, COMBINE_METRICS, maxEstime } from '../data/testSessions';
+import { COMBINE_METRICS } from '../data/testSessions';
 import { fr } from '../engine/format';
 import { allCombines, getSettingsRow, saveCombine } from '../db/repo';
 import type { CombinePhase, CombineRow } from '../db/db';
@@ -9,8 +9,8 @@ import styles from './Screens.module.css';
 
 /** Deux combines seulement : semaine 1 et semaine 4. */
 const PHASES: Array<{ id: CombinePhase; label: string; when: string }> = [
-  { id: 'initial', label: 'Initial', when: 'Semaine 1' },
-  { id: 'final', label: 'Final', when: 'Fin de cycle' },
+  { id: 'initial', label: 'Début', when: 'Semaine 1' },
+  { id: 'final', label: 'Fin', when: 'Semaine 4' },
 ];
 
 /** Réglages du stepper par unité de mesure. */
@@ -26,10 +26,6 @@ const MEASURE = {
 const OU: Record<string, string> = {
   'test-bodyweight': 'Relevé à la maison : moyenne de 3 matins à jeun. Se saisit aussi dans Réglages.',
   'test-arm-cm': 'Relevé à la maison, avant la séance du lundi.',
-  'test-bench-10': 'La charge de ta 1re série de développé couché du lundi.',
-  'test-pulldown-10': 'La charge de ta 1re série de tirage vertical du mardi.',
-  'test-legpress-10': 'La charge de ta 1re série de presse du jeudi.',
-  'test-shoulder-10': 'La charge de ta 1re série de développé épaules du samedi.',
 };
 
 export function CombineScreen() {
@@ -66,11 +62,10 @@ export function CombineScreen() {
   return (
     <div className={styles.screen}>
       <header className={styles.header}>
-        <h1 className={styles.h1}>Combine</h1>
+        <h1 className={styles.h1}>Mesures</h1>
         <p className={styles.lead}>
-          Aucun test de maximum : la charge pour 10 reps avec 3 en réserve sur les quatre
-          exercices principaux, plus le poids et le tour de bras. Mêmes conditions au début et à la
-          fin du cycle, c’est ce qui les rend comparables.
+          Poids de corps et tour de bras, au début et à la fin du cycle. Mêmes conditions les deux
+          fois : le matin, à jeun, avec le même mètre ruban.
         </p>
       </header>
 
@@ -95,17 +90,13 @@ export function CombineScreen() {
       {/* --- Comparaison des deux combines --------------------------------- */}
       <section className={styles.card}>
         <h2 className={styles.cardTitle}>Comparaison</h2>
-        <p className={styles.cardSub}>
-          Les maxima entre parenthèses sont <b>estimés</b> (formule d’Epley, 10 reps + 3 en
-          réserve) : un repère de progression, jamais une mesure.
-        </p>
         <div className={styles.tableScroll}>
           <table className={styles.table}>
             <thead>
               <tr>
                 <th>Mesure</th>
-                <th>Début</th>
-                <th>Fin</th>
+                <th>S1</th>
+                <th>S4</th>
               </tr>
             </thead>
             <tbody>
@@ -139,15 +130,8 @@ export function CombineScreen() {
 
       {/* --- Saisie guidée -------------------------------------------------- */}
       <h2 className={styles.sectionTitle}>
-        Saisie — combine {PHASES.find((p) => p.id === phase)!.label.toLowerCase()}
+        Saisie — {PHASES.find((p) => p.id === phase)!.label.toLowerCase()} de cycle
       </h2>
-      {phase === 'final' && (
-        <p className={styles.hint}>
-          Exercices principaux : reprends la charge de la semaine 1 pour 10 reps. Si tu as dû la
-          changer, saisis celle que tu as réellement utilisée et note le nombre de reps en réserve
-          dans la remarque de l’exercice.
-        </p>
-      )}
 
       {COMBINE_METRICS.map((id) => {
         const def = EXERCISES[id];
@@ -177,11 +161,6 @@ export function CombineScreen() {
                 onCommit={(val) => setDraft((prev) => ({ ...prev, [id]: val }))}
               />
             </div>
-            {AVEC_MAX_ESTIME.has(id) && typeof v === 'number' && v > 0 && (
-              <p className={styles.fieldHint}>
-                Maximum <b>estimé</b> : ≈ {fr(maxEstime(v))} kg. Ce n’est pas une mesure.
-              </p>
-            )}
             {id === 'test-bodyweight' && settingsBodyweight !== null && v !== settingsBodyweight && (
               <button
                 type="button"
@@ -197,7 +176,7 @@ export function CombineScreen() {
       })}
 
       <button type="button" className={styles.primary} onClick={() => void save()}>
-        Enregistrer le combine
+        Enregistrer les mesures
       </button>
       {saved && (
         <p className={styles.hint}>
@@ -208,9 +187,7 @@ export function CombineScreen() {
   );
 }
 
-/** « 60 kg (≈ 82 estimé) » pour les charges, la valeur seule ailleurs. */
-function valeur(id: string, v: number | null | undefined): string {
-  if (typeof v !== 'number') return '—';
-  if (AVEC_MAX_ESTIME.has(id) && v > 0) return `${fr(v)} (≈ ${fr(maxEstime(v))})`;
-  return fr(v);
+/** La valeur, ou « — » quand rien n'est saisi. */
+function valeur(_id: string, v: number | null | undefined): string {
+  return typeof v === 'number' ? fr(v) : '—';
 }
