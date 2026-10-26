@@ -2,8 +2,8 @@
  * Jetons de design.
  *
  * Contraintes : lu à un mètre, sous les néons d'une salle, une main, écran
- * peut-être mouillé. Donc fond sombre, contrastes élevés, aucun gris clair sur
- * gris, cibles tactiles de 48 px minimum.
+ * peut-être mouillé. Thème clair « ardoise, rouge et marine » choisi par
+ * Guillaume : contrastes élevés (texte ≥ 4,5:1), cibles tactiles de 48 px.
  *
  * Tout ce qui se règle visuellement est ici. Une seule valeur à changer pour
  * modifier l'appli entière.
@@ -11,26 +11,26 @@
 
 :root {
   /* --- Fonds, du plus profond au plus clair --- */
-  --bg: #050505;
-  --surface: #141414;
-  --surface-2: #1f1f1f;
-  --surface-3: #2b2b2b;
-  --line: #3d3d3d;
+  --bg: #e9edf1;
+  --surface: #ffffff;
+  --surface-2: #f1f4f7;
+  --surface-3: #e2e8ef;
+  --line: #d5dce4;
 
   /* --- Texte. Le secondaire reste à 8:1 sur --surface : jamais de gris pâle. */
-  --ink: #f5f5f5;
-  --ink-2: #cfcfcf;
-  --ink-3: #9a9a9a; /* réservé aux libellés non essentiels */
-  --ink-on-accent: #0a0a0a;
+  --ink: #14202b;
+  --ink-2: #3e4c5a;
+  --ink-3: #5e6b78; /* réservé aux libellés non essentiels */
+  --ink-on-accent: #ffffff;
 
-  /* --- Couleur d'action : le rouge du programme de Teddy, sur fond noir --- */
-  --accent: #ff2d2d;
-  --accent-dim: #5c0d0d;
+  /* --- Couleur d'action : le rouge des programmes de prise de masse, sur ardoise claire --- */
+  --accent: #d62f33;
+  --accent-dim: #f4c7c8;
 
   /* --- Feu tricolore (§4) --- */
-  --vert: #3ddc84;
-  --orange: #ff9f1c;
-  --rouge: #ff5a4d;
+  --vert: #1e8a4c;
+  --orange: #b8560a;
+  --rouge: #b3261e;
 
   /*
    * --- Macros, pour les barres de composition ---
@@ -46,12 +46,15 @@
   --macro-lipides: #a87b22;
 
   /* --- Blocs (§2) --- */
-  --bloc-test: #ff2d2d;
-  --bloc-accumulation: #ff5c5c;
+  --bloc-test: #d62f33;
+  --bloc-accumulation: #2f6fa8;
   --bloc-deload: #9aabbc;
-  --bloc-maxforce: #ff9a8f;
+  --bloc-maxforce: #4b6584;
   --bloc-power: #f2b33d;
-  --bloc-taper: #f2f2f2;
+  --bloc-taper: #5e6b78;
+
+  /* --- Bandeau marine des en-têtes (palette « ardoise, rouge et marine ») --- */
+  --marine: #1d2b3a;
 
   /* --- Typographie --- */
   --font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;

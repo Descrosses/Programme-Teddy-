@@ -1379,7 +1379,7 @@
   gap: 4px 10px;
   padding: 10px 12px;
   border-radius: 10px;
-  background: var(--surface-2, rgba(255, 255, 255, 0.04));
+  background: var(--surface-2, rgba(20, 32, 43, 0.05));
   font-size: var(--fs-small);
 }
 
@@ -1409,7 +1409,7 @@
   grid-column: 1 / -1;
   height: 8px;
   border-radius: 4px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(20, 32, 43, 0.1);
   overflow: hidden;
 }
 
@@ -1489,7 +1489,7 @@
   padding: 8px 10px;
   border-left: 2px solid var(--line);
   border-radius: 0 8px 8px 0;
-  background: var(--surface-2, rgba(255, 255, 255, 0.04));
+  background: var(--surface-2, rgba(20, 32, 43, 0.05));
   font-size: var(--fs-small);
 }
 
@@ -1501,4 +1501,18 @@
 .noteText {
   color: var(--ink);
   line-height: 1.45;
+}
+
+/* Bandeau marine : les jetons sont redéfinis DANS l'en-tête, donc tout ce qui
+   s'y trouve (titre, notes, boutons) passe en clair sur marine sans autre règle. */
+.header {
+  background: var(--marine);
+  --ink: #ffffff;
+  --ink-2: #d6e2ee;
+  --ink-3: #b4c4d4;
+  --surface: #26374a;
+  --surface-2: #2e4258;
+  --surface-3: #3a5068;
+  --line: #3a5068;
+  color: var(--ink);
 }

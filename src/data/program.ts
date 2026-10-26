@@ -71,7 +71,7 @@ export const BLOCKS: Record<Block, BlockInfo> = {
     short: 'Calib.',
     intensityLabel: '3 en réserve',
     objective: 'Trouver et noter les charges de travail, mesurer les références',
-    color: '#ff2d2d',
+    color: '#d62f33',
   },
   accumulation: {
     block: 'accumulation',
@@ -79,7 +79,7 @@ export const BLOCKS: Record<Block, BlockInfo> = {
     short: 'Intens.',
     intensityLabel: '2 en réserve',
     objective: 'Même volume, un cran plus près de l’effort',
-    color: '#ff5c5c',
+    color: '#2f6fa8',
   },
   maxforce: {
     block: 'maxforce',
@@ -87,7 +87,7 @@ export const BLOCKS: Record<Block, BlockInfo> = {
     short: 'Volume',
     intensityLabel: '2 en réserve',
     objective: 'Une série de plus sur deux accessoires, intensité stable',
-    color: '#ff9a8f',
+    color: '#4b6584',
   },
   deload: {
     block: 'deload',
@@ -111,7 +111,7 @@ export const BLOCKS: Record<Block, BlockInfo> = {
     short: 'Bilan',
     intensityLabel: '3 en réserve',
     objective: 'Sortir frais, refaire les tests, décider du bloc suivant',
-    color: '#f2f2f2',
+    color: '#5e6b78',
   },
 };
 

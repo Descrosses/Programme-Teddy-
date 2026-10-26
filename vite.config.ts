@@ -45,8 +45,8 @@ export default defineConfig({
         // et que les notifications locales soient autorisées sur iOS.
         display: 'standalone',
         orientation: 'portrait',
-        background_color: '#050505',
-        theme_color: '#050505',
+        background_color: '#e9edf1',
+        theme_color: '#1d2b3a',
         categories: ['health', 'fitness', 'sports'],
         icons: [
           { src: 'icons/icon-192.png', sizes: '192x192', type: 'image/png' },

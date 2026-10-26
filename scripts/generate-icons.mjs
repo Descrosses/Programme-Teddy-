@@ -18,8 +18,8 @@ import { fileURLToPath } from 'node:url';
 
 const OUT = join(dirname(fileURLToPath(import.meta.url)), '..', 'public', 'icons');
 
-const BG = [0x05, 0x05, 0x05]; // --bg
-const BAR = [0xff, 0x2d, 0x2d]; // --accent
+const BG = [0x1d, 0x2b, 0x3a]; // --marine
+const BAR = [0xd6, 0x2f, 0x33]; // --accent
 const PLATE = [0xf5, 0xf5, 0xf5]; // --ink
 
 /** Icônes à produire : [nom, taille, marge relative]. */
