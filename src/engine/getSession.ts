@@ -1,0 +1,653 @@
+/**
+ * `getSession(week, day, ctx)` — la séance du jour, déjà ajustée.
+ *
+ * Ordre des transformations, et il compte :
+ *   1. trame de départ  — §12 / §8 S12 si la séance est écrite en toutes
+ *                         lettres, sinon la trame §7 du jour ;
+ *   2. règles de bloc   — §8, pour force max et puissance ;
+ *   3. deload           — §8, semaines 4 et 8, sur les séances non écrites ;
+ *   4. tableau §9       — séries, reps, charge et RPE des lifts principaux ;
+ *   5. progression      — §11, en SUGGESTION, jamais appliquée d'office ;
+ *   6. feu tricolore    — §4, appliqué à la charge affichée ET à la suggestion ;
+ *   7. cas 7            — §11, sauts en baisse : 3 séries, plus de conditioning.
+ */
+
+import {
+  BIG_MOVEMENT_IDS,
+  BLOCKS,
+  DELOAD_CORE,
+  DELOAD_POLICY,
+  READINESS_THRESHOLDS,
+  WEEK_BLOCKS,
+  WEEK_DAYS,
+  blockNotesFor,
+  rulesFor,
+} from '../data/program';
+import { BASE_SESSIONS } from '../data/baseSessions';
+import { CONTRAST_BY_DAY, type ContrastSpec, type SlotPatch } from '../data/blockRules';
+import { EXERCISES } from '../data/exercises';
+import { prescriptionFor } from '../data/mainLiftTable';
+import { specialSession } from '../data/testSessions';
+import { WARMUPS } from '../data/warmups';
+import type {
+  Block,
+  DayIndex,
+  ExerciseDef,
+  Intensity,
+  RampStep,
+  RPETarget,
+  Slot,
+  Warmup,
+  WeekIndex,
+  Work,
+} from '../data/types';
+import { loadLine as formatLoadLine, workLabel } from './format';
+import { resolveLoad, scaleLoad, type ResolvedLoad } from './loadResolver';
+import { dureeEstimeeMin, dureeLabel } from './sessionDuration';
+import { applyProgression, lastCompleted, type ProgressionResult } from './progression';
+import { roundToStep } from './rounding';
+import type { Occurrence, SessionContext } from './types';
+
+// ---------------------------------------------------------------------------
+
+export interface Adjustment {
+  source: 'bloc' | 'deload' | 'orange' | 'rouge' | 'cas7' | 'plafond';
+  what: string;
+  why: string;
+}
+
+export interface ResolvedExercise {
+  def: ExerciseDef;
+  id: string;
+  name: string;
+  sets: number;
+  work: Work;
+  load: ResolvedLoad;
+  targetRPE: RPETarget | null;
+  restSec: number;
+  /** L'élément le plus visible de l'écran : « 5 × 3 × 115 kg ». */
+  loadLine: string;
+  notes: string[];
+  /** S9-11 : l'explosif intercalé entre les séries. */
+  contrast?: ContrastSpec;
+  /** Paliers d'un test 1RM (§12). */
+  ramp?: RampStep[];
+  /**
+   * Dernière charge réellement enregistrée sur cet exercice, ou `null`.
+   *
+   * Sert UNIQUEMENT à pré-remplir le champ de saisie, jamais la ligne de plan :
+   * un mouvement au poids du corps ou sur poulie n'a pas de charge planifiée, et
+   * le .md ne doit pas se voir attribuer un chiffre qu'il n'écrit pas.
+   */
+  lastKg: number | null;
+  /**
+   * Dernière mesure réellement enregistrée sur ce mouvement — distance d'un
+   * saut, d'un porté, temps d'un sprint.
+   *
+   * Pendant du `lastKg`, et pour la même raison : le champ de saisie doit
+   * s'ouvrir sur quelque chose de plausible. Il démarrait au minimum du
+   * curseur, 5 m ou 50 cm, donc valider un porté sans y toucher enregistrait
+   * 5 m au lieu de 30.
+   *
+   * On ne passe PAS par `lastCompleted` : ce champ vaut `false` sur un
+   * mouvement mesuré, qui n'enregistre pas de reps. On prend la dernière
+   * occurrence qui porte une mesure.
+   */
+  lastMeasure: number | null;
+  /** §11 — proposition de charge, à accepter ou refuser. Jamais appliquée seule. */
+  suggestion: ProgressionResult | null;
+  adjustments: Adjustment[];
+}
+
+/**
+ * Un exercice que la séance prévoyait et qui n'est plus prescrit.
+ *
+ * Il n'est pas effacé de l'écran : l'y faire disparaître sans un mot laisserait
+ * croire à un oubli, et la raison de la mise à l'écart est précisément ce qu'il
+ * faut avoir sous les yeux pour décider de la reprise.
+ */
+export interface SuspendedExercise {
+  id: string;
+  name: string;
+  reason: string;
+}
+
+export interface ResolvedSession {
+  week: WeekIndex;
+  day: DayIndex;
+  block: Block;
+  blockName: string;
+  blockColor: string;
+  title: string;
+  /**
+   * Durée CALCULÉE, pas l'étiquette écrite dans la trame.
+   *
+   * Celle du §3 avait été fixée une fois et jamais revue : le vendredi
+   * affichait « 60 min » pour quatre-vingts réelles. Un chiffre figé ne se
+   * contredit jamais tout seul — celui-ci suit les séries et les repos.
+   */
+  durationLabel: string;
+  /**
+   * La même durée, en minutes entières — le chiffre, pas l'étiquette.
+   *
+   * C'est lui qui sert de référence au chrono de fin de séance. Reparser
+   * « ≈ 74 min » pour retrouver 74 aurait marché, et se serait cassé le jour
+   * où l'étiquette change de forme : le résumé aurait alors comparé la durée
+   * réelle à rien du tout, sans erreur visible.
+   */
+  plannedMin: number;
+  intensity: Intensity;
+  warmup: Warmup | null;
+  readinessTest: boolean;
+  notes: string[];
+  exercises: ResolvedExercise[];
+  /** Prévus par la trame, retirés de la prescription, affichés avec leur raison. */
+  suspended: SuspendedExercise[];
+  adjustments: Adjustment[];
+}
+
+/** Cette case du calendrier porte-t-elle une séance ? */
+export function hasSession(week: WeekIndex, day: DayIndex): boolean {
+  return (WEEK_DAYS[week] as readonly DayIndex[]).includes(day);
+}
+
+const LOWER_BODY_FN = new Set(['squat', 'hinge', 'jump', 'carry']);
+
+
+// ---------------------------------------------------------------------------
+
+export function getSession(
+  week: WeekIndex,
+  day: DayIndex,
+  ctx: SessionContext,
+): ResolvedSession | null {
+  if (!hasSession(week, day)) return null;
+
+  const block = WEEK_BLOCKS[week];
+  const special = specialSession(week, day);
+  // `hasSession` a déjà écarté les jours vides ; si aucune trame ne répond ici,
+  // c'est que `WEEK_DAYS` et `BASE_SESSIONS` se contredisent — on refuse plutôt
+  // que d'afficher une séance inventée.
+  const blueprint = special ?? BASE_SESSIONS[day];
+  if (!blueprint) return null;
+  const sessionAdjustments: Adjustment[] = [];
+
+  // 1-2. Trame + règles de bloc (jamais sur une séance écrite en toutes lettres).
+  let slots: Slot[] = blueprint.slots.map((s) => ({ ...s }));
+  const notes = [...blueprint.notes];
+
+  if (!special) {
+    const before = slots.length;
+    slots = applyBlockRules(slots, block, day, week);
+    notes.push(...blockNotesFor(block, day, week));
+    if (slots.length !== before) {
+      sessionAdjustments.push({
+        source: 'bloc',
+        what: BLOCKS[block].name,
+        why: `Séance adaptée au bloc « ${BLOCKS[block].name} » (§8).`,
+      });
+    }
+  }
+
+  // 3. Deload.
+  const isDeload = block === 'deload' && !special;
+  if (isDeload) {
+    slots = slots.filter((s) => !DELOAD_POLICY.removeExIds.includes(s.exId as never));
+    notes.push(...DELOAD_POLICY.notes);
+    sessionAdjustments.push({
+      source: 'deload',
+      what: 'Semaine de deload',
+      why: DELOAD_POLICY.notes[0]!,
+    });
+  }
+
+  /*
+   * Exercices suspendus — retirés de la prescription, pas du catalogue.
+   *
+   * Le filtre vient APRÈS les règles de bloc et le deload : une suspension
+   * n'est pas un ajustement de programmation, c'est un retrait. Elle ne
+   * dépend ni de la semaine, ni du bloc, ni du deload.
+   */
+  const suspended: SuspendedExercise[] = [];
+  slots = slots.filter((s) => {
+    const def = EXERCISES[s.exId];
+    if (!def?.suspended) return true;
+    suspended.push({
+      id: def.id,
+      name: def.name,
+      reason: def.suspended.reason,
+    });
+    return false;
+  });
+
+  // 4-5. Résolution exercice par exercice.
+  const contrast = block === 'power' && !special ? CONTRAST_BY_DAY[day] : undefined;
+  const exercises: ResolvedExercise[] = [];
+
+  for (const slot of slots) {
+    const resolved = resolveSlot(slot, {
+      week,
+      day,
+      block,
+      isDeload,
+      ctx,
+      contrast,
+    });
+    if (resolved) exercises.push(resolved);
+  }
+
+  // 6. Feu tricolore.
+  const level = ctx.readiness?.level ?? 'vert';
+  let finalExercises = exercises;
+  if (level === 'orange') {
+    finalExercises = applyOrange(exercises);
+    sessionAdjustments.push({
+      source: 'orange',
+      what: 'Readiness ORANGE',
+      why: '−5 % sur les gros mouvements, une série de moins sur les accessoires (§4).',
+    });
+  } else if (level === 'rouge') {
+    finalExercises = applyRed(exercises);
+    sessionAdjustments.push({
+      source: 'rouge',
+      what: 'Readiness ROUGE — séance allégée',
+      why: 'Même séance, 2 séries par exercice, 4 reps en réserve, sans explosif.',
+    });
+    notes.push('Readiness rouge : séance allégée. Ne saute pas la séance, adapte-la.');
+  }
+
+  const warmup = blueprint.warmup ? WARMUPS[blueprint.warmup] : null;
+  // Semaine 1 : la référence de broad jump se mesure, elle n'existe pas encore.
+  const readinessTest = blueprint.readinessTest && block !== 'test';
+
+  // Recalcule la ligne de charge après tous les ajustements.
+  for (const ex of finalExercises) {
+    ex.loadLine = formatLoadLine(ex.sets, ex.work, ex.load);
+  }
+
+  const mesurable = {
+    warmupDurationLabel: warmup?.durationLabel,
+    readinessTest,
+    exercises: finalExercises,
+  };
+
+  return {
+    week,
+    day,
+    block,
+    blockName: BLOCKS[block].name,
+    blockColor: BLOCKS[block].color,
+    title: blueprint.title,
+    durationLabel: dureeLabel(mesurable),
+    plannedMin: dureeEstimeeMin(mesurable),
+    intensity: blueprint.intensity,
+    warmup,
+    readinessTest,
+    notes,
+    exercises: finalExercises,
+    suspended,
+    adjustments: sessionAdjustments,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Règles de bloc
+// ---------------------------------------------------------------------------
+
+function applyBlockRules(slots: Slot[], block: Block, day: DayIndex, week: WeekIndex): Slot[] {
+  let out = slots;
+  for (const rule of rulesFor(block, day, week)) {
+    if (rule.op === 'remove') {
+      out = out.filter((s) => s.exId !== rule.exId);
+    } else if (rule.op === 'patch') {
+      out = out.map((s) => (s.exId === rule.exId ? patchSlot(s, rule.patch) : s));
+    } else {
+      const slot = { ...rule.slot };
+      if (rule.atStart) {
+        out = [slot, ...out];
+      } else if (rule.after) {
+        const i = out.findIndex((s) => s.exId === rule.after);
+        out = i === -1 ? [...out, slot] : [...out.slice(0, i + 1), slot, ...out.slice(i + 1)];
+      } else {
+        out = [...out, slot];
+      }
+    }
+  }
+  return out;
+}
+
+function patchSlot(slot: Slot, p: SlotPatch): Slot {
+  return {
+    ...slot,
+    ...(p.sets !== undefined ? { sets: p.sets } : {}),
+    ...(p.work !== undefined ? { work: p.work } : {}),
+    ...(p.restSec !== undefined ? { restSec: p.restSec } : {}),
+    ...(p.targetRPE !== undefined ? { targetRPE: p.targetRPE } : {}),
+    ...(p.load !== undefined ? { load: p.load } : {}),
+    ...(p.note !== undefined ? { note: p.note } : {}),
+    // `loadFactor` et `contrastWith` sont consommés plus tard, on les mémorise.
+    ...(p.loadFactor !== undefined ? { __loadFactor: p.loadFactor } : {}),
+    ...(p.loadFactorAtBlockEntry !== undefined
+      ? { __loadFactorAtBlockEntry: p.loadFactorAtBlockEntry }
+      : {}),
+    ...(p.contrastWith !== undefined ? { __contrastWith: p.contrastWith } : {}),
+  } as Slot;
+}
+
+// ---------------------------------------------------------------------------
+// Résolution d'un exercice
+// ---------------------------------------------------------------------------
+
+interface ResolveOpts {
+  week: WeekIndex;
+  day: DayIndex;
+  block: Block;
+  isDeload: boolean;
+  ctx: SessionContext;
+  contrast: ContrastSpec | undefined;
+}
+
+/**
+ * Les occurrences utilisables comme référence de charge pour CETTE séance.
+ *
+ * ── Deux défauts réels, une seule cause ────────────────────────────────────
+ *
+ * Les charges autorégulées (Hip Thrust, Bulgarian, Hang High Pull) partaient
+ * de « la dernière occurrence enregistrée », sans regarder ni la semaine
+ * affichée ni la nature de cette occurrence. D'où :
+ *
+ * 1. Après un deload, la charge allégée devenait la nouvelle base. Le Hip
+ *    Thrust proposait 90 kg en semaine 5 à quelqu'un qui venait d'en faire
+ *    110 × 8 à RPE 8 en semaine 3. Une semaine de deload est une réduction
+ *    décidée, pas une contre-performance : elle ne redéfinit pas le niveau.
+ *
+ * 2. Rouvrir une séance passée recalculait son plan sur l'historique
+ *    d'AUJOURD'HUI. La semaine 3 se relisait « 4 × 8 × 90 kg » alors qu'elle
+ *    avait affiché 100 kg le jour même, et que 110 avaient été soulevés. Un
+ *    plan qui change après coup n'est plus un plan, c'est une reconstitution.
+ *
+ * On ne retient donc que ce qui précède STRICTEMENT la séance affichée, et on
+ * écarte les semaines de deload — sauf s'il ne reste rien d'autre, auquel cas
+ * un repère imparfait vaut mieux qu'aucun.
+ *
+ * Ce tri ne touche pas l'encart « la dernière fois » : lui doit montrer ce qui
+ * a réellement été fait, deload compris.
+ */
+export function referenceOccurrences(
+  all: Occurrence[],
+  week: WeekIndex,
+  day: DayIndex,
+): Occurrence[] {
+  const avant = all.filter((o) => o.week < week || (o.week === week && o.day < day));
+  const horsDeload = avant.filter((o) => WEEK_BLOCKS[o.week as WeekIndex] !== 'deload');
+  return horsDeload.length > 0 ? horsDeload : avant;
+}
+
+function resolveSlot(slot: Slot, o: ResolveOpts): ResolvedExercise | null {
+  const def = EXERCISES[slot.exId];
+  if (!def) return null;
+
+  const adjustments: Adjustment[] = [];
+  const notes: string[] = [];
+  if (slot.note) notes.push(slot.note);
+
+  let sets = slot.sets;
+  let work = slot.work;
+  let targetRPE = slot.targetRPE;
+  let loadSpec = slot.load;
+
+  // 4. Tableau §9 pour les lifts principaux.
+  if (slot.liftId) {
+    // Les charges du tableau §9 sont des pourcentages d'un 1RM de référence.
+    // On les recale sur les maxima réellement testés au combine — ne pas le
+    // faire donnerait, avec un squat testé à 110, une semaine 1 à 91 % du max.
+    const presc = prescriptionFor(slot.liftId, o.week);
+    // Le mouvement n'est pas programmé cette semaine (front squat en S12).
+    if (!presc) return null;
+    sets = presc.sets;
+    work = presc.work;
+    targetRPE = presc.targetRPE;
+    if (presc.load) loadSpec = presc.load;
+    if (presc.note) notes.push(presc.note);
+  }
+
+  const reference = referenceOccurrences(o.ctx.history[slot.exId] ?? [], o.week, o.day);
+
+  let load = resolveLoad(loadSpec, {
+    settings: o.ctx.settings,
+    occurrences: reference,
+  });
+
+  // « +10 % » des accessoires haut en force max (§8).
+  const factor = (slot as Slot & { __loadFactor?: number }).__loadFactor;
+  if (factor !== undefined && load.kg !== null) {
+    const before = load.kg;
+    load = scaleLoad(load, factor);
+    adjustments.push({
+      source: 'bloc',
+      what: `${before} → ${load.kg} kg`,
+      why: `Bloc force maximale : ${Math.round((factor - 1) * 100)} % sur les accessoires haut (§8).`,
+    });
+  }
+
+  /*
+   * Hausse d'entrée de bloc sur une charge autorégulée (§8).
+   *
+   * Elle ne s'applique qu'une fois, au passage de bloc : la charge de
+   * référence est ce qui a été soulevé la fois d'avant, donc une valeur qui
+   * contient déjà la hausse dès la deuxième semaine du bloc. La réappliquer
+   * chaque semaine la composerait.
+   *
+   * Et seulement sur une charge VENUE de l'historique : la valeur d'amorce du
+   * programme est déjà celle qu'il a choisie, on ne la corrige pas.
+   */
+  const facteurEntree = (slot as Slot & { __loadFactorAtBlockEntry?: number })
+    .__loadFactorAtBlockEntry;
+  if (facteurEntree !== undefined && load.kg !== null && load.source === 'historique') {
+    const ref = lastCompleted(reference);
+    if (ref && WEEK_BLOCKS[ref.week as WeekIndex] !== o.block) {
+      const before = load.kg;
+      load = scaleLoad(load, facteurEntree);
+      adjustments.push({
+        source: 'bloc',
+        what: `${before} → ${load.kg} kg`,
+        why: `Entrée en bloc ${BLOCKS[o.block].name.toLowerCase()} : moins de reps, plus de repos, donc ${Math.round((facteurEntree - 1) * 100)} % de charge en plus (§8). Le RPE cible reste le juge.`,
+      });
+    }
+  }
+
+  // 3. Deload — uniquement sur ce que le tableau ne chiffre pas déjà.
+  if (o.isDeload && !slot.liftId) {
+    if (def.role === 'accessory' && load.kg !== null) {
+      const before = load.kg;
+      load = scaleLoad(load, DELOAD_POLICY.accessoryLoadFactor);
+      sets = DELOAD_POLICY.accessorySets;
+      adjustments.push({
+        source: 'deload',
+        what: `${before} → ${load.kg} kg, ${sets} séries`,
+        why: 'Deload : 80 % de ta dernière charge réelle, 2 séries (§8).',
+      });
+    } else if (def.role === 'accessory') {
+      sets = DELOAD_POLICY.accessorySets;
+    } else if (def.role === 'core' || def.role === 'carry') {
+      /*
+       * Le défaut corrigé : ces deux rôles ne tombaient dans aucune branche.
+       * Le tronc et les portés gardaient leur volume complet dans la semaine
+       * censée dissiper la fatigue — 3 × 8/côté de chop et 3 × 30 m/côté de
+       * suitcase en semaine 4, comme en semaine 3.
+       *
+       * Une seule réduction est appliquée ici, et aucune autre branche ne
+       * touche ces rôles : pas de double décompte.
+       */
+      const prevu = DELOAD_CORE[slot.exId];
+      const avant = { sets, work };
+      sets = prevu?.sets ?? DELOAD_POLICY.coreSets;
+      if (prevu) work = prevu.work;
+      if (def.role === 'carry' && load.kg !== null) {
+        load = scaleLoad(load, DELOAD_POLICY.carryLoadFactor);
+      }
+      adjustments.push({
+        source: 'deload',
+        what: `${workLabel(avant.sets, avant.work)} → ${workLabel(sets, work)}`,
+        why:
+          def.role === 'carry'
+            ? 'Deload : porté raccourci et allégé de 20 %, reps propres, aucune série à l’échec (§8).'
+            : 'Deload : moins de séries et moins de reps sur le tronc, aucune série à l’échec (§8).',
+      });
+    } else if (def.role === 'power') {
+      const before = sets;
+      sets = Math.max(1, Math.ceil(sets / DELOAD_POLICY.jumpVolumeDivisor));
+      adjustments.push({
+        source: 'deload',
+        what: `${before} → ${sets} séries`,
+        why: 'Deload : volume de sauts divisé par 2, intention maximale conservée (§8).',
+      });
+    }
+    targetRPE = capRPE(targetRPE, DELOAD_POLICY.maxRPE);
+  }
+
+  // 5. Progression §11 — suggestion uniquement.
+  const suggestion =
+    load.kg === null
+      ? null
+      : applyProgression({
+          // Même matière que la charge affichée : une suggestion calculée sur
+          // la semaine de deload proposerait de « progresser » depuis 90 kg.
+          history: reference,
+          plannedKg: load.kg,
+          targetRPE,
+          step: load.step,
+          isLowerBody: LOWER_BODY_FN.has(def.fn),
+          ...(topRepsOf(work) !== undefined ? { topReps: topRepsOf(work)! } : {}),
+          ...(load.kgMax !== undefined ? { kgMax: load.kgMax } : {}),
+        });
+
+  if (suggestion?.capped) {
+    adjustments.push({
+      source: 'plafond',
+      what: `${load.kgMax} kg`,
+      why: 'Plafond assumé pour cet exercice sur ce bloc : le programme ne demande pas plus.',
+    });
+  }
+
+  const contrastWith =
+    (slot as Slot & { __contrastWith?: string }).__contrastWith ??
+    (o.contrast?.heavy === slot.exId ? o.contrast.explosive : undefined);
+
+  return {
+    def,
+    id: def.id,
+    name: def.name,
+    sets,
+    work,
+    load,
+    targetRPE,
+    restSec: slot.restSec,
+    loadLine: formatLoadLine(sets, work, load),
+    lastKg: lastCompleted(reference)?.kg ?? null,
+    lastMeasure:
+      [...(o.ctx.history[def.id] ?? [])].reverse().find((h) => h.measure != null)?.measure ?? null,
+    notes,
+    ...(contrastWith && o.contrast ? { contrast: o.contrast } : {}),
+    ...(slot.ramp ? { ramp: slot.ramp } : {}),
+    suggestion,
+    adjustments,
+  };
+}
+
+function capRPE(target: RPETarget | null, max: number): RPETarget | null {
+  if (!target) return null;
+  if (target.max <= max) return target;
+  return {
+    min: Math.min(target.min, max),
+    max,
+    label: `RPE ≤ ${String(max).replace('.', ',')}`,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Feu tricolore
+// ---------------------------------------------------------------------------
+
+const BIG = new Set<string>(BIG_MOVEMENT_IDS);
+
+function isBigMovement(ex: ResolvedExercise): boolean {
+  return BIG.has(ex.id) || ex.def.role === 'main';
+}
+
+/** ORANGE — −5 % sur les gros mouvements, une série de moins sur les accessoires. */
+function applyOrange(exercises: ResolvedExercise[]): ResolvedExercise[] {
+  return exercises.map((ex) => {
+    const out = { ...ex, adjustments: [...ex.adjustments] };
+
+    if (isBigMovement(ex) && ex.load.kg !== null) {
+      const before = ex.load.kg;
+      out.load = scaleLoad(ex.load, READINESS_THRESHOLDS.orange.mainLoadFactor);
+      out.adjustments.push({
+        source: 'orange',
+        what: `${before} → ${out.load.kg} kg`,
+        why: 'Readiness orange : −5 % sur les gros mouvements (§4).',
+      });
+      if (ex.suggestion?.suggestedKg != null) {
+        out.suggestion = {
+          ...ex.suggestion,
+          suggestedKg: roundToStep(
+            ex.suggestion.suggestedKg * READINESS_THRESHOLDS.orange.mainLoadFactor,
+            ex.load.step,
+          ),
+        };
+      }
+    }
+
+    if (ex.def.role === 'accessory' && out.sets > 1) {
+      const before = out.sets;
+      out.sets = Math.max(1, out.sets + READINESS_THRESHOLDS.orange.accessorySetsDelta);
+      out.adjustments.push({
+        source: 'orange',
+        what: `${before} → ${out.sets} séries`,
+        why: 'Readiness orange : une série de moins sur les accessoires (§4).',
+      });
+    }
+
+    return out;
+  });
+}
+
+/**
+ * ROUGE — séance allégée (méthode, règle G1) : même séance, 2 séries par
+ * exercice, 4 reps en réserve. Les explosifs disparaissent : un saut fait
+ * fatigué n'apprend rien. « Ne saute pas la séance, adapte-la. »
+ */
+function applyRed(exercises: ResolvedExercise[]): ResolvedExercise[] {
+  const cible: RPETarget = {
+    min: 0,
+    max: 10 - READINESS_THRESHOLDS.red.rir,
+    label: `${READINESS_THRESHOLDS.red.rir} en réserve ou plus`,
+  };
+  return exercises
+    .filter((ex) => ex.def.role !== 'power')
+    .map((ex) => {
+      const sets = Math.min(ex.sets, READINESS_THRESHOLDS.red.sets);
+      return {
+        ...ex,
+        sets,
+        targetRPE: ex.targetRPE ? cible : null,
+        suggestion: null,
+        adjustments: [
+          ...ex.adjustments,
+          {
+            source: 'rouge' as const,
+            what: `${ex.sets} → ${sets} séries`,
+            why: 'Readiness rouge : séance allégée, 4 reps en réserve.',
+          },
+        ],
+      };
+    });
+}
+
+/** Haut de la fourchette de reps : 12 pour « 8-12 », 5 pour « 5 ». */
+function topRepsOf(work: Work): number | undefined {
+  if (work.kind !== 'reps') return undefined;
+  if (work.reps === 'max') return undefined;
+  return typeof work.reps === 'number' ? work.reps : work.reps.max;
+}

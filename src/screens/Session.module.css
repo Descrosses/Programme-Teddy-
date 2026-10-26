@@ -1,0 +1,1309 @@
+/* Écran séance : tout ce qui se lit et se saisit entre deux séries. */
+
+.screen {
+  padding: 0 0 var(--bottom-space);
+}
+
+/* ---------------------------------------------------------------- en-tête -- */
+
+.header {
+  padding: var(--pad) var(--pad) 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: -8px;
+  padding: 0 8px;
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+  font-weight: 600;
+}
+
+.title {
+  font-family: var(--font-cond);
+  font-size: var(--fs-title);
+  margin-top: 4px;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  margin-top: 8px;
+  font-size: var(--fs-small);
+  color: var(--ink-2);
+}
+
+.tag {
+  padding: 2px 9px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  color: var(--ink-on-accent);
+}
+
+.note {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  border-left: 3px solid var(--line);
+  font-size: var(--fs-small);
+  color: var(--ink-2);
+}
+
+/* ------------------------------------------------------------ sections -- */
+
+.section {
+  margin: var(--gap) var(--pad);
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 12px var(--pad);
+  text-align: left;
+  font-weight: 700;
+  font-size: 1.0625rem;
+}
+
+.sectionCount {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+/* ------------------------------------------------------- échauffement -- */
+
+.warmupItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 0 var(--pad);
+  min-height: var(--tap);
+  text-align: left;
+  border-top: 1px solid var(--line);
+}
+
+.box {
+  flex: 0 0 26px;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  border: 2px solid var(--ink-3);
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  color: var(--ink-on-accent);
+}
+
+.boxOn {
+  background: var(--vert);
+  border-color: var(--vert);
+}
+
+.warmupLabel {
+  flex: 1;
+}
+
+.warmupDone .warmupLabel {
+  color: var(--ink-3);
+  text-decoration: line-through;
+}
+
+.warmupDetail {
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+}
+
+/* ------------------------------------------------------------ readiness -- */
+
+.ready {
+  margin: var(--gap) var(--pad);
+  padding: 14px var(--pad);
+  background: var(--surface);
+  border-radius: var(--radius);
+  border-left: 6px solid var(--ink-3);
+}
+
+.readyVert {
+  border-left-color: var(--vert);
+}
+.readyOrange {
+  border-left-color: var(--orange);
+}
+.readyRouge {
+  border-left-color: var(--rouge);
+}
+
+.readyTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.readyHint {
+  margin-top: 4px;
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+}
+
+/* Trois steppers empilés : à 375 px de large, les mettre côte à côte
+   rognerait les boutons sous la barre des 48 px. */
+.jumps {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.readyValidate {
+  width: 100%;
+  height: var(--tap);
+  margin-top: 12px;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: var(--ink-on-accent);
+  font-weight: 800;
+}
+
+.readyValidate:disabled {
+  background: var(--surface-3);
+  color: var(--ink-3);
+}
+
+.verdict {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  font-size: var(--fs-small);
+}
+
+.verdictLevel {
+  font-size: 1.125rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.levelVert {
+  color: var(--vert);
+}
+.levelOrange {
+  color: var(--orange);
+}
+.levelRouge {
+  color: var(--rouge);
+}
+
+/* -------------------------------------------------------------- exercice -- */
+
+.exercise {
+  margin: var(--gap) var(--pad);
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.exerciseDone {
+  opacity: 0.62;
+}
+
+.exHead {
+  padding: 12px var(--pad) 10px;
+}
+
+.exName {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--ink-2);
+}
+
+/* LA ligne. L'élément le plus visible de l'écran. */
+.loadLine {
+  font-family: var(--font-cond);
+  font-size: var(--fs-load);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  margin-top: 2px;
+}
+
+.exSub {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-top: 6px;
+  font-size: var(--fs-small);
+  color: var(--ink-2);
+}
+
+.exSub b {
+  color: var(--ink);
+}
+
+.adjust {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  font-size: 0.8125rem;
+  color: var(--ink-2);
+  border-left: 3px solid var(--orange);
+}
+
+.adjustRouge {
+  border-left-color: var(--rouge);
+}
+
+/* ----------------------------------------------------------- suggestion -- */
+
+.suggestion {
+  margin: 0 var(--pad) 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  border: 1px solid var(--accent-dim);
+}
+
+.suggestionText {
+  font-size: var(--fs-small);
+  color: var(--ink-2);
+}
+
+.suggestionActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.accept,
+.refuse {
+  flex: 1;
+  height: var(--tap);
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+}
+
+.accept {
+  background: var(--accent);
+  color: var(--ink-on-accent);
+}
+
+.refuse {
+  background: var(--surface-3);
+  color: var(--ink);
+}
+
+/* ---------------------------------------------------------------- séries -- */
+
+.sets {
+  border-top: 1px solid var(--line);
+}
+
+.setRow {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 10px;
+  align-items: start;
+  padding: 12px var(--pad);
+  border-bottom: 1px solid var(--line);
+}
+
+.setRow:last-child {
+  border-bottom: 0;
+}
+
+.setIndex {
+  font-family: var(--font-cond);
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--ink-3);
+  line-height: 1.6;
+}
+
+.setDone .setIndex {
+  color: var(--vert);
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+/*
+ * Deux steppers par ligne au maximum : à 375 px, trois côte à côte rognent les
+ * boutons et cassent la règle des 48 px. Reps et charge se lisent ensemble,
+ * le RPE prend la ligne du dessous.
+ */
+.steppers {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.stepperWide {
+  grid-column: 1 / -1;
+}
+
+.validate {
+  height: var(--tap);
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: var(--ink-on-accent);
+  font-weight: 800;
+  font-size: 1.0625rem;
+  width: 100%;
+}
+
+.validateDone {
+  background: var(--surface-3);
+  color: var(--ink-2);
+  font-weight: 700;
+}
+
+.setSummary {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: var(--tap);
+  width: 100%;
+  text-align: left;
+}
+
+.setSummaryValue {
+  font-family: var(--font-cond);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.setSummaryUnit {
+  font-size: 0.8125rem;
+  color: var(--ink-3);
+  font-weight: 600;
+}
+
+.failFlag {
+  margin-left: auto;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: var(--rouge);
+  color: var(--ink-on-accent);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.failToggle {
+  align-self: flex-start;
+  padding: 0 12px;
+  height: var(--tap);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+  font-weight: 600;
+}
+
+.failToggleOn {
+  background: var(--rouge);
+  color: var(--ink-on-accent);
+}
+
+/* ------------------------------------------------------------- consignes -- */
+
+.disclosure {
+  width: 100%;
+  padding: 0 var(--pad);
+  min-height: var(--tap);
+  text-align: left;
+  border-top: 1px solid var(--line);
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+  font-weight: 600;
+}
+
+.cues {
+  padding: 0 var(--pad) 14px;
+  font-size: var(--fs-small);
+  color: var(--ink-2);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cues b {
+  color: var(--ink);
+}
+
+/* ------------------------------------------------------------------ bas -- */
+
+.notes {
+  margin: var(--gap) var(--pad);
+}
+
+.notesField {
+  width: 100%;
+  min-height: 96px;
+  padding: 12px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.finish {
+  display: block;
+  width: calc(100% - 2 * var(--pad));
+  margin: 20px var(--pad) 8px;
+  height: 56px;
+  border-radius: var(--radius);
+  background: var(--vert);
+  color: var(--ink-on-accent);
+  font-weight: 800;
+  font-size: 1.125rem;
+}
+
+.finishDone {
+  background: var(--surface-3);
+  color: var(--ink-2);
+}
+
+.summary {
+  margin: 0 var(--pad) 24px;
+  padding: 14px var(--pad);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font-size: var(--fs-small);
+  color: var(--ink-2);
+}
+
+.summary dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 14px;
+  margin: 8px 0 0;
+}
+
+.summary dt {
+  color: var(--ink-3);
+}
+
+.summary dd {
+  margin: 0;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* --------------------------------------------------- chrono de séance -- */
+
+/*
+ * Le chrono vit dans la ligne de méta de l'en-tête, avec le jour, la date et
+ * la durée prévue. Petit mais lisible : il se lit d'un coup d'œil entre deux
+ * séries, il n'a pas à attirer l'œil en permanence.
+ */
+.chrono {
+  color: var(--accent);
+}
+
+.summaryRef {
+  color: var(--ink-3);
+  font-weight: 400;
+}
+
+.summaryWarn {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  background: var(--surface-2, rgba(255, 255, 255, 0.04));
+  color: var(--ink);
+  line-height: 1.45;
+}
+
+.resetClock {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  margin: 14px 0 0;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+  font-weight: 600;
+}
+
+.resetConfirm {
+  margin: 14px 0 0;
+}
+
+.resetAsk {
+  margin: 0 0 10px;
+  color: var(--ink);
+  line-height: 1.45;
+}
+
+.resetActions {
+  display: grid;
+  gap: 8px;
+}
+
+.resetYes,
+.resetNo {
+  min-height: 48px;
+  border-radius: var(--radius);
+  font-size: var(--fs-small);
+  font-weight: 700;
+}
+
+.resetYes {
+  border: none;
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.resetNo {
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink-2);
+}
+
+.loading {
+  padding: 40px var(--pad);
+  color: var(--ink-2);
+  text-align: center;
+}
+
+/* ------------------------------------------- documentation du mouvement -- */
+
+.mediaRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px var(--pad) 0;
+}
+
+.mediaToggle {
+  height: 34px;
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+  font-weight: 700;
+}
+
+.mediaBadge {
+  font-size: 0.75rem;
+  color: var(--ink-3);
+}
+
+.mediaPanel {
+  margin: 10px var(--pad) 0;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+
+.mediaAction {
+  display: block;
+  width: 100%;
+  height: var(--tap);
+  margin-top: 10px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-3);
+  color: var(--ink);
+  font-size: var(--fs-small);
+  font-weight: 700;
+}
+
+.mediaNote {
+  margin-top: 10px;
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+  line-height: 1.5;
+}
+
+.mediaCompare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/*
+ * Les deux blocs du panneau de documentation.
+ *
+ * Fiche technique et progression montrent toutes deux une image du même
+ * mouvement : à l'œil, rien ne les distingue. La séparation est donc portée
+ * par trois signaux redondants — un titre explicite, un liseré de couleur
+ * différente, et un fond plus profond que le panneau. Un seul de ces signaux
+ * ne suffirait pas à empêcher de ranger une infographie dans l'historique.
+ */
+.mediaBlock {
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  border-left: 4px solid var(--line);
+}
+
+.mediaBlock + .mediaBlock {
+  margin-top: 16px;
+}
+
+/* Vert « test » : une référence, elle ne bouge pas. */
+.mediaBlockReference {
+  border-left-color: var(--bloc-test);
+}
+
+/* Jaune d'action : ce qui se met à jour séance après séance. */
+.mediaBlockProgress {
+  border-left-color: var(--accent);
+}
+
+.mediaBlockTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* --- Remarque par exercice ------------------------------------------------ */
+
+/*
+ * Sous les séries, avant les consignes. Discret par défaut : un liseré, pas une
+ * carte — c'est un champ facultatif, il ne doit pas peser autant qu'une série.
+ */
+.exNote {
+  margin: 10px var(--pad) 0;
+  padding: 10px 12px;
+  border-left: 2px solid var(--line);
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+}
+
+.exNoteHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.exNoteLabel {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+/* Dit en toutes lettres que rien n'est attendu ici. */
+.exNoteOptional {
+  font-weight: 400;
+  color: var(--ink-3);
+}
+
+.exNoteBadge {
+  flex: none;
+  padding: 2px 6px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  font-size: 0.75rem;
+  color: var(--accent);
+  cursor: pointer;
+}
+
+.exNotePast {
+  margin: 0 0 8px;
+  padding: 0 0 0 14px;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.exNotePast li + li {
+  margin-top: 4px;
+}
+
+.exNotePastWhen {
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.exNoteField {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+}
+
+.exNoteField::placeholder {
+  color: var(--ink-3);
+}
+
+/*
+ * Le bouton qui fait passer le brouillon dans l'historique. Pleine largeur et
+ * 48 px : c'est un geste qu'on fait avec le pouce, souvent debout, parfois les
+ * mains moites.
+ */
+.exNoteAdd {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  margin-top: 8px;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+/* Le ✕ de retrait : discret, mais pas minuscule — 32 px de cible utile. */
+.exNoteDel {
+  min-width: 32px;
+  min-height: 32px;
+  margin-left: 4px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--ink-3);
+  font-size: 0.8rem;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+.exNoteConfirm {
+  display: inline-flex;
+  gap: 6px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.exNoteDelYes,
+.exNoteDelNo {
+  min-height: 32px;
+  padding: 0 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.exNoteDelYes {
+  border: 0;
+  background: var(--rouge);
+  color: #fff;
+}
+
+.exNoteDelNo {
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink-2);
+}
+
+/* --- Mètres ou pas sur place ---------------------------------------------- */
+
+/*
+ * Deux boutons, pas un menu déroulant : le choix se fait au pouce, debout,
+ * barre dans les coudes. 48 px de haut, et l'unité active lisible d'un coup
+ * d'œil pour qu'on ne valide pas trois séries dans la mauvaise.
+ */
+.uniteRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px var(--pad) 0;
+}
+
+.uniteLabel {
+  color: var(--ink-3);
+  font-size: 0.8rem;
+}
+
+.uniteChoice {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.uniteButton {
+  min-width: 64px;
+  min-height: 48px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--ink-2);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.uniteOn {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* --- « La dernière fois » -------------------------------------------------- */
+
+/*
+ * Une ligne, pas une carte : l'encart s'intercale entre la charge prévue et les
+ * champs de saisie, il ne doit pas peser autant que l'une ou les autres.
+ */
+.lastTime {
+  margin: 8px var(--pad) 0;
+  padding: 7px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  font-size: 0.8rem;
+}
+
+/*
+ * La première ligne garde la forme d'avant — semaine, valeur, RPE, écart. Les
+ * deux lignes de format viennent dessous : elles se lisent, elles ne se
+ * survolent pas, et les coller sur la même ligne les faisait passer à la ligne
+ * n'importe où sur un écran de 390 px.
+ */
+.lastTimeRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.lastTimeFormat,
+.lastTimePlan {
+  margin-top: 5px;
+  color: var(--ink-3);
+  line-height: 1.4;
+}
+
+.lastTimeFormat b {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.lastTimePlan b {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.lastTimeWhen {
+  color: var(--ink-3);
+}
+
+.lastTimeValue {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.lastTimeRpe {
+  color: var(--ink-2);
+}
+
+/* Neutre par défaut — une baisse de deload n'est pas un échec. */
+.lastTimeDelta {
+  margin-left: auto;
+  color: var(--ink-3);
+}
+
+.lastTimeUp {
+  color: var(--vert);
+  font-weight: 600;
+}
+
+/* --- Combien d'haltères ---------------------------------------------------- */
+
+/*
+ * Assez visible pour être lu sans le chercher, assez sobre pour ne pas
+ * concurrencer la ligne de charge. Il se lit avant d'aller au rack.
+ */
+.gripHint {
+  margin: 6px var(--pad) 0;
+  padding: 5px 9px;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: var(--surface-2);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+/* ------------------------------------------------- exercice suspendu -- */
+
+/*
+ * Un exercice retiré de la prescription reste à l'écran, sans séries ni
+ * champs : rien à cocher, rien à valider. Le liseré gauche et le gris
+ * disent « ce n'est pas pour aujourd'hui » sans avoir à le lire.
+ */
+.suspendu {
+  margin: var(--gap) var(--pad);
+  padding: 12px 14px;
+  border-left: 3px solid var(--ink-3);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+.suspenduTitre {
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+  font-weight: 700;
+}
+
+.suspenduRaison {
+  margin: 4px 0 0;
+  color: var(--ink-3);
+  font-size: var(--fs-small);
+  line-height: 1.4;
+}
+
+/*
+ * Les séries déjà faites, en lecture seule. Elles restent lisibles — un
+ * entraînement réalisé ne disparaît pas parce que l'exercice sort du
+ * programme — mais rien n'y est cliquable : ce n'est plus une prescription.
+ */
+.suspenduFait {
+  margin: 10px 0 0;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  color: var(--ink-2);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.suspenduSeries {
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.suspenduSerie {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 0;
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+}
+
+.suspenduIndex {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--ink-3);
+  font-size: 0.6875rem;
+  font-weight: 700;
+}
+
+.suspenduRate {
+  color: var(--rouge);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* ============ Remplacer / ajouter un exercice ============================= */
+
+/*
+ * Le bandeau « à la place de … ». Pas décoratif : sans lui, relire la séance
+ * trois semaines plus tard donnerait l'impression que le programme prescrivait
+ * un Hack Squat.
+ */
+.customBanner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 var(--pad) 8px;
+  padding: 8px 10px;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: var(--surface-2);
+}
+
+.customBannerText {
+  flex: 1;
+  color: var(--ink-2);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.customCancel {
+  flex: none;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--ink-2);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+/* Ce qui avait été fait à la place la dernière fois. Affiché, jamais appliqué. */
+.prevCustom {
+  margin: 0 var(--pad) 8px;
+  padding: 7px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--ink-2);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.prevCustomWhen {
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.replaceButton {
+  display: block;
+  width: calc(100% - 2 * var(--pad));
+  min-height: 48px;
+  margin: 8px var(--pad) 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--ink-2);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+/* --- La zone d'ajout, tout en bas de la liste ----------------------------- */
+
+.addZone {
+  margin: 16px var(--pad) 8px;
+}
+
+.addButton {
+  display: block;
+  width: 100%;
+  min-height: 56px;
+  border: 1px dashed var(--accent);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--accent);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.addPrev {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+/*
+ * La ligne « ajouté la semaine dernière » : le texte peut faire deux lignes,
+ * le bouton garde ses 48 px. Grille plutôt que flex, pour que « Reprendre » ne
+ * se fasse jamais écraser par un nom long.
+ */
+.addPrevRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+
+.addPrevText {
+  color: var(--ink-2);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.addPrevButton {
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+/* --- Le panneau de saisie ------------------------------------------------- */
+
+.panel {
+  margin: 8px var(--pad) 16px;
+  padding: 12px;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.panelHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.panelTitle {
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.panelSub {
+  margin-top: 3px;
+  color: var(--ink-3);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.panelClose {
+  flex: none;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--ink-2);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.panelSearch {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1rem;
+}
+
+.panelSearch::placeholder {
+  color: var(--ink-3);
+}
+
+.panelList {
+  max-height: 320px;
+  margin: 10px 0 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.panelChoice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  min-height: 52px;
+  padding: 0 10px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  text-align: left;
+}
+
+.panelChoiceFree {
+  border-bottom-color: var(--accent);
+}
+
+.panelChoiceName {
+  color: var(--ink);
+  font-size: 0.95rem;
+}
+
+.panelChoiceTag {
+  flex: none;
+  color: var(--ink-3);
+  font-size: 0.72rem;
+}
+
+.panelEmpty {
+  padding: 12px 10px;
+  color: var(--ink-3);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+/* L'exercice retenu, en haut : on peut toujours en changer d'un appui. */
+.panelPicked {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  min-height: 52px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  text-align: left;
+}
+
+.panelPickedName {
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.panelPickedChange {
+  flex: none;
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.panelSteppers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.panelRecap {
+  margin-top: 12px;
+  color: var(--ink-2);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.panelRecap b {
+  color: var(--ink);
+}
+
+.panelSave {
+  display: block;
+  width: 100%;
+  min-height: 56px;
+  margin-top: 12px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--bg);
+  font-size: 1rem;
+  font-weight: 700;
+}

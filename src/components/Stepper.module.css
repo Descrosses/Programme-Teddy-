@@ -1,0 +1,110 @@
+.stepper {
+  flex: 1;
+  min-width: 0;
+}
+
+.label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.controls {
+  display: flex;
+  align-items: stretch;
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.button {
+  flex: 0 0 var(--tap);
+  width: var(--tap);
+  height: var(--tap);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--surface-3);
+}
+
+.button:active {
+  background: var(--accent);
+  color: var(--ink-on-accent);
+}
+
+.button:disabled {
+  color: var(--ink-3);
+  opacity: 0.45;
+}
+
+.value {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  font-family: var(--font-cond);
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.accent .value {
+  color: var(--accent);
+}
+
+/*
+ * Saisie clavier. La valeur devient une cible tactile : le crayon dit qu'on
+ * peut taper dessus, sans voler de place au chiffre (il reste centré, le
+ * crayon est posé à droite en discret).
+ */
+.valueEditable {
+  position: relative;
+  width: 100%;
+  padding: 0 18px;
+  border-radius: 0;
+}
+
+.valueEditable:active {
+  background: var(--surface-3);
+}
+
+.pencil {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.8125rem;
+  line-height: 1;
+  color: var(--ink-3);
+}
+
+/* Le champ de saisie garde exactement la boîte de la valeur qu'il remplace :
+   rien ne bouge à l'écran quand le clavier s'ouvre. */
+.input {
+  flex: 1;
+  min-width: 0;
+  height: var(--tap);
+  padding: 0 8px;
+  border: 0;
+  border-radius: 0;
+  background: var(--surface-3);
+  text-align: center;
+  font-family: var(--font-cond);
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.accent .input {
+  color: var(--accent);
+}
+
+.unit {
+  color: var(--ink-2);
+}

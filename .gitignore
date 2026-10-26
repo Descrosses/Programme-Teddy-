@@ -1,0 +1,16 @@
+node_modules/
+dist/
+dev-dist/
+*.local
+.DS_Store
+.vite/
+
+# Réglages propres à cette machine (chemins absolus).
+.claude/settings.local.json
+
+# Le service worker et le manifest sont générés au build.
+public/sw.js
+public/workbox-*.js
+
+# Artefact de compilation incrémentale TypeScript
+tsconfig.tsbuildinfo

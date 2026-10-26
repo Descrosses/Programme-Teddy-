@@ -1,0 +1,1504 @@
+/*
+ * Styles partagés par les écrans Aujourd'hui, Semaine, Progression, Combine et
+ * Réglages. Ils ont la même ossature — un en-tête, des cartes empilées — donc
+ * un seul fichier plutôt que cinq quasi identiques. L'écran Séance garde le
+ * sien : il est le seul à avoir une mise en page vraiment différente.
+ */
+
+.screen {
+  padding: 0 0 var(--bottom-space);
+}
+
+.header {
+  padding: var(--pad) var(--pad) 12px;
+}
+
+.eyebrow {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+/* « mardi 8 septembre » et non « Mardi 8 Septembre » : en français seule la
+   première lettre prend la majuscule. */
+.eyebrow::first-letter {
+  text-transform: uppercase;
+}
+
+.h1 {
+  font-family: var(--font-cond);
+  font-size: 1.875rem;
+  margin-top: 2px;
+}
+
+.lead {
+  margin-top: 6px;
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+}
+
+/*
+ * Bandeau de phase — « semaine de deload ».
+ *
+ * Posé entre le titre et la première carte, avec un liseré d'accent : assez
+ * visible pour expliquer une portion qui a baissé toute seule, assez sobre pour
+ * ne pas passer pour une alerte. Il n'y a rien à corriger.
+ */
+.phaseNote {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0 var(--pad) 14px;
+  padding: 10px 12px;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: var(--surface-2);
+  font-size: var(--fs-small);
+  color: var(--ink-2);
+}
+
+.phaseNote b {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* ------------------------------------------------------------- cartes -- */
+
+.card {
+  margin: var(--gap) var(--pad);
+  padding: var(--pad);
+  background: var(--surface);
+  border-radius: var(--radius);
+}
+
+.cardFlush {
+  margin: var(--gap) var(--pad);
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.cardTitle {
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+
+.cardSub {
+  margin-top: 4px;
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+}
+
+.sectionTitle {
+  margin: 22px var(--pad) 0;
+  font-family: var(--font-cond);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.hint {
+  margin: 6px var(--pad) 0;
+  color: var(--ink-3);
+  font-size: var(--fs-small);
+}
+
+/* ------------------------------------------------------- bandeau bloc -- */
+
+.blockBar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 var(--pad);
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  border-left: 6px solid var(--line);
+}
+
+.blockName {
+  font-weight: 700;
+}
+
+.blockMeta {
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+}
+
+/* ------------------------------------------------- séance d'aujourd'hui -- */
+
+.todayTitle {
+  font-family: var(--font-cond);
+  font-size: clamp(1.75rem, 8vw, 2.375rem);
+  font-weight: 800;
+  line-height: 1.05;
+}
+
+.tag {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  color: var(--ink-on-accent);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin-top: 10px;
+  font-size: var(--fs-small);
+  color: var(--ink-2);
+}
+
+.meta b {
+  color: var(--ink);
+}
+
+.primary {
+  display: block;
+  width: calc(100% - 2 * var(--pad));
+  margin: var(--gap) var(--pad) 0;
+  height: 60px;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--ink-on-accent);
+  font-weight: 800;
+  font-size: 1.1875rem;
+}
+
+.secondary {
+  display: block;
+  width: calc(100% - 2 * var(--pad));
+  margin: 10px var(--pad) 0;
+  height: var(--tap);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.danger {
+  composes: secondary;
+  color: var(--rouge);
+}
+
+.alert {
+  margin: var(--gap) var(--pad);
+  padding: 12px var(--pad);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  border-left: 4px solid var(--orange);
+  font-size: var(--fs-small);
+  color: var(--ink-2);
+}
+
+.alertRouge {
+  border-left-color: var(--rouge);
+}
+
+.alertVert {
+  border-left-color: var(--vert);
+}
+
+/* Une alerte sur laquelle on peut appuyer : même apparence, mais elle emmène
+   là où le problème se corrige. Largeur calée sur `.secondary`. */
+.alertAction {
+  display: block;
+  width: calc(100% - 2 * var(--pad));
+  text-align: left;
+  line-height: 1.4;
+}
+
+/* ------------------------------------------------------ liste de jours -- */
+
+.dayRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px var(--pad);
+  text-align: left;
+  border-top: 1px solid var(--line);
+  min-height: 68px;
+}
+
+.dayRow:first-child {
+  border-top: 0;
+}
+
+.dayName {
+  flex: 0 0 44px;
+  font-family: var(--font-cond);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--ink-2);
+}
+
+.dayBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.dayTitle {
+  display: block;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.dayMeta {
+  display: block;
+  margin-top: 3px;
+  font-size: 0.8125rem;
+  color: var(--ink-3);
+}
+
+.status {
+  flex: 0 0 auto;
+  padding: 4px 9px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.statusDone {
+  background: var(--vert);
+  color: var(--ink-on-accent);
+}
+
+.statusSkipped {
+  background: var(--surface-3);
+  color: var(--ink-2);
+}
+
+.statusTodo {
+  background: transparent;
+  color: var(--ink-3);
+  border: 1px solid var(--line);
+}
+
+.statusToday {
+  background: var(--accent);
+  color: var(--ink-on-accent);
+}
+
+/* -------------------------------------------------- sélecteur semaines -- */
+
+.weeks {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 12px var(--pad);
+  scrollbar-width: none;
+}
+
+.weeks::-webkit-scrollbar {
+  display: none;
+}
+
+.week {
+  flex: 0 0 auto;
+  width: 52px;
+  height: 56px;
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--ink-2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border-bottom: 3px solid transparent;
+}
+
+.weekNum {
+  font-family: var(--font-cond);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.weekTag {
+  max-width: 100%;
+  padding: 0 2px;
+  font-size: 0.625rem;
+  letter-spacing: -0.01em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.weekOn {
+  background: var(--surface-3);
+}
+
+.weekOn .weekNum {
+  color: var(--accent);
+}
+
+/* -------------------------------------------------------------- champs -- */
+
+.field {
+  margin-top: 16px;
+}
+
+.field:first-child {
+  margin-top: 0;
+}
+
+.label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+}
+
+.fieldHint {
+  margin-top: 6px;
+  font-size: 0.8125rem;
+  color: var(--ink-3);
+}
+
+.input {
+  width: 100%;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: var(--tap);
+  text-align: left;
+  font-weight: 600;
+}
+
+.switch {
+  flex: 0 0 auto;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  background: var(--surface-3);
+  color: var(--ink-2);
+}
+
+.switchOn {
+  background: var(--vert);
+  color: var(--ink-on-accent);
+}
+
+/* ------------------------------------------------------------ tableau -- */
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-small);
+}
+
+.table th,
+.table td {
+  padding: 8px 6px;
+  text-align: right;
+  border-bottom: 1px solid var(--line);
+}
+
+.table th:first-child,
+.table td:first-child {
+  text-align: left;
+  color: var(--ink-2);
+}
+
+.table th {
+  color: var(--ink-3);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-weight: 700;
+}
+
+.table td {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.tableScroll {
+  overflow-x: auto;
+}
+
+.delta {
+  font-weight: 700;
+}
+
+.deltaUp {
+  color: var(--vert);
+}
+
+.deltaDown {
+  color: var(--rouge);
+}
+
+/* --------------------------------------------------------- indicateur -- */
+
+.keyStat {
+  margin-top: 12px;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  text-align: center;
+}
+
+.keyStatValue {
+  font-family: var(--font-cond);
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.keyStatLabel {
+  margin-top: 6px;
+  font-size: var(--fs-small);
+  color: var(--ink-2);
+}
+
+/* L'unité ne doit pas concurrencer le nombre : c'est le nombre qu'on lit. */
+.keyStatUnit {
+  font-family: var(--font);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+
+/* ------------------------------------------------- carburant du jour -- */
+
+/*
+ * Carte compacte : elle se lit en trois secondes avant de partir travailler.
+ * Le liseré gauche porte le niveau, comme les bandeaux de bloc ailleurs dans
+ * l'appli — on reste dans le vocabulaire visuel existant.
+ */
+.fuelCard {
+  border-left: 4px solid var(--line);
+}
+
+.fuel_high {
+  border-left-color: var(--rouge);
+}
+
+.fuel_medium {
+  border-left-color: var(--orange);
+}
+
+.fuel_standard {
+  border-left-color: var(--accent);
+}
+
+.fuel_rest {
+  border-left-color: var(--vert);
+}
+
+.fuelHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fuelDot {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.fuelTitle {
+  display: block;
+  font-family: var(--font-cond);
+  font-size: 1.25rem;
+  letter-spacing: 0.02em;
+}
+
+.fuelSubtitle {
+  display: block;
+  font-size: var(--fs-small);
+  color: var(--ink-2);
+}
+
+.fuelFoods {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.fuelAmounts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin-top: 8px;
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+}
+
+/* Les trois lignes du total, alignées : base, bonus, somme. */
+.fuelTotals {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 12px;
+  margin: 12px 0 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  font-size: var(--fs-small);
+}
+
+.fuelTotals dt {
+  color: var(--ink-2);
+}
+
+.fuelTotals dd {
+  margin: 0;
+  text-align: right;
+}
+
+/* La dernière ligne est celle qu'on retient. */
+.fuelTotals dt:last-of-type,
+.fuelTotals dd:last-of-type {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.fuelMessage {
+  margin-top: 12px;
+  font-size: var(--fs-small);
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+
+/* Liste des écarts de 1RM avant recalage des charges. */
+.changeList {
+  margin: 10px 0 0;
+  padding-left: 20px;
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+}
+
+.changeList li + li {
+  margin-top: 6px;
+}
+
+/* ------------------------------------------------------ suivi visuel -- */
+
+.compareSelects {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.compareField {
+  flex: 1;
+  min-width: 0;
+}
+
+.compareField .input {
+  width: 100%;
+}
+
+/* Deux photos côte à côte : c'est la comparaison qui compte, pas la taille
+   d'une seule. Elles restent lisibles jusqu'à 320 px de large. */
+.comparePair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.hintWarn {
+  color: var(--orange);
+}
+
+/* Raccourci nutrition, sur l'écran Aujourd'hui uniquement. */
+.nutriCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: calc(100% - 2 * var(--pad));
+  margin: var(--gap) var(--pad) 0;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  text-align: left;
+}
+
+.nutriCard:active {
+  background: var(--surface-2);
+}
+
+.nutriIcon {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  font-size: 1.125rem;
+}
+
+.nutriText {
+  flex: 1;
+  min-width: 0;
+}
+
+.nutriText b {
+  display: block;
+  font-size: var(--fs-small);
+}
+
+.nutriText span {
+  font-size: 0.75rem;
+  color: var(--ink-2);
+}
+
+.nutriChevron {
+  flex: 0 0 auto;
+  color: var(--ink-3);
+  font-size: 1.25rem;
+}
+
+/* ---------------------------------------------------------- nutrition -- */
+
+.macros {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.macro {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 4px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  text-align: center;
+}
+
+.macro b {
+  display: block;
+  font-family: var(--font-cond);
+  font-size: 1.25rem;
+}
+
+.macro span {
+  font-size: 0.6875rem;
+  color: var(--ink-3);
+}
+
+/* Sélecteur à deux positions : entraînement / repos. */
+.segment {
+  display: flex;
+  gap: 4px;
+  margin: var(--gap) var(--pad) 0;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+
+.segmentButton {
+  flex: 1;
+  min-width: 0;
+  height: var(--tap);
+  border-radius: 8px;
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+  font-weight: 700;
+}
+
+.segmentOn {
+  background: var(--accent);
+  color: var(--ink-on-accent);
+}
+
+.mealList {
+  margin-top: 10px;
+}
+
+/*
+ * Un repas tient sur deux niveaux : la ligne du repas lui-même, puis ses
+ * ajouts sur toute la largeur.
+ *
+ * `flex-wrap` sur la ligne avait l'air plus simple, mais il faisait passer
+ * les calories et la coche SOUS les aliments dès que la colonne de gauche
+ * devenait large — c'est-à-dire tout le temps.
+ */
+.meal {
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.mealRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.meal:last-child {
+  border-bottom: 0;
+}
+
+.mealName {
+  font-weight: 600;
+}
+
+.mealDetail {
+  margin-top: 2px;
+  font-size: var(--fs-small);
+  color: var(--ink-3);
+  line-height: 1.4;
+}
+
+.mealKcal {
+  flex: 0 0 auto;
+  font-size: var(--fs-small);
+  color: var(--ink-2);
+  text-align: right;
+}
+
+.mealTotal {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  font-weight: 700;
+}
+
+/* Le détail qu'on ne relit qu'en faisant ses courses : replié par défaut. */
+.details {
+  margin: var(--gap) var(--pad);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--tap);
+  padding: 12px var(--pad);
+  font-weight: 700;
+  list-style: none;
+  cursor: pointer;
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.summary::after {
+  content: "+";
+  font-size: 1.375rem;
+  color: var(--ink-3);
+}
+
+.details[open] .summary::after {
+  content: "−";
+}
+
+.detailsBody {
+  padding: 0 var(--pad) var(--pad);
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+  line-height: 1.6;
+}
+
+.detailsBody p + p {
+  margin-top: 10px;
+}
+
+.detailsBody b {
+  color: var(--ink);
+}
+
+.ruleList {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.ruleList li + li {
+  margin-top: 8px;
+}
+
+.loading {
+  padding: 40px var(--pad);
+  color: var(--ink-2);
+  text-align: center;
+}
+
+/* --- Aliments modifiables d'un repas ------------------------------------ */
+
+.foodList {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  border-top: 1px solid var(--border);
+}
+
+.foodItem {
+  border-bottom: 1px solid var(--border);
+}
+
+/* Toute la ligne est la cible tactile : viser un crayon de 20 px sur un
+   chantier, les mains froides, ne marche pas. */
+.foodRow {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 10px;
+  align-items: baseline;
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 2px;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* Le nom est la seule colonne qui a le droit de passer à la ligne : une
+   quantité coupée en deux (« 400 » puis « g ») ne se lit pas.
+   En flex avec retour à la ligne, le badge « modifié » passe SOUS le nom quand
+   la place manque, au lieu de déborder sur la colonne de la quantité. */
+.foodName {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  min-width: 0;
+  font-weight: 600;
+}
+
+.foodBadge {
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: var(--surface-3);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.foodQty {
+  color: var(--muted);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.foodKcal {
+  min-width: 68px;
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.foodEdit {
+  padding: 4px 2px 14px;
+}
+
+/* Deux colonnes au doigt, une seule sur les écrans étroits. */
+.foodGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.foodField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.foodFieldLabel {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.foodActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.foodActions > button {
+  flex: 1;
+  margin: 0;
+}
+
+@media (max-width: 360px) {
+  .foodGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Un badge qui alerte au lieu d'informer : même forme, couleur d'avertissement.
+   Il reste discret — l'appli signale une incohérence, elle n'interdit rien. */
+.foodBadgeAlerte {
+  background: var(--surface-2);
+  color: var(--rouge);
+}
+
+/*
+ * Quantité ajustée par la PHASE du programme, et non par Guillaume.
+ *
+ * Volontairement distinct de « MODIFIÉ » : les deux ne veulent pas dire la même
+ * chose, et c'est « MODIFIÉ » que compte le bouton de remise à zéro. Lui
+ * proposer de réinitialiser un ajustement qui n'est pas de lui n'aurait aucun
+ * sens.
+ */
+.foodBadgePhase {
+  background: var(--surface-2);
+  color: var(--accent);
+}
+
+/* --- Remplacer un aliment -------------------------------------------------- */
+
+/*
+ * Feuille de choix, posée dans le flux sous la ligne ouverte plutôt qu'en
+ * surimpression : l'écran Nutrition est déjà une longue liste, et une modale
+ * qui recouvre tout ferait perdre de vue l'aliment qu'on est en train de
+ * remplacer.
+ */
+.sheet {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+
+.sheetHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.sheetTitle {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.sheetClose {
+  flex: none;
+  width: var(--tap);
+  height: var(--tap);
+  min-width: 0;
+  border-radius: var(--radius-sm);
+  background: var(--surface-3);
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0;
+}
+
+.chip {
+  min-height: 36px;
+  min-width: 0;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: var(--surface-3);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.chipOn {
+  background: var(--accent);
+  color: var(--ink-on-accent);
+}
+
+.foodChoices {
+  max-height: 46vh;
+  margin: 0 0 10px;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.foodChoice {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+}
+
+.foodChoiceName {
+  font-weight: 600;
+}
+
+.foodChoiceMacros {
+  flex: none;
+  font-size: 0.78rem;
+  color: var(--ink-3);
+}
+
+/* « cuit » / « cru » sur la ligne : discret, mais toujours là. */
+.foodState {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--ink-3);
+}
+
+/* --- Composition d'un repas en macros ------------------------------------- */
+
+.macroBlock {
+  margin-top: 8px;
+}
+
+/*
+ * La barre est TOUJOURS pleine : elle montre une composition, pas une
+ * progression. Pas de piste vide derrière, qui ferait croire qu'il manque
+ * quelque chose.
+ */
+.macroTrack {
+  display: flex;
+  gap: 2px; /* le fond passe entre les segments : ils ne se touchent jamais */
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.macroFill {
+  height: 100%;
+  border-radius: 2px;
+}
+
+.macro_carbs {
+  background: var(--macro-glucides);
+}
+
+.macro_protein {
+  background: var(--macro-proteines);
+}
+
+.macro_fat {
+  background: var(--macro-lipides);
+}
+
+/*
+ * Les grammages, dans l'ordre des segments. Ils portent l'identité : la couleur
+ * ne fait que l'accélérer, elle ne la remplace pas.
+ */
+.macroLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-top: 6px;
+  font-size: 0.78rem;
+  color: var(--ink-2);
+}
+
+.macroItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.macroDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+}
+
+.macroCle {
+  font-weight: 700;
+  color: var(--ink-3);
+}
+
+/* La part de la journée, sous les kcal du repas : les deux disent ce que ce
+   repas pèse, et se lisent ensemble. */
+.mealPart {
+  margin-top: 1px;
+  color: var(--ink-3);
+}
+
+/*
+ * La colonne de gauche d'un repas prend toute la place restante : sans ça, la
+ * barre de macros se calerait sur la largeur du nom du repas.
+ */
+.mealBody {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* --- Où en est la journée : ce qui a été pris sur ce qui était prévu ------- */
+
+.progressList {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.progressHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+  font-size: var(--fs-small);
+}
+
+.progressNom {
+  color: var(--ink-2);
+}
+
+.progressVal {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.progressPrevu {
+  font-weight: 400;
+  color: var(--ink-3);
+}
+
+/*
+ * Une piste VIDE derrière, contrairement à la barre de composition : c'est ce
+ * qui distingue « où j'en suis » de « de quoi c'est fait », sans un mot.
+ */
+.progressTrack {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--surface-3);
+  overflow: hidden;
+}
+
+.progressFill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+}
+
+/* Un dépassement ne se ravale pas à « plein » : il change de couleur. */
+.progressOver {
+  background: var(--orange);
+}
+
+/* --- Carte « Aujourd'hui » et coche d'un repas ----------------------------- */
+
+.suiviHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.suiviReset {
+  min-height: 0;
+  padding: 2px 0;
+  background: none;
+  font-size: var(--fs-small);
+  color: var(--ink-3);
+  text-decoration: underline;
+}
+
+/*
+ * La coche. Un cercle vide tant que le repas n'est pas pris, plein ensuite :
+ * l'état se lit à un mètre, sans lire le texte.
+ *
+ * Le bouton garde les 48 px de cible tactile, non négociables ; seule la
+ * pastille est réduite. Une pastille de 48 px écraserait le nom du repas.
+ */
+.mealTick {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: var(--tap);
+  height: var(--tap);
+  min-width: 0;
+  margin: -8px -12px -8px -4px;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.mealTickDot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1;
+  color: transparent;
+}
+
+.mealTickOn {
+  border-color: var(--vert);
+  background: var(--vert);
+  color: var(--ink-on-accent);
+}
+
+/*
+ * La note du palier choisi réemploie le bandeau de phase, sans son titre en
+ * capitales : ce n'est pas une alerte du programme mais le rappel d'un choix.
+ */
+.choixNote {
+  align-items: flex-start;
+  border-left-color: var(--ink-3);
+}
+
+/* --------------------------------------------- aliments ajoutés hors plan -- */
+
+/*
+ * Un ajout n'est pas une ligne du plan, et ça doit se voir sans avoir à lire.
+ * Liseré gauche, fond légèrement décalé, badge : ce bloc dit « constat »,
+ * pas « consigne ».
+ */
+.mealExtras {
+  min-width: 0;
+}
+
+.addFood {
+  width: 100%;
+  min-height: var(--tap);
+  margin-top: 8px;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-sm);
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+  font-weight: 700;
+}
+
+.addFood:active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.extraList {
+  margin: 8px 0 0;
+  padding: 0;
+  border-left: 2px solid var(--accent-dim);
+  list-style: none;
+}
+
+.extraRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 0 7px 10px;
+  font-size: var(--fs-small);
+}
+
+.extraTitre {
+  padding: 2px 0 2px 10px;
+  color: var(--accent);
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.extraName {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--ink);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.extraQty {
+  flex: none;
+  color: var(--ink-2);
+}
+
+.extraKcal {
+  flex: none;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* 44 px de côté : assez pour le pouce sans écraser la ligne. */
+.extraRemove {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  margin: -10px 0;
+  color: var(--ink-3);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+/* ------------------------------------------------- durées de séance -- */
+
+.durations {
+  display: grid;
+  gap: 10px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/*
+ * Grille en deux colonnes : le repère à gauche, la mesure à droite. La barre
+ * et l'écart occupent toute la largeur sur la ligne du dessous, ce qui garde
+ * les chiffres lisibles sur un écran de 390 px sans jamais tronquer une date.
+ */
+.durationRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--surface-2, rgba(255, 255, 255, 0.04));
+  font-size: var(--fs-small);
+}
+
+.durationWhen {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.durationDate {
+  color: var(--ink-3);
+  font-weight: 400;
+}
+
+.durationValue {
+  color: var(--ink);
+  font-weight: 700;
+  text-align: right;
+}
+
+.durationPlanned {
+  color: var(--ink-3);
+  font-weight: 400;
+}
+
+.durationBar {
+  position: relative;
+  grid-column: 1 / -1;
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.durationFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 4px;
+  background: var(--accent);
+}
+
+.durationOver {
+  background: var(--jaune, #f2b33d);
+}
+
+/* Le prévu : un trait, pas une seconde barre. On compare une longueur à un repère. */
+.durationMark {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 2px;
+  background: var(--ink);
+}
+
+.durationGap {
+  grid-column: 1 / -1;
+  color: var(--ink-3);
+}
+
+.durationOverText {
+  color: var(--jaune, #f2b33d);
+}
+
+/* ---------------------------------------------------- relecture des remarques -- */
+
+.noteGroupHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  min-height: 48px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+}
+
+.noteGroupName {
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.noteGroupCount {
+  flex: none;
+  color: var(--accent);
+  font-size: var(--fs-small);
+  font-weight: 600;
+}
+
+.noteList {
+  display: grid;
+  gap: 8px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/*
+ * La semaine sur sa propre ligne, au-dessus du texte : une remarque peut faire
+ * trois lignes, et la coller à droite d'un repère tabulaire la rendrait
+ * illisible sur un écran de 390 px.
+ */
+.noteItem {
+  display: grid;
+  gap: 2px;
+  padding: 8px 10px;
+  border-left: 2px solid var(--line);
+  border-radius: 0 8px 8px 0;
+  background: var(--surface-2, rgba(255, 255, 255, 0.04));
+  font-size: var(--fs-small);
+}
+
+.noteWhen {
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.noteText {
+  color: var(--ink);
+  line-height: 1.45;
+}

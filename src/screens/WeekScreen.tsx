@@ -1,0 +1,203 @@
+import { useEffect, useRef, useState } from 'react';
+import { BLOCKS, PROGRAM_WEEKS, WEEK_BLOCKS, WEEK_DAYS } from '../data/program';
+import { DAY_LABELS, DAY_LABELS_SHORT, type DayIndex, type WeekIndex } from '../data/types';
+import { dateFor, humanDate } from '../engine/calendar';
+import { getSession } from '../engine/getSession';
+import {
+  allReadiness,
+  allSessions,
+  allSets,
+  buildHistoryIndex,
+  getSettingsRow,
+  toEngineSettings,
+  toReadinessRecords,
+} from '../db/repo';
+import { explosiveTrend } from '../engine/trends';
+import type { SessionRow } from '../db/db';
+import { defilementPourCentrer } from '../state/weekStrip';
+import styles from './Screens.module.css';
+
+interface DayLine {
+  day: DayIndex;
+  title: string;
+  intensity: string;
+  duration: string;
+  date: string;
+  status: SessionRow['status'];
+  isToday: boolean;
+}
+
+/** Vue de la semaine : les 5 jours, leur état, et le bloc en cours. */
+export function WeekScreen({
+  week,
+  onChangeWeek,
+  onOpen,
+  onGoNutrition,
+}: {
+  week: WeekIndex;
+  onChangeWeek: (week: WeekIndex) => void;
+  onOpen: (week: WeekIndex, day: DayIndex) => void;
+  onGoNutrition: () => void;
+}) {
+  const [lines, setLines] = useState<DayLine[] | null>(null);
+  const bande = useRef<HTMLDivElement>(null);
+  const choisie = useRef<HTMLButtonElement>(null);
+
+  /*
+   * La bande se recale sur la semaine choisie, à l'ouverture comme à chaque
+   * changement.
+   *
+   * On pose `scrollLeft` plutôt que d'appeler `scrollIntoView` : celui-ci fait
+   * aussi défiler la PAGE pour amener l'élément dans le champ, et l'écran
+   * sauterait verticalement à chaque semaine touchée.
+   */
+  useEffect(() => {
+    const c = bande.current;
+    const b = choisie.current;
+    if (!c || !b) return;
+    c.scrollLeft = defilementPourCentrer({
+      visible: c.clientWidth,
+      totale: c.scrollWidth,
+      gauche: b.offsetLeft - c.offsetLeft,
+      largeur: b.offsetWidth,
+    });
+  }, [week]);
+
+  useEffect(() => {
+    void (async () => {
+      const settingsRow = await getSettingsRow();
+      const settings = toEngineSettings(settingsRow);
+      const [sets, readinessRows, rows] = await Promise.all([
+        allSets(),
+        allReadiness(),
+        allSessions(),
+      ]);
+      const history = buildHistoryIndex(sets);
+      const trend = explosiveTrend(toReadinessRecords(readinessRows));
+      const todayIso = new Date().toISOString().slice(0, 10);
+
+      const out: DayLine[] = [];
+      for (const day of WEEK_DAYS[week]) {
+        const s = getSession(week, day, {
+          settings,
+          history,
+          readiness: null,
+          explosiveDecline: trend.declining,
+        });
+        if (!s) continue;
+        const date = settings.startDate ? dateFor(settings.startDate, week, day) : '';
+        out.push({
+          day,
+          title: s.title,
+          intensity: s.intensity,
+          duration: s.durationLabel,
+          date,
+          status: rows.find((r) => r.week === week && r.day === day)?.status ?? 'planned',
+          isToday: date === todayIso,
+        });
+      }
+      setLines(out);
+    })();
+  }, [week]);
+
+  const block = BLOCKS[WEEK_BLOCKS[week]];
+
+  return (
+    <div className={styles.screen}>
+      <header className={styles.header}>
+        <h1 className={styles.h1}>{`Semaine ${week}`}</h1>
+        <p className={styles.lead}>
+          {week === 1 &&
+            'Calibration : tu trouves et tu notes tes charges, 3 reps en réserve. Tractions max lundi, broad jump de référence mardi.'}
+          {week > 1 && block.objective}
+        </p>
+      </header>
+
+      {/* Sélecteur de semaines, colorié par bloc — la périodisation se lit d'un coup d'œil. */}
+      <div className={styles.weeks} ref={bande}>
+        {PROGRAM_WEEKS.map((w) => {
+          const b = BLOCKS[WEEK_BLOCKS[w]];
+          return (
+            <button
+              key={w}
+              type="button"
+              ref={w === week ? choisie : undefined}
+              className={`${styles.week} ${w === week ? styles.weekOn : ''}`}
+              style={{ borderBottomColor: b.color }}
+              onClick={() => onChangeWeek(w)}
+              aria-current={w === week ? 'true' : undefined}
+            >
+              <span className={styles.weekNum}>{w}</span>
+              <span className={styles.weekTag} style={{ color: b.color }}>
+                {b.short}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      <div className={styles.blockBar} style={{ borderLeftColor: block.color }}>
+        <div>
+          <div className={styles.blockName}>{block.name}</div>
+          <div className={styles.blockMeta}>
+            {block.intensityLabel} · {block.objective}
+          </div>
+        </div>
+      </div>
+
+      {lines === null ? (
+        <div className={styles.loading}>Chargement…</div>
+      ) : (
+        <div className={styles.cardFlush}>
+          {lines.map((l) => (
+            <button
+              key={l.day}
+              type="button"
+              className={styles.dayRow}
+              onClick={() => onOpen(week, l.day)}
+            >
+              <span className={styles.dayName}>{DAY_LABELS_SHORT[l.day]}</span>
+              <span className={styles.dayBody}>
+                <span className={styles.dayTitle}>{l.title}</span>
+                <span className={styles.dayMeta}>
+                  {l.intensity} · {l.duration}
+                  {l.date && ` · ${humanDate(l.date)}`}
+                </span>
+              </span>
+              <span
+                className={`${styles.status} ${
+                  l.status === 'done'
+                    ? styles.statusDone
+                    : l.status === 'skipped'
+                      ? styles.statusSkipped
+                      : l.isToday
+                        ? styles.statusToday
+                        : styles.statusTodo
+                }`}
+              >
+                {l.status === 'done'
+                  ? 'Faite'
+                  : l.status === 'skipped'
+                    ? 'Sautée'
+                    : l.isToday
+                      ? 'Aujourd’hui'
+                      : 'À faire'}
+              </span>
+              <span className="visually-hidden">Ouvrir la séance du {DAY_LABELS[l.day]}</span>
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/*
+        Un lien, pas un sous-onglet. La diet ne change pas d'une semaine à
+        l'autre : la recopier dans chacun des treize écrans Semaine afficherait
+        treize fois la même chose, et une cible fausse pour les jours de repos
+        de la semaine affichée.
+      */}
+      <button type="button" className={styles.secondary} onClick={onGoNutrition}>
+        🍽 Voir la nutrition
+      </button>
+    </div>
+  );
+}
