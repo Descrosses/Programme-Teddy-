@@ -17,6 +17,7 @@ import {
   BLOCKS,
   DELOAD_CORE,
   DELOAD_POLICY,
+  LOAD_SUGGESTIONS,
   READINESS_THRESHOLDS,
   WEEK_BLOCKS,
   WEEK_DAYS,
@@ -508,7 +509,7 @@ function resolveSlot(slot: Slot, o: ResolveOpts): ResolvedExercise | null {
 
   // 5. Progression §11 — suggestion uniquement.
   const suggestion =
-    load.kg === null
+    !LOAD_SUGGESTIONS || load.kg === null
       ? null
       : applyProgression({
           // Même matière que la charge affichée : une suggestion calculée sur

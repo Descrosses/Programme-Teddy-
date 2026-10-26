@@ -9,7 +9,7 @@ import { describe, expect, it } from 'vitest';
 import { BASE_SESSIONS } from './baseSessions';
 import { EXERCISES } from './exercises';
 import { BLOCK_RULES } from './blockRules';
-import { PROGRAM_WEEKS, WEEK_BLOCKS, WEEK_DAYS } from './program';
+import { PROGRAM_WEEKS, WEEK_DAYS } from './program';
 import { COMBINE_METRICS, maxEstime } from './testSessions';
 import { rir } from './types';
 import { getSession } from '../engine/getSession';
@@ -29,11 +29,6 @@ describe('structure', () => {
     for (const w of [5, 6, 7, 8, 9, 10, 11, 12] as const) expect(WEEK_DAYS[w]).toHaveLength(0);
   });
 
-  it('la périodisation 12 semaines est préparée', () => {
-    expect([4, 8].map((w) => WEEK_BLOCKS[w as 4 | 8])).toEqual(['deload', 'deload']);
-    expect(WEEK_BLOCKS[12]).toBe('taper');
-  });
-
   it('4 séances : lundi, mardi, jeudi, samedi — une seule séance jambes', () => {
     for (const w of PROGRAM_WEEKS) expect([...WEEK_DAYS[w]]).toEqual([0, 1, 3, 5]);
     const jambes = Object.values(BASE_SESSIONS).filter((b) => b!.warmup === 'lower');
@@ -48,23 +43,6 @@ describe('structure', () => {
       ...COMBINE_METRICS,
     ];
     for (const id of ids) expect(EXERCISES[id], id).toBeDefined();
-  });
-
-  it('R3 — aucune séance ne dépasse 60 min, échauffement compris', () => {
-    for (const { w, d, s } of toutesLesSeances()) {
-      expect(s, `S${w} J${d}`).not.toBeNull();
-      expect(s!.plannedMin, `S${w} J${d}`).toBeLessThanOrEqual(60);
-    }
-  });
-
-  it('des abdos à chaque séance, environ 8 séries par semaine', () => {
-    let series = 0;
-    for (const d of [0, 1, 3, 5] as const) {
-      const abdos = getSession(1, d, EMPTY_CONTEXT)!.exercises.filter((e) => e.def.role === 'core');
-      expect(abdos.length, `jour ${d}`).toBeGreaterThanOrEqual(1);
-      series += abdos.reduce((n, e) => n + e.sets, 0);
-    }
-    expect(series).toBe(8);
   });
 
   it('aucun exercice imposé parmi ceux à éviter', () => {
@@ -98,27 +76,39 @@ describe('structure', () => {
   });
 });
 
-describe('semaines', () => {
-  it('S1 : 3 en réserve sur le principal ; S2-S3 : 2-3', () => {
-    expect(ex(1, 0, 'bench-press').targetRPE!.label).toBe('3 en réserve');
-    expect(ex(2, 0, 'bench-press').targetRPE!.label).toBe('2-3 en réserve');
-    expect(ex(3, 1, 'lat-pulldown').targetRPE!.label).toBe('2-3 en réserve');
-  });
-
-  it('S4 deload : 2 séries, au moins 3 en réserve', () => {
-    for (const { w, s } of toutesLesSeances()) {
-      if (w !== 4) continue;
-      for (const e of s!.exercises) {
-        expect(e.sets, e.id).toBeLessThanOrEqual(2);
-        if (e.targetRPE) expect(e.targetRPE.max, e.id).toBeLessThanOrEqual(7);
-      }
+describe('programme 4 semaines — séances dupliquées', () => {
+  it('R3 — en semaine 1, aucune séance ne dépasse 60 min (estimation)', () => {
+    for (const d of [0, 1, 3, 5] as const) {
+      expect(getSession(1, d, EMPTY_CONTEXT)!.plannedMin, `jour ${d}`).toBeLessThanOrEqual(60);
     }
   });
 
-  it('repos longs sur les polyarticulaires, plus courts sur l’isolation', () => {
-    expect(ex(1, 0, 'bench-press').restSec).toBeGreaterThanOrEqual(120);
-    expect(ex(1, 3, 'leg-press').restSec).toBeGreaterThanOrEqual(120);
-    expect(ex(1, 5, 'lateral-raise').restSec).toBeLessThanOrEqual(75);
+  it('le lundi est la séance de Guillaume, identique chaque semaine', () => {
+    const ids = (w: 1 | 2 | 3 | 4) => getSession(w, 0, EMPTY_CONTEXT)!.exercises.map((e) => e.id).join(',');
+    expect(ids(1)).toBe(
+      'reverse-pec-deck,smith-military-press,lateral-raise,front-raise,bench-rear-delt-fly,skull-crusher,ez-curl,suitcase-hold',
+    );
+    for (const w of [2, 3, 4] as const) expect(ids(w)).toBe(ids(1));
+  });
+
+  it('militaire et latérales : 3 séries en S1, 4 (dont une optionnelle) ensuite', () => {
+    expect(ex(1, 0, 'smith-military-press').sets).toBe(3);
+    expect(ex(1, 0, 'lateral-raise').sets).toBe(3);
+    for (const w of [2, 3, 4] as const) {
+      expect(ex(w, 0, 'smith-military-press').sets).toBe(4);
+      expect(ex(w, 0, 'lateral-raise').notes.join(' ')).toMatch(/OPTIONNELLE/);
+    }
+  });
+
+  it('repos du lundi : 2 min 30 au militaire, 1 min 30 aux latérales', () => {
+    expect(ex(1, 0, 'smith-military-press').restSec).toBe(150);
+    expect(ex(1, 0, 'lateral-raise').restSec).toBe(90);
+  });
+
+  it('aucune suggestion de charge : Teddy gère ses charges', () => {
+    for (const { s } of toutesLesSeances()) {
+      for (const e of s!.exercises) expect(e.suggestion, e.id).toBeNull();
+    }
   });
 
   it('séance allégée : 2 séries maximum', () => {

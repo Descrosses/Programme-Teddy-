@@ -65,21 +65,29 @@ const SECONDAIRE = rirRange(2, 3);
 
 // ---------------------------------------------------------------------------
 
+/**
+ * Lundi — séance écrite par Guillaume (feuille du 26/10/2026), identique de
+ * la semaine 1 à la semaine 4. Semaine 1 : 3 séries au militaire et aux
+ * latérales (au lieu de 4) pour tenir le temps ; la 4e série devient
+ * optionnelle à partir de la semaine 2 (voir `blockRules.ts`).
+ */
 const LUNDI: SessionBlueprint = {
   day: 0,
-  title: 'Pectoraux, triceps, abdos',
-  durationLabel: '≈ 55 min',
+  title: 'Épaules, triceps, biceps',
+  durationLabel: '≈ 60 min',
   intensity: 'DUR',
   warmup: 'upper',
   readinessTest: false,
   notes: [],
   slots: [
-    s('bench-press', 3, reps(range(8, 12)), barre(), PRINCIPAL, 150),
-    s('incline-db-press', 3, reps(range(8, 12)), halteres(20), SECONDAIRE, 120),
-    s('pec-deck', 2, reps(range(12, 15)), machine(), rir(2), 75),
-    s('dips', 2, reps(range(8, 12)), machine(), SECONDAIRE, 105),
-    s('triceps-pushdown', 3, reps(range(10, 15)), machine(), rir(2), 75),
-    s('dead-bug', 2, reps(8, true), noLoad(), null, 45),
+    s('reverse-pec-deck', 3, reps(range(8, 10)), machine(), null, 45, 'Les 3 séries sont différentes : ouvre les consignes. 3 min de repos avant l’exercice suivant.'),
+    s('smith-military-press', 3, reps(6), barre(), rirRange(1, 2), 150, 'Puis aussitôt 10 à 12 reps à environ 60 % de la charge. Saisis la charge lourde.'),
+    s('lateral-raise', 3, reps(10), halteres(), rir(2), 90, 'Puis aussitôt le max de reps à environ 60 % de la charge.'),
+    s('front-raise', 3, reps(15, true, 'côté'), halteres1(), null, 60, 'Contraction maximale en haut.'),
+    s('bench-rear-delt-fly', 3, reps(12), halteres(), null, 60, 'Contraction maximale en fin de mouvement.'),
+    s('skull-crusher', 4, reps(12), barre(), null, 0, 'Superset : enchaîne directement avec le curl barre EZ. Descente en 3 s.'),
+    s('ez-curl', 4, reps(12), barre(), null, 90, '1 min 30 de repos après le duo. Descente en 3 s.'),
+    s('suitcase-hold', 3, hold(30, true), halteres1(), null, 30, 'Contraction maximale du flanc opposé.'),
   ],
 };
 

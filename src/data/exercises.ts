@@ -26,6 +26,75 @@ const PASSAGE_NIVEAU =
   'Passer au niveau suivant : quand tu fais le haut de la plage sur toutes les séries, technique propre, deux séances de suite. Jamais parce qu’une semaine le dit.';
 
 const LIST: ExerciseDef[] = [
+  // ------------------------- LUNDI — épaules, triceps, biceps (Guillaume) --
+  {
+    id: 'reverse-pec-deck',
+    name: 'Oiseau à la machine (reverse pec deck)',
+    fn: 'pull',
+    role: 'accessory',
+    measure: 'kg',
+    intent: 'Les 3 séries sont différentes : lis la consigne de chacune avant de commencer.',
+    cues: [
+      'Série 1 — 8 à 10 reps « 1 + ½ » : une répétition = une demi-amplitude puis une amplitude complète. Cherche la contraction maximale, pas d’ego lifting. Ensuite 5 s de pause, puis le maximum de reps jusqu’à l’échec.',
+      'Série 2 — contraction maintenue : 5 reps, puis tiens 5 s bras ouverts. Enchaîne ce bloc 3 fois de suite.',
+      'Série 3 — tempo : 8 à 10 reps, ouverture explosive, retour en 3 s. Ensuite 5 s de pause, puis le maximum de reps.',
+      'Repos : 45 s entre les séries, 3 min avant le développé militaire.',
+    ],
+  },
+  {
+    id: 'smith-military-press',
+    name: 'Développé militaire à la Smith machine',
+    fn: 'push',
+    role: 'main',
+    measure: 'kg',
+    intent: 'Chaque série en deux temps, sans repos entre les deux : 6 reps lourdes, puis 10 à 12 reps à environ 60 % de la charge.',
+    cues: [
+      'Lourd = une charge qui t’en permettrait 7 à 8 au maximum : 1 à 2 reps en réserve.',
+      'Exemple : 6 reps à 50 kg, puis aussitôt 12 reps à 30 kg.',
+      'Note la charge lourde dans l’appli : c’est elle qui sert de repère d’une semaine à l’autre.',
+    ],
+  },
+  {
+    id: 'front-raise',
+    name: 'Élévations frontales',
+    fn: 'push',
+    role: 'accessory',
+    measure: 'kg',
+    intent: 'Un bras à la fois, montée jusqu’à hauteur d’épaule, contraction maximale 1 s en haut.',
+  },
+  {
+    id: 'bench-rear-delt-fly',
+    name: 'Oiseau sur banc, haltères',
+    fn: 'pull',
+    role: 'accessory',
+    measure: 'kg',
+    intent: 'Poitrine sur un banc incliné, bras qui s’ouvrent, contraction maximale en haut, omoplates serrées.',
+  },
+  {
+    id: 'skull-crusher',
+    name: 'Barre au front',
+    fn: 'push',
+    role: 'accessory',
+    measure: 'kg',
+    intent: 'Superset avec le curl barre EZ. Coudes fixes, descente en 3 s vers le front, seuls les avant-bras bougent.',
+  },
+  {
+    id: 'ez-curl',
+    name: 'Curl biceps barre EZ',
+    fn: 'pull',
+    role: 'accessory',
+    measure: 'kg',
+    intent: 'Enchaîné juste après la barre au front. Coudes fixes, descente en 3 s.',
+  },
+  {
+    id: 'suitcase-hold',
+    name: 'Gainage debout, une haltère',
+    fn: 'core',
+    role: 'core',
+    measure: 'kg',
+    intent: 'Debout, une haltère lourde dans UNE seule main. Reste parfaitement droit : le flanc opposé travaille pour t’empêcher de pencher. Contraction maximale.',
+  },
+
   // ----------------------------------------- LUNDI — pectoraux, triceps --
   {
     id: 'bench-press',
@@ -188,7 +257,11 @@ const LIST: ExerciseDef[] = [
     fn: 'push',
     role: 'accessory',
     measure: 'kg',
-    intent: 'Montée jusqu’à l’horizontale, coudes légèrement fléchis, sans élan.',
+    intent: 'Chaque série en deux temps : 10 reps à RPE 8 (2 en réserve), puis aussitôt le maximum de reps à environ 60 % de la charge.',
+    cues: [
+      'Coudes légèrement fléchis, montée jusqu’à l’horizontale, sans élan.',
+      'Note la charge des 10 premières reps : c’est elle qui sert de repère.',
+    ],
   },
   {
     id: 'incline-machine-press',

@@ -67,18 +67,18 @@ export interface BlockInfo {
 export const BLOCKS: Record<Block, BlockInfo> = {
   test: {
     block: 'test',
-    name: 'Calibration',
-    short: 'Calib.',
-    intensityLabel: '2-3 en réserve',
-    objective: 'Trouver et noter les charges de travail, combine initial',
+    name: 'Semaine de départ',
+    short: 'Départ',
+    intensityLabel: 'Séances de base',
+    objective: 'Trouver et noter tes charges de travail, chronométrer les séances',
     color: '#d62f33',
   },
   accumulation: {
     block: 'accumulation',
-    name: 'Accumulation hypertrophique',
-    short: 'Accum.',
-    intensityLabel: '2-3 en réserve',
-    objective: 'Volume modéré, double progression : les reps, puis la charge',
+    name: 'Mêmes séances, volume',
+    short: 'Volume',
+    intensityLabel: 'Série optionnelle',
+    objective: 'Mêmes séances qu’en semaine 1, une série de plus possible selon le timing et la fatigue',
     color: '#2f6fa8',
   },
   deload: {
@@ -128,13 +128,17 @@ export const PROGRAM_WEEKS = [1, 2, 3, 4] as const satisfies readonly WeekIndex[
 export const FIRST_WEEK = 1 as WeekIndex;
 export const LAST_WEEK = PROGRAM_WEEKS[PROGRAM_WEEKS.length - 1] as WeekIndex;
 
-/** Bloc de chaque semaine, sur les 12 semaines prévues (seules 1-4 sont actives). */
+/**
+ * Bloc de chaque semaine. Semaines 1-4 : programme 4 semaines de Guillaume
+ * (séances dupliquées). Semaines 5-12 : emplacement du programme 12 semaines,
+ * à redéfinir quand il sera activé.
+ */
 export const WEEK_BLOCKS: Record<WeekIndex, Block> = {
   0: 'test',
   1: 'test',
   2: 'accumulation',
   3: 'accumulation',
-  4: 'deload',
+  4: 'accumulation',
   5: 'maxforce',
   6: 'maxforce',
   7: 'maxforce',
@@ -213,6 +217,13 @@ export const BIG_MOVEMENT_IDS = [
  *     −5 %.
  *  5. Rep ratée → −5 %, on ne retente pas.
  */
+/**
+ * Suggestions de charge : DÉSACTIVÉES. Teddy gère ses charges lui-même
+ * (décision de Guillaume) ; l'appli garde l'historique et montre la dernière
+ * performance, sans rien proposer.
+ */
+export const LOAD_SUGGESTIONS = false;
+
 export const PROGRESSION_RULES = {
   /** Règle 2 : incréments, selon le matériel. */
   bump: { lowerBodyBarKg: 5, upperBodyBarKg: 2.5 },

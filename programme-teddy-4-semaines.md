@@ -3,13 +3,49 @@
 Programme de Teddy. Source de vérité : l'application transcrit ce document ;
 une valeur qui n'est pas ici n'existe pas dans l'appli.
 
-Version validée par Guillaume le 26/10/2026. **Cycle actif : 4 semaines**
+Programme 12 semaines validé par Guillaume le 26/10/2026, **non actif** : voir section 0 pour le programme en cours. Cycle prévu au départ : 4 semaines
 (choix initial de Teddy). La structure sur 12 semaines est préparée
 (section 10) mais n'est pas activée tant que Teddy ne l'a pas validée.
 
 Programme distinct du programme Athletic Performance de Guillaume : dépôt,
 base de données, exercices, charges, historiques et dates de démarrage
 séparés. Rien n'est repris de l'autre programme.
+
+## 0. Programme 4 semaines ACTIF — séances de Guillaume
+
+Décision du 26/10/2026 : dans un premier temps, Teddy suit un programme de
+4 semaines écrit par Guillaume, **la même séance chaque semaine**. Aucune
+suggestion de charge : Teddy gère ses charges lui-même. La seule progression
+écrite est le volume (une série optionnelle à partir de la semaine 2). Le
+programme 12 semaines prise de masse (sections 1 à 10) viendra ensuite.
+
+Jours déjà remplacés : **lundi**. Mardi, jeudi et samedi restent ceux des
+sections 3-4 jusqu'à réception des feuilles.
+
+### Lundi — Épaules, triceps, biceps
+
+| | Exercice | Séries × reps | Repos |
+|---|---|---|---|
+| 1 | Oiseau à la machine (reverse pec deck) — 3 séries différentes | 3 × 8-10 | 45 s, puis 3 min |
+| 2 | Développé militaire Smith : 6 lourdes (1-2 en réserve) + aussitôt 10-12 à ≈ 60 % | 3 séries en S1 ; 4 en S2-S4, la 4e optionnelle | 2 min 30 |
+| 3 | Élévations latérales : 10 à RPE 8 + aussitôt max de reps à ≈ 60 % | 3 séries en S1 ; 4 en S2-S4, la 4e optionnelle | 1 min 30 |
+| 4 | Élévations frontales, contraction maximale | 3 × 15 / bras | 1 min |
+| 5 | Oiseau sur banc, haltères, contraction maximale | 3 × 12 | 1 min |
+| 6 | Superset barre au front + curl barre EZ, descente 3 s | 4 × 12 | 1 min 30 après le duo |
+| 7 | Gainage debout, une haltère dans une main | 3 × 30 s / côté | — |
+
+Oiseau à la machine : série 1 = 8-10 reps « 1 + ½ », 5 s de pause, max de
+reps jusqu'à l'échec ; série 2 = (5 reps + 5 s de contraction) × 3 ;
+série 3 = 8-10 reps, ouverture explosive, retour en 3 s, 5 s de pause, max
+de reps.
+
+**Série optionnelle (S2-S4)** : seulement si la séance du lundi précédent a
+tenu en 60 min ou moins (durée réelle de l'appli) et sans fatigue excessive
+(pas de courbatures aux épaules 48 h après).
+
+**Points signalés à Guillaume et assumés par lui :** échec, rest-pause et
+séries dégressives dès la semaine 1 ; durée réelle estimée à 60-65 min en
+semaine 1 (au-delà avec la série optionnelle).
 
 ## 1. Vigilance et contraintes
 
