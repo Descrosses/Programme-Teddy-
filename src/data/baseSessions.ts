@@ -85,8 +85,8 @@ const LUNDI: SessionBlueprint = {
     s('lateral-raise', 3, reps(10), halteres(), rir(2), 90, 'Puis aussitôt le max de reps à environ 60 % de la charge : saisis-les sous les 10 reps.'),
     s('front-raise', 3, reps(15, true, 'côté'), halteres1(), null, 60, 'Contraction maximale en haut.'),
     s('bench-rear-delt-fly', 3, reps(12), halteres(), null, 60, 'Contraction maximale en fin de mouvement.'),
-    s('skull-crusher', 4, reps(12), barre(), null, 0, 'Superset : enchaîne directement avec le curl barre EZ. Descente en 3 s.'),
-    s('ez-curl', 4, reps(12), barre(), null, 90, '1 min 30 de repos après le duo. Descente en 3 s.'),
+    { ...s('skull-crusher', 4, reps(12), barre(), null, 0, 'Descente en 3 s sur les deux mouvements, coudes fixes.'), superset: 'bras-lundi' },
+    { ...s('ez-curl', 4, reps(12), barre(), null, 90), superset: 'bras-lundi' },
     s('suitcase-hold', 3, hold(30, true), halteres1(), null, 30, 'Contraction maximale du flanc opposé.'),
   ],
 };

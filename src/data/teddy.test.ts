@@ -105,6 +105,15 @@ describe('programme 4 semaines — séances dupliquées', () => {
     expect(ex(1, 0, 'lateral-raise').restSec).toBe(90);
   });
 
+  it('superset du lundi : barre au front et curl EZ partagent un encadré, un seul repos', () => {
+    const skull = ex(1, 0, 'skull-crusher');
+    const curl = ex(1, 0, 'ez-curl');
+    expect(skull.superset).toBe('bras-lundi');
+    expect(curl.superset).toBe('bras-lundi');
+    expect(skull.restSec).toBe(0);
+    expect(curl.restSec).toBe(90);
+  });
+
   it('aucune suggestion de charge : Teddy gère ses charges', () => {
     for (const { s } of toutesLesSeances()) {
       for (const e of s!.exercises) expect(e.suggestion, e.id).toBeNull();

@@ -1335,3 +1335,113 @@
   font-size: var(--fs-small);
   color: var(--ink-3);
 }
+
+/* ------------------------------------------------------------ superset -- */
+/* Un encadré pour deux mouvements : légère surbrillance pour capter l'œil. */
+.superset {
+  margin: var(--gap) var(--pad);
+  background: var(--surface);
+  border: 2px solid var(--accent);
+  border-radius: var(--radius);
+  box-shadow: 0 0 0 4px rgba(214, 47, 51, 0.12), 0 6px 18px rgba(214, 47, 51, 0.16);
+  overflow: hidden;
+}
+
+.supersetHead {
+  padding: 12px var(--pad) 12px;
+  background: #fdf3f3;
+}
+
+.supersetBadge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink-on-accent);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  box-shadow: 0 0 12px rgba(214, 47, 51, 0.55);
+}
+
+.supersetTitle {
+  margin-top: 6px;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.tourDone {
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  padding: 12px var(--pad);
+  border-top: 1px solid var(--line);
+  background: var(--surface-2);
+  text-align: left;
+}
+
+.tourDoneText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: var(--fs-small);
+}
+
+.tourDoneFlag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--vert);
+}
+
+.tourTodo {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 10px var(--pad);
+  border-top: 1px solid var(--line);
+  font-size: var(--fs-small);
+  color: var(--ink-3);
+}
+
+.tourEntry {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px var(--pad) 14px;
+  border-top: 1px solid var(--line);
+}
+
+.tourEntryHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.tourCount {
+  font-size: 0.75rem;
+  color: var(--ink-3);
+}
+
+.tourMove {
+  font-size: var(--fs-small);
+  font-weight: 700;
+}
+
+.tourChain {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.tourChain span {
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--accent-dim);
+}

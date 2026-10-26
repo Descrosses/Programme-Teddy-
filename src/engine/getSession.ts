@@ -73,6 +73,8 @@ export interface ResolvedExercise {
   contrast?: ContrastSpec;
   /** Paliers d'un test 1RM (§12). */
   ramp?: RampStep[];
+  /** Superset : identifiant partagé avec l'exercice voisin. */
+  superset?: string;
   /**
    * Dernière charge réellement enregistrée sur cet exercice, ou `null`.
    *
@@ -551,6 +553,7 @@ function resolveSlot(slot: Slot, o: ResolveOpts): ResolvedExercise | null {
     notes,
     ...(contrastWith && o.contrast ? { contrast: o.contrast } : {}),
     ...(slot.ramp ? { ramp: slot.ramp } : {}),
+    ...(slot.superset ? { superset: slot.superset } : {}),
     suggestion,
     adjustments,
   };

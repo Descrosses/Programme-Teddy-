@@ -3,6 +3,7 @@ import { ExerciseCard, type SetPayload } from '../components/ExerciseCard';
 import { ExerciseNote } from '../components/ExerciseNote';
 import { ExercisePanel } from '../components/ExercisePanel';
 import { ReadinessSection } from '../components/ReadinessSection';
+import { SupersetCard } from '../components/SupersetCard';
 import { WarmupSection } from '../components/WarmupSection';
 import { BLOCKS } from '../data/program';
 import { DAY_LABELS, type DayIndex, type WeekIndex } from '../data/types';
@@ -344,7 +345,25 @@ export function SessionScreen({
         />
       )}
 
-      {session.exercises.map((ex) => {
+      {session.exercises.map((ex, i, tous) => {
+        /*
+         * Superset : deux exercices consécutifs qui partagent un identifiant
+         * s'affichent dans UN encadré. Le second est rendu par le premier.
+         */
+        const suivant = tous[i + 1];
+        const precedent = tous[i - 1];
+        if (ex.superset && precedent?.superset === ex.superset) return null;
+        if (ex.superset && suivant?.superset === ex.superset) {
+          return (
+            <SupersetCard
+              key={`superset-${ex.superset}`}
+              exs={[ex, suivant]}
+              savedSets={data.savedSets}
+              timer={timer}
+              onSaveSet={handleSaveSet}
+            />
+          );
+        }
         const custom = duJour.find((r) => r.exerciseId === ex.id) ?? null;
         const original = custom?.originalExerciseId ?? null;
         return (

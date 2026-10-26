@@ -440,6 +440,12 @@ export interface Slot {
   note?: string;
   /** Paliers affichés pour un test 1RM (§12). */
   ramp?: RampStep[];
+  /**
+   * Superset : même identifiant sur deux exercices CONSÉCUTIFS de la trame.
+   * Ils s'affichent dans un seul encadré, un tour = les deux mouvements, un
+   * seul chrono (le repos du second).
+   */
+  superset?: string;
 }
 
 /** Une séance entièrement résolue pour une semaine donnée (sortie de l'engine). */
