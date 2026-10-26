@@ -74,7 +74,15 @@ export function useSessionData(week: WeekIndex, day: DayIndex): SessionData {
   const reload = useCallback(async () => {
     const settingsRow = await getSettingsRow();
     const settings = toEngineSettings(settingsRow);
-    const date = settings.startDate ? dateFor(settings.startDate, week, day) : '';
+    /*
+     * Sans date de début, la séance n'avait PAS de ligne en base : rien ne
+     * s'enregistrait — échauffement, séries, fin de séance, chrono — et sans
+     * le moindre message. On la date donc d'aujourd'hui ; dès que la date de
+     * début est réglée, `realignScheduleDates` la recale sur le calendrier.
+     */
+    const date = settings.startDate
+      ? dateFor(settings.startDate, week, day)
+      : new Date().toISOString().slice(0, 10);
 
     const [sets, readinessRows, readinessRow, customRows, existingRow] = await Promise.all([
       allSets(),
