@@ -48,7 +48,7 @@ describe('structure', () => {
   });
 
   it('aucun exercice imposé parmi ceux à éviter', () => {
-    const interdits = ['weighted-pullup', 'back-squat', 'hanging-leg-raise', 'ab-wheel', 'overhead-press', 'deadlift'];
+    const interdits = ['weighted-pullup', 'back-squat', 'hanging-leg-raise', 'overhead-press', 'deadlift'];
     for (const { s } of toutesLesSeances()) {
       for (const e of s!.exercises) expect(interdits.includes(e.id), e.id).toBe(false);
     }
@@ -116,8 +116,18 @@ describe('programme 4 semaines — séances dupliquées', () => {
     expect(curl.restSec).toBe(90);
   });
 
-  it('chaque mouvement du lundi a sa fiche, livrée avec l’appli', () => {
-    for (const e of getSession(1, 0, EMPTY_CONTEXT)!.exercises) {
+  it('mardi : la séance dos de Guillaume, superset tirage horizontal + pull over', () => {
+    const ids = getSession(1, 1, EMPTY_CONTEXT)!.exercises.map((e) => e.id).join(',');
+    expect(ids).toBe(
+      'supinated-lat-pulldown,single-arm-pulldown,close-grip-cable-row,cable-pullover,db-row-elbow-out,db-shrug,ab-wheel',
+    );
+    expect(ex(1, 1, 'close-grip-cable-row').superset).toBe('dos-mardi');
+    expect(ex(1, 1, 'cable-pullover').superset).toBe('dos-mardi');
+    expect(ex(1, 1, 'cable-pullover').restSec).toBe(120);
+  });
+
+  it('chaque mouvement du lundi et du mardi a sa fiche, livrée avec l’appli', () => {
+    for (const e of [0, 1].flatMap((d) => getSession(1, d as 0 | 1, EMPTY_CONTEXT)!.exercises)) {
       expect(e.def.fiche, e.id).toBe(`fiches/${e.id}.webp`);
       expect(existsSync(join(process.cwd(), 'public', e.def.fiche!)), e.id).toBe(true);
     }

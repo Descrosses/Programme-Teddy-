@@ -91,21 +91,26 @@ const LUNDI: SessionBlueprint = {
   ],
 };
 
+/**
+ * Mardi — séance dos écrite par Guillaume (26/10/2026), identique de la
+ * semaine 1 à la semaine 4.
+ */
 const MARDI: SessionBlueprint = {
   day: 1,
-  title: 'Dos, biceps, abdos',
-  durationLabel: '≈ 55 min',
+  title: 'Dos',
+  durationLabel: '≈ 60 min',
   intensity: 'DUR',
   warmup: 'upper',
   readinessTest: false,
-  notes: ['Peut se faire le mercredi à la place du mardi.'],
+  notes: [],
   slots: [
-    s('lat-pulldown', 3, reps(range(8, 12)), machine(), PRINCIPAL, 150),
-    s('machine-row', 3, reps(range(8, 12)), machine(), SECONDAIRE, 120),
-    s('db-row', 2, reps(range(10, 12), true, 'côté'), halteres1(), rir(2), 90),
-    s('face-pull', 2, reps(range(12, 15)), machine(), rir(2), 75),
-    s('db-curl', 3, reps(range(10, 12)), halteres(), rir(2), 75),
-    s('reverse-crunch', 2, reps(range(10, 12)), noLoad(), null, 45),
+    s('supinated-lat-pulldown', 3, reps(8), machine(), null, 120, 'Contraction 1 s, relâchement 2 s. 3 min de repos avant l’exercice suivant.'),
+    s('single-arm-pulldown', 3, reps(range(10, 12), true, 'côté'), machine(), null, 90, 'Les deux côtés faits : dernière contraction 5 s. 3 min de repos avant le superset.'),
+    { ...s('close-grip-cable-row', 3, reps(10), machine(), null, 0, 'Contraction 2 s, relâchement 3 s. Pull over juste après, sans repos.'), superset: 'dos-mardi' },
+    { ...s('cable-pullover', 3, reps(10), machine(), null, 120, 'Contrôlé à 100 %, cherche l’étirement.'), superset: 'dos-mardi' },
+    s('db-row-elbow-out', 3, reps(10, true, 'côté'), halteres1(), null, 90, 'Pic de contraction 1 s. 2 min de repos avant les shrugs.'),
+    s('db-shrug', 4, reps(15), halteres(), null, 60, 'Pic de contraction 1 s, descente 2 s.'),
+    s('ab-wheel', 4, reps(8), bodyweight(), null, 60),
   ],
 };
 

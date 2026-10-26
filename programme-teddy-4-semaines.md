@@ -19,7 +19,7 @@ suggestion de charge : Tedhi gère ses charges lui-même. La seule progression
 écrite est le volume (une série optionnelle à partir de la semaine 2). Le
 programme 12 semaines prise de masse (sections 1 à 10) viendra ensuite.
 
-Jours déjà remplacés : **lundi**. Mardi, jeudi et samedi restent ceux des
+Jours déjà remplacés : **lundi, mardi**. Jeudi et samedi restent ceux des
 sections 3-4 jusqu'à réception des feuilles.
 
 ### Lundi — Épaules, triceps, biceps
@@ -38,6 +38,17 @@ Oiseau à la machine : série 1 = 8-10 reps (demi-amplitude + amplitude complèt
 reps jusqu'à l'échec ; série 2 = (5 reps + 5 s de contraction) × 3 ;
 série 3 = 8-10 reps, ouverture explosive, retour en 3 s, 5 s de pause, max
 de reps.
+
+### Mardi — Dos
+
+| | Exercice | Séries × reps | Repos |
+|---|---|---|---|
+| 1 | Tirage vertical prise supination : contraction 1 s, relâchement 2 s | 3 × 8 | 2 min, puis 3 min |
+| 2 | Tirage vertical unilatéral machine, supination : les deux côtés faits, dernière contraction 5 s | 3 × 10-12 / côté | 1 min 30, puis 3 min |
+| 3 | Superset tirage horizontal prise serrée (contraction 2 s, relâchement 3 s) + pull over poulie (étirement, 100 % contrôlé) | 3 × 10 | 2 min après le duo |
+| 4 | Rowing bûcheron coude à 45°, pic de contraction 1 s | 3 × 10 / bras | 1 min 30, puis 2 min |
+| 5 | Shrugs haltères, pic de contraction 1 s, descente 2 s | 4 × 15 | 1 min |
+| 6 | Ab wheel | 4 × 8 | 1 min |
 
 **Saisie des deuxièmes parties :** sous chaque série concernée, Tedhi note les reps (et la charge pour les dégressives). Échec après pause : reps seulement, charge « — » (la même).
 

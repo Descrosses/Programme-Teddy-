@@ -26,6 +26,83 @@ const PASSAGE_NIVEAU =
   'Passer au niveau suivant : quand tu fais le haut de la plage sur toutes les séries, technique propre, deux séances de suite. Jamais parce qu’une semaine le dit.';
 
 const LIST: ExerciseDef[] = [
+  // ------------------------------------------- MARDI — dos (Guillaume) --
+  {
+    id: 'supinated-lat-pulldown',
+    fiche: 'fiches/supinated-lat-pulldown.webp',
+    name: 'Tirage vertical prise supination',
+    fn: 'pull',
+    role: 'main',
+    measure: 'kg',
+    intent: 'Paumes vers toi, barre tirée vers le haut de la poitrine. Contraction 1 s à chaque rep, relâchement en 2 s.',
+    cues: ['Coudes le long du corps, buste droit et gainé, sans à-coups.', 'Repos : 2 min entre les séries, 3 min avant l’exercice suivant.'],
+  },
+  {
+    id: 'single-arm-pulldown',
+    fiche: 'fiches/single-arm-pulldown.webp',
+    name: 'Tirage vertical unilatéral machine, prise supination',
+    fn: 'pull',
+    role: 'accessory',
+    measure: 'kg',
+    intent: 'Un bras à la fois, paume vers toi, coude ramené le long du buste, omoplate serrée.',
+    cues: [
+      'À chaque série, une fois les deux côtés faits : une dernière contraction tenue 5 s. Cherche la brûlure.',
+      'Repos : 1 min 30 entre les séries, 3 min avant le superset.',
+    ],
+  },
+  {
+    id: 'close-grip-cable-row',
+    fiche: 'fiches/close-grip-cable-row.webp',
+    name: 'Tirage horizontal prise serrée',
+    fn: 'pull',
+    role: 'accessory',
+    measure: 'kg',
+    intent: 'Pense à contracter plutôt qu’à déplacer une charge.',
+    cues: [
+      'Contraction explosive, tenue 2 s, omoplates qui se resserrent.',
+      'Relâchement en 3 s, omoplates qui s’ouvrent dans l’étirement.',
+    ],
+  },
+  {
+    id: 'cable-pullover',
+    fiche: 'fiches/cable-pullover.webp',
+    name: 'Pull over à la poulie',
+    fn: 'pull',
+    role: 'accessory',
+    measure: 'kg',
+    intent: 'Mouvement contrôlé à 100 %, en cherchant la sensation d’étirement plutôt que la contraction.',
+    cues: ['Bras presque tendus, arc de cercle vers les cuisses, sans cambrer le bas du dos.'],
+  },
+  {
+    id: 'db-row-elbow-out',
+    fiche: 'fiches/db-row-elbow-out.webp',
+    name: 'Rowing bûcheron, coude à 45°',
+    fn: 'pull',
+    role: 'accessory',
+    measure: 'kg',
+    intent: 'Coude ouvert à environ 45°, pic de contraction 1 s en haut. Adapte la charge pour obtenir cette contraction volontaire.',
+    cues: ['Repos : 1 min 30 entre les séries, 2 min avant les shrugs.'],
+  },
+  {
+    id: 'db-shrug',
+    fiche: 'fiches/db-shrug.webp',
+    name: 'Shrugs haltères',
+    fn: 'pull',
+    role: 'accessory',
+    measure: 'kg',
+    intent: 'Épaules montées vers les oreilles, pic de contraction 1 s à chaque rep, descente contrôlée en 2 s.',
+    cues: ['Bras tendus, sans rotation des épaules ni balancement du buste.'],
+  },
+  {
+    id: 'ab-wheel',
+    fiche: 'fiches/ab-wheel.webp',
+    name: 'Ab wheel (roue abdominale)',
+    fn: 'core',
+    role: 'core',
+    intent: 'À genoux, dos droit et bassin rétroversé : la roue avance tant que le bas du dos ne se creuse pas.',
+    cues: ['Amplitude adaptée à ton niveau : avance moins loin plutôt que de cambrer.'],
+  },
+
   // ------------------------- LUNDI — épaules, triceps, biceps (Guillaume) --
   {
     id: 'reverse-pec-deck',
