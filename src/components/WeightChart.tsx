@@ -152,7 +152,7 @@ export function WeightChart({
    *  premier jour affiché a besoin des six jours d'avant. */
   entries: Measurement[];
   cadre: Cadre;
-  /** Aucune cible de poids dans le programme de Teddy : `null`. */
+  /** Aucune cible de poids dans le programme de Tedhi : `null`. */
   bande: { min: number; max: number } | null;
 }) {
   const [touche, setTouche] = useState<Touche | null>(null);

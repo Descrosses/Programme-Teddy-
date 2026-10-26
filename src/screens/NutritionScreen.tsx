@@ -12,13 +12,13 @@ import styles from './Screens.module.css';
  * Nutrition — principes généraux uniquement.
  *
  * Le programme d'origine portait un plan au gramme près, avec calories et
- * macronutriments. Celui de Teddy n'en porte AUCUN, et c'est une règle du
+ * macronutriments. Celui de Tedhi n'en porte AUCUN, et c'est une règle du
  * projet, pas un oubli : pas de calories chiffrées, pas de grammes, pas de
  * menu pesé, pas de compléments. Seulement des principes, et un journal de
  * poids pour suivre la prise de masse.
  *
  * Le plan alimentaire détaillé viendra après le questionnaire nutrition de
- * Teddy, et il suivra les mêmes règles.
+ * Tedhi, et il suivra les mêmes règles.
  */
 
 interface Props {

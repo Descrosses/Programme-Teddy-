@@ -20,7 +20,7 @@
  * semaines de congestion (S9-S11, pas encore activées) ne raccourciront que
  * ceux de l'isolation.
  *
- * Aucune charge n'est écrite : Teddy n'a pas de repère fiable. Elles sont
+ * Aucune charge n'est écrite : Tedhi n'a pas de repère fiable. Elles sont
  * autorégulées — trouvées en semaine 1 avec 3 reps en réserve, puis suggérées
  * par la double progression à partir de ce qu'il a réellement fait.
  */

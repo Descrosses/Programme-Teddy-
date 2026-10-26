@@ -1,7 +1,7 @@
-# POWERBUILDING — MASSE & FORCE (Teddy)
+# POWERBUILDING — MASSE & FORCE (Tedhi)
 
 Application web installable (PWA) pour suivre le programme de musculation de
-Teddy décrit dans [`programme-teddy-4-semaines.md`](programme-teddy-4-semaines.md).
+Tedhi décrit dans [`programme-teddy-4-semaines.md`](programme-teddy-4-semaines.md).
 
 Même application que le programme Athletic Performance de Guillaume, mais
 programme indépendant : 4 séances (pectoraux, dos, jambes, épaules et bras),
@@ -30,7 +30,7 @@ la méthode : 16 séances, aucune au-delà de 60 min, une seule séance jambes,
 8 séries d'abdos, aucun exercice à éviter, aucune charge inventée, aucun test
 de maximum, deload, double progression. Si l'une tombe, le déploiement échoue.
 
-Prolonger à 12 semaines (après accord de Teddy) : écrire les règles des
+Prolonger à 12 semaines (après accord de Tedhi) : écrire les règles des
 semaines 5 à 12 dans `src/data/blockRules.ts`, puis élargir `PROGRAM_WEEKS`
 dans `src/data/program.ts`.
 

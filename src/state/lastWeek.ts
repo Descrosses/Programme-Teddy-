@@ -25,7 +25,7 @@ import type { Route } from './useRoute';
 
 const KEY = 'pteddy:last-week';
 
-/** Programme de Teddy : semaines actives seulement, pas de semaine 0. */
+/** Programme de Tedhi : semaines actives seulement, pas de semaine 0. */
 export const PREMIERE_SEMAINE = FIRST_WEEK;
 export const DERNIERE_SEMAINE = LAST_WEEK;
 

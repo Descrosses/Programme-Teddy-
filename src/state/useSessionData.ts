@@ -89,7 +89,7 @@ export function useSessionData(week: WeekIndex, day: DayIndex): SessionData {
 
     /*
      * Séance allégée demandée à la main : elle passe avant le saut du jour.
-     * Le stress de Teddy (8/10 au bilan) peut justifier d'alléger n'importe
+     * Le stress de Tedhi (8/10 au bilan) peut justifier d'alléger n'importe
      * quelle séance, y compris un jour sans readiness test.
      */
     const readinessResult: ReadinessResult | null = existingRow?.lightSession

@@ -568,7 +568,7 @@ function SetEntry({
   /*
    * Deuxième partie de la série, quand l'exercice en a une sur cette série :
    * dégressive (reps + charge) ou échec après pause (reps, même charge).
-   * Vide par défaut : rien n'est écrit tant que Teddy ne l'a pas saisie.
+   * Vide par défaut : rien n'est écrit tant que Tedhi ne l'a pas saisie.
    */
   const second =
     ex.def.secondPart && (ex.def.secondPart.onSets?.includes(index) ?? true)
@@ -733,7 +733,7 @@ function SetEntry({
           {hasRpe && (
             <div className={wide(count)}>
               {/*
-                Teddy note des reps EN RÉSERVE, comme son programme les écrit.
+                Tedhi note des reps EN RÉSERVE, comme son programme les écrit.
                 L'engine garde des RPE : RPE = 10 − réserve, converti ici.
               */}
               <Stepper

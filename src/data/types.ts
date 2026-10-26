@@ -77,7 +77,7 @@ export const DAY_LABELS_SHORT: Record<DayIndex, string> = {
 /** Jour de la semaine ISO (1 = lundi … 7 = dimanche) pour chaque DayIndex. */
 export const DAY_ISO: Record<DayIndex, number> = { 0: 1, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6, 6: 7 };
 
-/** Les quatre jours d'entraînement de Teddy : lundi, mardi, jeudi, samedi. */
+/** Les quatre jours d'entraînement de Tedhi : lundi, mardi, jeudi, samedi. */
 export const TRAINING_DAYS = [0, 1, 3, 5] as const satisfies readonly DayIndex[];
 
 /**
@@ -212,7 +212,7 @@ export const rpeRange = (a: number, b: number): RPETarget => ({
 export const rpeAtMost = (v: number): RPETarget => ({ min: 0, max: v, label: `RPE ≤ ${fr(v)}` });
 
 /**
- * Le programme de Teddy s'écrit en répétitions en réserve (RIR), pas en RPE.
+ * Le programme de Tedhi s'écrit en répétitions en réserve (RIR), pas en RPE.
  * L'engine compare toujours des RPE ; la conversion est la règle usuelle
  * RPE = 10 − RIR, et l'étiquette affichée reste celle du programme.
  *

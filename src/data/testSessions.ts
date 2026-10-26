@@ -1,5 +1,5 @@
 /**
- * Mesures de Teddy : semaine 1 (début) et dernière semaine du cycle (fin).
+ * Mesures de Tedhi : semaine 1 (début) et dernière semaine du cycle (fin).
  * Poids de corps et tour de bras, relevés à la maison.
  */
 
@@ -16,7 +16,7 @@ export interface SpecialSession {
 
 export const SPECIAL_SESSIONS: SpecialSession[] = [];
 
-/** Séance écrite en toutes lettres pour cette case du calendrier : jamais pour Teddy. */
+/** Séance écrite en toutes lettres pour cette case du calendrier : jamais pour Tedhi. */
 export function specialSession(week: number, day: DayIndex): SessionBlueprint | null {
   return SPECIAL_SESSIONS.find((s) => s.week === week && s.day === day)?.blueprint ?? null;
 }
@@ -33,6 +33,6 @@ export function isCombineDay(week: number, day: DayIndex): boolean {
 /**
  * Les mesures relevées au début et à la fin du cycle : poids de corps et tour
  * de bras. Aucune mesure de force : le programme 4 semaines ne cherche pas à
- * en développer, Teddy gère ses charges lui-même.
+ * en développer, Tedhi gère ses charges lui-même.
  */
 export const COMBINE_METRICS = ['test-bodyweight', 'test-arm-cm'] as const;

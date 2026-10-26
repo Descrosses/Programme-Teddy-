@@ -21,7 +21,7 @@ import {
 import type { ReadinessRow, SessionRow, SetRow } from '../db/db';
 import styles from './Screens.module.css';
 
-/** Les quatre mouvements principaux de Teddy (lettre A de chaque séance). */
+/** Les quatre mouvements principaux de Tedhi (lettre A de chaque séance). */
 const LIFTS: Array<{ id: string; label: string }> = [
   { id: 'bench-press', label: 'Couché' },
   { id: 'lat-pulldown', label: 'Tirage' },
@@ -90,7 +90,7 @@ export function ProgressScreen() {
   if (!data) return <div className={styles.loading}>Chargement…</div>;
 
   // --- charge réelle vs plan, semaine par semaine ---------------------------
-  // Aucune charge écrite d'avance pour Teddy : seule la courbe réelle existe.
+  // Aucune charge écrite d'avance pour Tedhi : seule la courbe réelle existe.
   const exId = LIFTS.find((l) => l.id === lift)!.id;
   const realPoints = (data.history[exId] ?? [])
     .filter((o) => o.kg !== null)

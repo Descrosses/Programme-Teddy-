@@ -153,7 +153,7 @@ export function TodayScreen({
       <div className={styles.screen}>
         <header className={styles.header}>
           <p className={styles.eyebrow}>POWERBUILDING — MASSE &amp; FORCE</p>
-          <h1 className={styles.h1}>Bienvenue Teddy</h1>
+          <h1 className={styles.h1}>Bienvenue Tedhi</h1>
           <p className={styles.lead}>
             Il manque une seule chose pour démarrer : le <b>lundi</b> de ta semaine 1.
           </p>

@@ -22,7 +22,7 @@ const MEASURE = {
   reps: { step: 1, min: 0, max: 60, unit: 'reps' },
 } as const;
 
-/** D'où vient chaque mesure, pour que Teddy sache où la retrouver. */
+/** D'où vient chaque mesure, pour que Tedhi sache où la retrouver. */
 const OU: Record<string, string> = {
   'test-bodyweight': 'Relevé à la maison : moyenne de 3 matins à jeun. Se saisit aussi dans Réglages.',
   'test-arm-cm': 'Relevé à la maison, avant la séance du lundi.',

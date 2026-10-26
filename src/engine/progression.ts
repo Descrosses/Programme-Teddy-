@@ -1,5 +1,5 @@
 /**
- * Règles de progression et de régression de Teddy (méthode, règles J1 et J2).
+ * Règles de progression et de régression de Tedhi (méthode, règles J1 et J2).
  *
  * Toutes ses charges sont autorégulées : la charge « du plan » est la dernière
  * réellement faite. La règle ne fait donc que dire s'il faut la garder, la
@@ -11,7 +11,7 @@
  *   Règle 4 — moins de réserve que prévu : on garde ; deux fois de suite : −5 %.
  *   Règle 5 — rep ratée : −5 %, on ne retente pas.
  *
- * Rien n'est appliqué en silence : l'appli propose, Teddy accepte ou saisit
+ * Rien n'est appliqué en silence : l'appli propose, Tedhi accepte ou saisit
  * sa propre charge. Jamais volume et intensité en même temps (J6) : la règle
  * ne touche qu'à la charge, les séries viennent de la semaine.
  */
@@ -36,7 +36,7 @@ export interface ProgressionResult {
   source: 'plan' | 'historique';
   /** Phrase affichée à côté du bouton « accepter ». Vide si rien à proposer. */
   reason: string;
-  /** Une suggestion n'est jamais appliquée sans un geste de Teddy. */
+  /** Une suggestion n'est jamais appliquée sans un geste de Tedhi. */
   requiresConfirm: boolean;
   /** Plafond atteint : jamais dans ce programme. */
   capped: boolean;

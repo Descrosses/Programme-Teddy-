@@ -28,13 +28,13 @@ export interface SlotPatch {
   work?: Work;
   restSec?: number;
   targetRPE?: RPETarget | null;
-  /** Multiplie la charge résolue. Non utilisé par le programme de Teddy. */
+  /** Multiplie la charge résolue. Non utilisé par le programme de Tedhi. */
   loadFactor?: number;
   /** Facteur appliqué une seule fois à l'entrée d'un bloc. Non utilisé ici. */
   loadFactorAtBlockEntry?: number;
   load?: LoadSpec;
   note?: string;
-  /** Contraste. Non utilisé par le programme de Teddy. */
+  /** Contraste. Non utilisé par le programme de Tedhi. */
   contrastWith?: string;
 }
 
@@ -103,7 +103,7 @@ export const CONTRAST_BY_DAY: Partial<Record<DayIndex, ContrastSpec>> = {};
 
 /*
  * Décision de Guillaume (26/10/2026) : chaque séance est la même de la
- * semaine 1 à la semaine 4. Aucune progression de charge proposée : Teddy la
+ * semaine 1 à la semaine 4. Aucune progression de charge proposée : Tedhi la
  * gère lui-même. La seule progression écrite est le VOLUME — une série
  * optionnelle sur certains exercices à partir de la semaine 2.
  */
@@ -144,7 +144,7 @@ const S2_S4: BlockRuleSet[] = [
 // ---------------------------------------------------------------------------
 
 /*
- * Second temps, après accord de Teddy. Le plan validé est écrit dans
+ * Second temps, après accord de Tedhi. Le plan validé est écrit dans
  * `programme-teddy-4-semaines.md` (section 10) :
  *
  *   S1-S3   accumulation hypertrophique, 2-3 en réserve.

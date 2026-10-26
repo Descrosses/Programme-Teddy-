@@ -108,10 +108,10 @@ export const BLOCKS: Record<Block, BlockInfo> = {
 };
 
 /**
- * Semaines ACTIVES du programme. Teddy a choisi un cycle de 4 semaines.
+ * Semaines ACTIVES du programme. Tedhi a choisi un cycle de 4 semaines.
  *
  * La périodisation complète sur 12 semaines est déjà décrite dans
- * `WEEK_BLOCKS` ci-dessous ; pour la prolonger après validation de Teddy,
+ * `WEEK_BLOCKS` ci-dessous ; pour la prolonger après validation de Tedhi,
  * on élargit cette liste à 1…12 et on écrit les règles des semaines 5 à 12
  * dans `blockRules.ts`. Rien d'autre ne change : calendrier, sélecteur de
  * semaines, historique et progression suivent cette liste.
@@ -200,7 +200,7 @@ export const BIG_MOVEMENT_IDS = [
 ] as const;
 
 /**
- * Règles de progression et de régression de Teddy (méthode, règles J1 et J2).
+ * Règles de progression et de régression de Tedhi (méthode, règles J1 et J2).
  *
  *  1. Conforme : on garde la charge.
  *  2. Haut de la fourchette de reps atteint sur TOUTES les séries, avec la
@@ -210,7 +210,7 @@ export const BIG_MOVEMENT_IDS = [
  *  5. Rep ratée → −5 %, on ne retente pas.
  */
 /**
- * Suggestions de charge : DÉSACTIVÉES. Teddy gère ses charges lui-même
+ * Suggestions de charge : DÉSACTIVÉES. Tedhi gère ses charges lui-même
  * (décision de Guillaume) ; l'appli garde l'historique et montre la dernière
  * performance, sans rien proposer.
  */
@@ -225,7 +225,7 @@ export const PROGRESSION_RULES = {
   missedRep: { loadFactor: 0.95 },
   /**
    * Tendance des sauts : calculée par `trends.ts` mais SANS effet sur les
-   * séances de Teddy (son programme n'a pas de « cas 7 » sur 4 semaines).
+   * séances de Tedhi (son programme n'a pas de « cas 7 » sur 4 semaines).
    */
   explosiveDecline: { weeks: 2, deloadAfterDays: 10 },
 } as const;

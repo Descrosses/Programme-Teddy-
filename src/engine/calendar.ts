@@ -1,5 +1,5 @@
 /**
- * Calendrier du programme de Teddy.
+ * Calendrier du programme de Tedhi.
  *
  * ANCRE : le LUNDI de la semaine 1 (`settings.startDate`), saisi une fois en
  * Réglages. Pas de semaine de tests à part : le combine initial se fait dans

@@ -1,11 +1,11 @@
 # POWERBUILDING — MASSE & FORCE
 
-Programme de Teddy. Source de vérité : l'application transcrit ce document ;
+Programme de Tedhi. Source de vérité : l'application transcrit ce document ;
 une valeur qui n'est pas ici n'existe pas dans l'appli.
 
 Programme 12 semaines validé par Guillaume le 26/10/2026, **non actif** : voir section 0 pour le programme en cours. Cycle prévu au départ : 4 semaines
-(choix initial de Teddy). La structure sur 12 semaines est préparée
-(section 10) mais n'est pas activée tant que Teddy ne l'a pas validée.
+(choix initial de Tedhi). La structure sur 12 semaines est préparée
+(section 10) mais n'est pas activée tant que Tedhi ne l'a pas validée.
 
 Programme distinct du programme Athletic Performance de Guillaume : dépôt,
 base de données, exercices, charges, historiques et dates de démarrage
@@ -13,9 +13,9 @@ séparés. Rien n'est repris de l'autre programme.
 
 ## 0. Programme 4 semaines ACTIF — séances de Guillaume
 
-Décision du 26/10/2026 : dans un premier temps, Teddy suit un programme de
+Décision du 26/10/2026 : dans un premier temps, Tedhi suit un programme de
 4 semaines écrit par Guillaume, **la même séance chaque semaine**. Aucune
-suggestion de charge : Teddy gère ses charges lui-même. La seule progression
+suggestion de charge : Tedhi gère ses charges lui-même. La seule progression
 écrite est le volume (une série optionnelle à partir de la semaine 2). Le
 programme 12 semaines prise de masse (sections 1 à 10) viendra ensuite.
 
@@ -39,7 +39,7 @@ reps jusqu'à l'échec ; série 2 = (5 reps + 5 s de contraction) × 3 ;
 série 3 = 8-10 reps, ouverture explosive, retour en 3 s, 5 s de pause, max
 de reps.
 
-**Saisie des deuxièmes parties :** sous chaque série concernée, Teddy note les reps (et la charge pour les dégressives). Échec après pause : reps seulement, charge « — » (la même).
+**Saisie des deuxièmes parties :** sous chaque série concernée, Tedhi note les reps (et la charge pour les dégressives). Échec après pause : reps seulement, charge « — » (la même).
 
 **Série optionnelle (S2-S4)** : seulement si la séance du lundi précédent a
 tenu en 60 min ou moins (durée réelle de l'appli) et sans fatigue excessive
@@ -205,7 +205,7 @@ individuels.
 
 ## 10. Prolongation à 12 semaines — préparée, NON activée
 
-À activer seulement après validation de Teddy.
+À activer seulement après validation de Tedhi.
 
 | Semaines | Bloc | Mouvements principaux | Secondaires et isolation |
 |---|---|---|---|

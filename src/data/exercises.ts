@@ -1,5 +1,5 @@
 /**
- * Catalogue des exercices — POWERBUILDING — MASSE & FORCE (Teddy).
+ * Catalogue des exercices — POWERBUILDING — MASSE & FORCE (Tedhi).
  *
  * `id` est GELÉ : c'est la clé de l'historique. On peut corriger un `name`,
  * une consigne ou une alternative sans rien casser ; changer un `id`

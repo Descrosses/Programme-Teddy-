@@ -1,5 +1,5 @@
 /**
- * Garde-fous du programme POWERBUILDING — MASSE & FORCE (Teddy).
+ * Garde-fous du programme POWERBUILDING — MASSE & FORCE (Tedhi).
  *
  * Ils vérifient à chaque déploiement les règles bloquantes de la méthode et
  * les décisions validées par Guillaume le 26/10/2026.
@@ -123,7 +123,7 @@ describe('programme 4 semaines — séances dupliquées', () => {
     }
   });
 
-  it('aucune suggestion de charge : Teddy gère ses charges', () => {
+  it('aucune suggestion de charge : Tedhi gère ses charges', () => {
     for (const { s } of toutesLesSeances()) {
       for (const e of s!.exercises) expect(e.suggestion, e.id).toBeNull();
     }

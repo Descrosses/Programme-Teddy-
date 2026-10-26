@@ -1,8 +1,8 @@
 /**
- * Tableau de charges semaine par semaine — VIDE pour Teddy, et c'est voulu.
+ * Tableau de charges semaine par semaine — VIDE pour Tedhi, et c'est voulu.
  *
  * Le programme d'origine écrivait ses charges en kilos à partir de maxima
- * testés. Teddy n'a ni maximum testé ni repère fiable : écrire une charge
+ * testés. Tedhi n'a ni maximum testé ni repère fiable : écrire une charge
  * précise sans donnée serait l'inventer. Toutes ses charges sont donc
  * autorégulées (voir `baseSessions.ts`) et aucune trame ne renvoie ici.
  *
@@ -23,7 +23,7 @@ export const MAIN_LIFT_TABLE: MainLiftTable = {
   rdl: [],
 };
 
-/** Toujours `null` : aucun mouvement de Teddy n'est piloté par un tableau. */
+/** Toujours `null` : aucun mouvement de Tedhi n'est piloté par un tableau. */
 export function prescriptionFor(lift: MainLiftId, week: number): WeekPrescription | null {
   return MAIN_LIFT_TABLE[lift][week - 1] ?? null;
 }

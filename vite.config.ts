@@ -34,9 +34,9 @@ export default defineConfig({
       },
       manifest: {
         name: 'POWERBUILDING — MASSE & FORCE',
-        short_name: 'Teddy',
+        short_name: 'Tedhi',
         description:
-          'POWERBUILDING — MASSE & FORCE : le programme de musculation de Teddy, séances, charges et progression, hors ligne.',
+          'POWERBUILDING — MASSE & FORCE : le programme de musculation de Tedhi, séances, charges et progression, hors ligne.',
         lang: 'fr',
         dir: 'ltr',
         start_url: base,
