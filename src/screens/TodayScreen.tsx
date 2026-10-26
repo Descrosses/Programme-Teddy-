@@ -178,8 +178,8 @@ export function TodayScreen({
               }
             />
             <p className={styles.fieldHint}>
-              Six jours de tests : squat lundi, tractions lestées mardi, deadlift jeudi, bench
-              vendredi, tractions max samedi. Dimanche repos, puis la semaine 1 démarre le lundi.
+              Séances le lundi, mardi, jeudi et vendredi. La semaine 1 sert à trouver tes charges et à
+              faire les premiers tests ; la semaine 4 refait les mêmes tests pour comparer.
             </p>
           </div>
         </section>

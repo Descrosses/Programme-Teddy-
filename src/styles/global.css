@@ -67,6 +67,24 @@ select {
   padding: 0 12px;
 }
 
+/*
+ * Safari iOS donne au champ date une largeur minimale à lui, qui ignore
+ * `width: 100%` : il dépassait de la carte à droite. On retire l'apparence
+ * native et la largeur minimale, et on cale la valeur à gauche.
+ */
+input[type='date'] {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  line-height: var(--tap);
+}
+
+input[type='date']::-webkit-date-and-time-value {
+  text-align: left;
+}
+
 input:focus-visible,
 textarea:focus-visible,
 button:focus-visible {
