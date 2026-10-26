@@ -7,7 +7,7 @@ import { WeightOverview } from '../components/WeightOverview';
 import { EXERCISES } from '../data/exercises';
 import { DAY_LABELS_SHORT } from '../data/types';
 import { fr } from '../engine/format';
-import { explosiveTrend, weeklyBests } from '../engine/trends';
+import { explosiveTrend } from '../engine/trends';
 import type { HistoryIndex, SessionContext } from '../engine/types';
 import {
   allReadiness,
@@ -21,12 +21,12 @@ import {
 import type { ReadinessRow, SessionRow, SetRow } from '../db/db';
 import styles from './Screens.module.css';
 
-/** Les quatre mouvements principaux de Teddy (lettre B de chaque séance). */
+/** Les quatre mouvements principaux de Teddy (lettre A de chaque séance). */
 const LIFTS: Array<{ id: string; label: string }> = [
-  { id: 'back-squat', label: 'Squat' },
   { id: 'bench-press', label: 'Couché' },
-  { id: 'overhead-press', label: 'Militaire' },
-  { id: 'split-squat', label: 'Split squat' },
+  { id: 'lat-pulldown', label: 'Tirage' },
+  { id: 'leg-press', label: 'Presse' },
+  { id: 'machine-shoulder-press', label: 'Épaules' },
 ];
 
 /**
@@ -53,7 +53,7 @@ export function ProgressScreen() {
     oneRM: Record<string, number>;
     ctx: SessionContext;
   } | null>(null);
-  const [lift, setLift] = useState<string>('back-squat');
+  const [lift, setLift] = useState<string>('bench-press');
 
   useEffect(() => {
     void (async () => {
@@ -97,27 +97,6 @@ export function ProgressScreen() {
     .map((o) => ({ x: o.week, y: o.kg! }));
 
   const liftSeries: Series[] = [{ label: 'Réel', color: 'var(--accent)', points: realPoints }];
-
-  // --- broad jump dans le temps --------------------------------------------
-  const jumps = weeklyBests(toReadinessRecords(data.readiness));
-  const jumpSeries: Series[] = [
-    {
-      label: 'Meilleur saut',
-      color: 'var(--vert)',
-      points: jumps.map((j) => ({ x: j.week, y: j.cm })),
-    },
-  ];
-  if (data.baseline !== null && jumps.length > 0) {
-    jumpSeries.unshift({
-      label: 'Référence',
-      color: 'var(--ink-3)',
-      dashed: true,
-      points: [
-        { x: jumps[0]!.week, y: data.baseline },
-        { x: jumps[jumps.length - 1]!.week, y: data.baseline },
-      ],
-    });
-  }
 
   // --- RPE moyen par séance -------------------------------------------------
   const bySession = new Map<string, { sum: number; n: number; week: number; day: number }>();
@@ -222,19 +201,6 @@ export function ProgressScreen() {
               xLabels={weeksX}
               unit="kg"
               emptyMessage="Valide des séries pour voir la courbe apparaître."
-            />
-          </section>
-
-          <section className={styles.card}>
-            <h2 className={styles.cardTitle}>Broad jump — readiness</h2>
-            <p className={styles.cardSub}>
-              Meilleur saut de chaque semaine, comparé à ta référence de la semaine 1.
-            </p>
-            <LineChart
-              series={jumpSeries}
-              xLabels={weeksX}
-              unit="cm"
-              emptyMessage="Aucun readiness test enregistré."
             />
           </section>
 

@@ -184,7 +184,7 @@ export function getSession(
       sessionAdjustments.push({
         source: 'bloc',
         what: BLOCKS[block].name,
-        why: `Séance adaptée au bloc « ${BLOCKS[block].name} » (§8).`,
+        why: `Séance adaptée au bloc « ${BLOCKS[block].name} ».`,
       });
     }
   }
@@ -244,7 +244,7 @@ export function getSession(
     sessionAdjustments.push({
       source: 'orange',
       what: 'Readiness ORANGE',
-      why: '−5 % sur les gros mouvements, une série de moins sur les accessoires (§4).',
+      why: '−5 % sur les gros mouvements, une série de moins sur les accessoires.',
     });
   } else if (level === 'rouge') {
     finalExercises = applyRed(exercises);
@@ -465,7 +465,7 @@ function resolveSlot(slot: Slot, o: ResolveOpts): ResolvedExercise | null {
       adjustments.push({
         source: 'deload',
         what: `${before} → ${load.kg} kg, ${sets} séries`,
-        why: 'Deload : 80 % de ta dernière charge réelle, 2 séries (§8).',
+        why: `Deload : ${Math.round(DELOAD_POLICY.accessoryLoadFactor * 100)} % de ta dernière charge réelle, ${DELOAD_POLICY.accessorySets} séries.`,
       });
     } else if (def.role === 'accessory') {
       sets = DELOAD_POLICY.accessorySets;
@@ -486,13 +486,13 @@ function resolveSlot(slot: Slot, o: ResolveOpts): ResolvedExercise | null {
       if (def.role === 'carry' && load.kg !== null) {
         load = scaleLoad(load, DELOAD_POLICY.carryLoadFactor);
       }
-      adjustments.push({
+      if (workLabel(avant.sets, avant.work) !== workLabel(sets, work)) adjustments.push({
         source: 'deload',
         what: `${workLabel(avant.sets, avant.work)} → ${workLabel(sets, work)}`,
         why:
           def.role === 'carry'
             ? 'Deload : porté raccourci et allégé de 20 %, reps propres, aucune série à l’échec (§8).'
-            : 'Deload : moins de séries et moins de reps sur le tronc, aucune série à l’échec (§8).',
+            : 'Deload : abdos allégés, aucune série à l’échec.',
       });
     } else if (def.role === 'power') {
       const before = sets;
@@ -561,7 +561,7 @@ function capRPE(target: RPETarget | null, max: number): RPETarget | null {
   return {
     min: Math.min(target.min, max),
     max,
-    label: `RPE ≤ ${String(max).replace('.', ',')}`,
+    label: `${String(10 - max).replace('.', ',')} en réserve ou plus`,
   };
 }
 
@@ -586,7 +586,7 @@ function applyOrange(exercises: ResolvedExercise[]): ResolvedExercise[] {
       out.adjustments.push({
         source: 'orange',
         what: `${before} → ${out.load.kg} kg`,
-        why: 'Readiness orange : −5 % sur les gros mouvements (§4).',
+        why: 'Readiness orange : −5 % sur les gros mouvements.',
       });
       if (ex.suggestion?.suggestedKg != null) {
         out.suggestion = {
@@ -605,7 +605,7 @@ function applyOrange(exercises: ResolvedExercise[]): ResolvedExercise[] {
       out.adjustments.push({
         source: 'orange',
         what: `${before} → ${out.sets} séries`,
-        why: 'Readiness orange : une série de moins sur les accessoires (§4).',
+        why: 'Readiness orange : une série de moins sur les accessoires.',
       });
     }
 

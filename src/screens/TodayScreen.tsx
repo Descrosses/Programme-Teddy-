@@ -152,6 +152,7 @@ export function TodayScreen({
     return (
       <div className={styles.screen}>
         <header className={styles.header}>
+          <p className={styles.eyebrow}>POWERBUILDING — MASSE &amp; FORCE</p>
           <h1 className={styles.h1}>Bienvenue Teddy</h1>
           <p className={styles.lead}>
             Il manque une seule chose pour démarrer : le <b>lundi</b> de ta semaine 1. Tout le
@@ -178,8 +179,9 @@ export function TodayScreen({
               }
             />
             <p className={styles.fieldHint}>
-              Séances le lundi, mardi, jeudi et vendredi. La semaine 1 sert à trouver tes charges et à
-              faire les premiers tests ; la semaine 4 refait les mêmes tests pour comparer.
+              Pectoraux le lundi, dos le mardi, jambes le jeudi, épaules et bras le samedi. La
+              semaine 1 sert à trouver tes charges ; la semaine 4 est un deload qui refait les mêmes
+              tests pour comparer.
             </p>
           </div>
         </section>

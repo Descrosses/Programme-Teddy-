@@ -19,14 +19,15 @@
  * réelle d'une part, la dernière semaine regardée de l'autre.
  */
 
+import { FIRST_WEEK, LAST_WEEK } from '../data/program';
 import type { WeekIndex } from '../data/types';
 import type { Route } from './useRoute';
 
 const KEY = 'pteddy:last-week';
 
-/** Programme de Teddy : semaines 1 à 4, pas de semaine 0. */
-export const PREMIERE_SEMAINE = 1;
-export const DERNIERE_SEMAINE = 4;
+/** Programme de Teddy : semaines actives seulement, pas de semaine 0. */
+export const PREMIERE_SEMAINE = FIRST_WEEK;
+export const DERNIERE_SEMAINE = LAST_WEEK;
 
 /** La semaine de repli quand rien n'a encore été consulté. */
 export const SEMAINE_PAR_DEFAUT = 1 as WeekIndex;

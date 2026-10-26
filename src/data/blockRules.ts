@@ -5,19 +5,17 @@
  * de `baseSessions.ts` (semaine 1) et applique les règles ci-dessous selon le
  * bloc de la semaine.
  *
- *   S1  calibration   3 en réserve, on trouve et on note les charges, tests
- *   S2  intensité     3 → 2 en réserve, même volume
- *   S3  volume        +1 série sur les exercices D et E, intensité stable
- *   S4  allègement    accessoires à 2 séries, re-tests du combine final
+ *   S1  calibration         on trouve et on note les charges, combine initial
+ *   S2  accumulation        2-3 en réserve, double progression
+ *   S3  accumulation        idem
+ *   S4  deload adaptable    2 séries, ≥ 3 en réserve, combine final
  *
- * Le volume et l'intensité n'augmentent jamais la même semaine (règle J6).
+ * Cycle de 4 semaines (choix de Teddy). La structure 12 semaines est prête
+ * mais pas activée : voir la fin de ce fichier.
  */
 
 import {
-  maxSet,
-  attempts,
-  noLoad,
-  rir,
+  rirRange,
   type Block,
   type DayIndex,
   type LoadSpec,
@@ -63,39 +61,37 @@ export interface BlockRuleSet {
 
 const patch = (exId: string, p: SlotPatch): SlotRule => ({ op: 'patch', exId, patch: p });
 
-const test = (exId: string, work: Work, restSec: number, note?: string): Slot => ({
-  exId,
-  sets: 1,
-  work,
-  load: noLoad(),
-  targetRPE: null,
-  restSec,
-  ...(note ? { note } : {}),
-});
 
 // ---------------------------------------------------------------------------
-// Ce que le moteur attend encore, mais que ce programme n'utilise pas
+// Deload (semaine 4) — appliqué par le moteur à tout ce qui n'est pas principal
 // ---------------------------------------------------------------------------
 
 /**
- * Le programme de Teddy n'a pas de semaine de deload : la semaine 4 est un
- * allègement écrit ci-dessous, exercice par exercice. Ces constantes restent
- * pour le moteur, qui ne les lit que si une semaine porte le bloc « deload ».
+ * Deload planifié, mais adaptable : si le bilan de la semaine 3 montre une
+ * fatigue basse, Guillaume peut garder le volume de la semaine 1 à 3 reps en
+ * réserve. Dans l'autre sens, la séance allégée reste disponible chaque jour.
+ *
+ * Par défaut : 2 séries par exercice, charges des accessoires à 90 % de la
+ * dernière charge réelle, au moins 3 reps en réserve partout.
  */
 export const DELOAD_POLICY = {
   accessorySets: 2,
-  accessoryLoadFactor: 0.8,
+  accessoryLoadFactor: 0.9,
   jumpVolumeDivisor: 2,
-  maxRPE: 6,
+  /** RPE 7 = au moins 3 reps en réserve. */
+  maxRPE: 7,
   removeExIds: [] as string[],
   coreSets: 2,
-  carryLoadFactor: 0.8,
-  notes: ['Semaine allégée.'],
+  carryLoadFactor: 0.9,
+  notes: [
+    'Semaine 4 — deload : 2 séries par exercice, au moins 3 reps en réserve. Tu dois sortir de la semaine frais.',
+    'Deload adaptable : si ton bilan de la semaine 3 montre une fatigue basse, Guillaume peut te faire garder le volume de la semaine 1.',
+  ],
 };
 
 export const DELOAD_CORE: Readonly<Record<string, { sets: number; work: Work }>> = {};
 
-/** Contraste lourd → explosif : absent du programme de Teddy. */
+/** Contraste lourd → explosif : absent de ce programme. */
 export interface ContrastSpec {
   heavy: string;
   explosive: string;
@@ -111,63 +107,8 @@ export const CONTRAST_BY_DAY: Partial<Record<DayIndex, ContrastSpec>> = {};
 // Groupes d'exercices
 // ---------------------------------------------------------------------------
 
-/** Les mouvements principaux (lettre B de chaque séance). */
-const PRINCIPAUX = ['bench-press', 'back-squat', 'overhead-press', 'split-squat'];
-
-/** Écrits « 3 en réserve » en semaine 1. */
-const A_TROIS = [
-  ...PRINCIPAUX,
-  'incline-db-press',
-  'db-row',
-  'leg-press',
-  'barbell-row',
-  'dips',
-];
-
-/** Écrits « 2-3 en réserve » en semaine 1. */
-const A_DEUX_TROIS = [
-  'lateral-raise',
-  'leg-curl',
-  'lat-pulldown',
-  'biceps-curl',
-  'triceps-extension',
-  'leg-extension',
-];
-
-/** Les explosifs, toujours en début de séance. */
-const EXPLOSIFS = ['med-ball-chest-pass', 'box-jump', 'explosive-push-up', 'kb-swing'];
-
-/** Le gainage de fin de séance. */
-const GAINAGE = ['plank', 'side-plank'];
-
-/** Tout ce qui n'est ni principal, ni explosif, ni gainage. */
-const ACCESSOIRES = [
-  'pullup',
-  'incline-db-press',
-  'db-row',
-  'lateral-raise',
-  'leg-press',
-  'leg-curl',
-  'calf-raise',
-  'barbell-row',
-  'lat-pulldown',
-  'dips',
-  'biceps-curl',
-  'triceps-extension',
-  'leg-extension',
-];
-
-/** Semaines 2 et 3 : tout passe à 2 reps en réserve. */
-const DEUX_EN_RESERVE: SlotRule[] = [...A_TROIS, ...A_DEUX_TROIS].map((id) =>
-  patch(id, { targetRPE: rir(2) }),
-);
-
-const TEST_TRACTIONS = test(
-  'test-strict-pullup-max',
-  maxSet(),
-  0,
-  'Test du combine : 1 série, reps propres uniquement. Note le nombre.',
-);
+/** Les mouvements principaux (lettre A de chaque séance). */
+const PRINCIPAUX = ['bench-press', 'lat-pulldown', 'leg-press', 'machine-shoulder-press'];
 
 // ---------------------------------------------------------------------------
 // Semaine 1 — calibration et combine initial
@@ -178,123 +119,74 @@ const S1: BlockRuleSet[] = [
     block: 'test',
     rules: [],
     notes: [
-      'Semaine 1 — calibration. Aucune charge n’est écrite d’avance : sur chaque exercice, monte par paliers et garde la charge qui laisse environ 3 reps en réserve avec une technique propre. Note-la.',
-      'Chronomètre la séance. Si elle dépasse 60 min, retire d’abord le dernier accessoire et préviens Guillaume.',
-    ],
-  },
-  {
-    block: 'test',
-    day: 0,
-    rules: [{ op: 'insert', slot: TEST_TRACTIONS }],
-    notes: ['Combine initial : tractions max en fin de séance.'],
-  },
-  {
-    block: 'test',
-    day: 1,
-    rules: [
-      {
-        op: 'insert',
-        atStart: true,
-        slot: test(
-          'test-broad-jump',
-          attempts(3),
-          60,
-          'Ton meilleur saut devient ta référence de readiness : saisis-le dans l’onglet Combine.',
-        ),
-      },
-    ],
-    notes: [
-      'Combine initial : 3 broad jumps après l’échauffement. Le test de readiness démarre la semaine prochaine, sur cette référence.',
+      'Semaine 1 — calibration. Aucune charge n’est écrite d’avance : sur chaque exercice, monte par paliers et garde la charge qui laisse 2 à 3 reps en réserve (3 sur l’exercice principal) avec une technique propre. Note-la.',
+      'Combine initial : la charge de ta 1re série sur l’exercice principal (10 reps, 3 en réserve) va dans l’onglet Combine.',
+      'Chronomètre la séance. Si elle dépasse 60 min, retire d’abord le dernier exercice avant les abdos et préviens Guillaume.',
     ],
   },
 ];
 
 // ---------------------------------------------------------------------------
-// Semaine 2 — intensité
+// Semaines 2 et 3 — accumulation hypertrophique
 // ---------------------------------------------------------------------------
 
-const S2: BlockRuleSet[] = [
+const S2_S3: BlockRuleSet[] = [
   {
     block: 'accumulation',
-    rules: DEUX_EN_RESERVE,
+    rules: PRINCIPAUX.map((id) => patch(id, { targetRPE: rirRange(2, 3) })),
     notes: [
-      'Semaine 2 — intensité : même volume, 2 reps en réserve au lieu de 3. Pars de tes charges de la semaine 1 ; l’appli te propose la suite.',
+      'Accumulation : 2 à 3 reps en réserve. Double progression : d’abord les reps jusqu’au haut de la plage, puis la charge quand le haut est tenu deux séances de suite.',
     ],
   },
-];
-
-// ---------------------------------------------------------------------------
-// Semaine 3 — volume
-// ---------------------------------------------------------------------------
-
-/** +1 série sur les exercices D et E de chaque séance. */
-const PLUS_UNE_SERIE: Record<number, Array<[string, number]>> = {
-  0: [['incline-db-press', 4], ['db-row', 4]],
-  1: [['leg-curl', 4], ['calf-raise', 3]],
-  3: [['lat-pulldown', 4], ['dips', 4]],
-  4: [['leg-curl', 4], ['calf-raise', 3]],
-};
-
-const S3: BlockRuleSet[] = [
   {
-    block: 'maxforce',
-    rules: DEUX_EN_RESERVE,
+    block: 'accumulation',
+    day: 3,
+    rules: [],
     notes: [
-      'Semaine 3 — volume : une série de plus sur deux accessoires. L’intensité ne bouge pas (2 en réserve).',
+      'Ischio-jambiers : 4e série de leg curl possible, seulement si tu as bien récupéré de la séance jambes précédente (plus de courbatures après 48 h).',
     ],
   },
-  ...([0, 1, 3, 4] as const).map(
-    (day): BlockRuleSet => ({
-      block: 'maxforce',
-      day,
-      rules: (PLUS_UNE_SERIE[day] ?? []).map(([id, sets]) => patch(id, { sets })),
-    }),
-  ),
 ];
 
 // ---------------------------------------------------------------------------
-// Semaine 4 — allègement et combine final
+// Semaine 4 — deload et combine final
 // ---------------------------------------------------------------------------
 
 const NOTE_RETEST =
-  '1re série : reprends ta charge de la semaine 1 pour 8 reps et note combien il t’en reste en réserve. C’est la comparaison du combine final. Puis 2 séries normales.';
+  '1re série : reprends ta charge de la semaine 1 pour 10 reps et note combien il t’en reste en réserve. C’est la comparaison du combine final.';
 
 const S4: BlockRuleSet[] = [
   {
-    block: 'taper',
-    rules: [
-      ...PRINCIPAUX.map((id) => patch(id, { sets: 3, targetRPE: rir(2), note: NOTE_RETEST })),
-      ...ACCESSOIRES.map((id) =>
-        patch(id, {
-          sets: 2,
-          ...(A_TROIS.includes(id) || A_DEUX_TROIS.includes(id) ? { targetRPE: rir(3) } : {}),
-        }),
-      ),
-      ...EXPLOSIFS.map((id) => patch(id, { sets: 2 })),
-      ...GAINAGE.map((id) => patch(id, { sets: 2 })),
-    ],
-    notes: [
-      'Semaine 4 — allègement et réévaluation : accessoires à 2 séries, 3 en réserve. Tu dois sortir de la semaine frais.',
-      'Combine final : note les re-tests dans l’onglet Combine pour les comparer à la semaine 1.',
-    ],
-  },
-  {
-    block: 'taper',
-    day: 0,
-    rules: [{ op: 'insert', slot: TEST_TRACTIONS }],
-    notes: ['Combine final : tractions max en fin de séance, comme à la semaine 1.'],
-  },
-  {
-    block: 'taper',
-    day: 4,
-    rules: [],
-    notes: ['Combine final : ton meilleur broad jump du readiness d’aujourd’hui est ta mesure finale.'],
+    block: 'deload',
+    rules: PRINCIPAUX.map((id) => patch(id, { sets: 2, note: NOTE_RETEST })),
+    notes: ['Combine final : note les re-tests dans l’onglet Combine pour les comparer à la semaine 1.'],
   },
 ];
 
 // ---------------------------------------------------------------------------
+// Semaines 5 à 12 — PRÉPARÉES, PAS ACTIVÉES
+// ---------------------------------------------------------------------------
 
-export const BLOCK_RULES: BlockRuleSet[] = [...S1, ...S2, ...S3, ...S4];
+/*
+ * En attente de la validation des 12 semaines par Teddy. Le plan est écrit
+ * dans `programme-teddy-4-semaines.md` (section 10) :
+ *
+ *   S5-S7   force + hypertrophie : principaux 5-8 reps, jamais moins de
+ *           2 en réserve ; secondaires 8-15 reps.
+ *   S8      deload adaptable, comme la S4.
+ *   S9-S11  congestion : principaux 8-12 reps, repos INCHANGÉS sur les
+ *           polyarticulaires ; isolation 12-15 reps, repos 60-75 s, +1 série
+ *           sur deux isolations ; dernière série dégressive possible, jamais
+ *           imposée.
+ *   S12     consolidation : volume de S1, re-tests sous-maximaux.
+ *
+ * Pour les activer : écrire ici les règles des blocs « maxforce »,
+ * « power » et « taper », puis élargir PROGRAM_WEEKS dans `program.ts`.
+ */
+
+// ---------------------------------------------------------------------------
+
+export const BLOCK_RULES: BlockRuleSet[] = [...S1, ...S2_S3, ...S4];
 
 const sApplique = (r: BlockRuleSet, block: Block, day: DayIndex, week: WeekIndex): boolean =>
   r.block === block &&

@@ -1,12 +1,14 @@
-# Programme Teddy — 4 semaines
+# POWERBUILDING — MASSE & FORCE (Teddy)
 
 Application web installable (PWA) pour suivre le programme de musculation de
 Teddy décrit dans [`programme-teddy-4-semaines.md`](programme-teddy-4-semaines.md).
 
-Même application que le programme 12 semaines de Guillaume, adaptée : thème
-rouge et noir, 4 séances par semaine (haut / bas) sur 4 semaines, combine
-sans test de maximum (semaine 1 et semaine 4), charges en reps en réserve et
-toutes autorégulées, onglet Nutrition limité aux principes généraux.
+Même application que le programme Athletic Performance de Guillaume, mais
+programme indépendant : 4 séances (pectoraux, dos, jambes, épaules et bras),
+cycle actif de 4 semaines avec structure 12 semaines préparée, machines,
+poulies et haltères, double progression en reps en réserve, combine sans
+test de maximum, onglet Nutrition limité aux principes généraux. Thème
+« ardoise, rouge et marine ».
 
 Fonctionne à 100 % hors ligne après la première ouverture. Toutes les données
 restent sur l'appareil : pas de compte, pas de serveur. La base locale porte
@@ -24,9 +26,13 @@ Le fichier `.md` est la **source de vérité**. Le code ne le réinterprète pas
 - `src/screens/` et `src/components/` affichent.
 
 `src/data/teddy.test.ts` vérifie à chaque déploiement les règles bloquantes de
-la méthode : 16 séances, aucune au-delà de 60 min, explosif en ouverture,
-aucune charge inventée, aucun test de maximum, progression J1/J2. Si l'une
-tombe, le déploiement échoue.
+la méthode : 16 séances, aucune au-delà de 60 min, une seule séance jambes,
+8 séries d'abdos, aucun exercice à éviter, aucune charge inventée, aucun test
+de maximum, deload, double progression. Si l'une tombe, le déploiement échoue.
+
+Prolonger à 12 semaines (après accord de Teddy) : écrire les règles des
+semaines 5 à 12 dans `src/data/blockRules.ts`, puis élargir `PROGRAM_WEEKS`
+dans `src/data/program.ts`.
 
 ## Développement
 

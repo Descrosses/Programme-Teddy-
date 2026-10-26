@@ -7,6 +7,7 @@
  * qui est le geste naturel pour sortir d'une séance.
  */
 
+import { FIRST_WEEK, LAST_WEEK } from '../data/program';
 import { useCallback, useEffect, useState } from 'react';
 import type { DayIndex, WeekIndex } from '../data/types';
 
@@ -74,7 +75,7 @@ export function useRoute(): [Route, (route: Route, replace?: boolean) => void] {
 
 function clampWeek(raw: string | undefined): WeekIndex {
   const n = Number(raw);
-  return (Number.isInteger(n) && n >= 1 && n <= 4 ? n : 1) as WeekIndex;
+  return (Number.isInteger(n) && n >= FIRST_WEEK && n <= LAST_WEEK ? n : FIRST_WEEK) as WeekIndex;
 }
 
 /**

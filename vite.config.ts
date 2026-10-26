@@ -33,10 +33,10 @@ export default defineConfig({
         cleanupOutdatedCaches: true,
       },
       manifest: {
-        name: 'Programme Teddy — 4 semaines',
+        name: 'POWERBUILDING — MASSE & FORCE',
         short_name: 'Teddy',
         description:
-          'Programme de musculation de Teddy, 4 semaines : séances, charges, readiness et progression, hors ligne.',
+          'POWERBUILDING — MASSE & FORCE : le programme de musculation de Teddy, séances, charges et progression, hors ligne.',
         lang: 'fr',
         dir: 'ltr',
         start_url: base,

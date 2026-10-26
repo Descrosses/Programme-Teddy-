@@ -1,23 +1,28 @@
 /**
- * Les 4 séances de référence de Teddy, sous leur forme de semaine 1
- * (calibration). Haut / bas, 4 séances, 60 min maximum échauffement compris.
+ * POWERBUILDING — MASSE & FORCE : les 4 séances de référence, sous leur
+ * forme de semaine 1 (calibration). 60 min maximum, échauffement compris.
  *
- *   lundi    Haut A
- *   mardi    Bas A
+ *   lundi    Pectoraux, triceps, abdos
+ *   mardi    Dos, biceps, abdos          (ou mercredi)
  *   mercredi repos
- *   jeudi    Haut B
- *   vendredi Bas B      ← 72 h après le Bas A
- *   samedi, dimanche repos
+ *   jeudi    Jambes, abdos               (ou vendredi)
+ *   vendredi repos
+ *   samedi   Épaules, bras, rappels pectoraux / dos, abdos
+ *   dimanche repos
  *
- * C'est l'unique trame écrite à la main. Les semaines 2 à 4 s'obtiennent en
+ * C'est l'unique trame écrite à la main. Les autres semaines s'obtiennent en
  * appliquant `blockRules.ts` à ces quatre trames, jamais en les recopiant.
  *
- * Ordre dans chaque séance : l'explosif d'abord, frais (règle A4), puis le
- * mouvement principal, puis les accessoires, puis le gainage.
+ * Ordre dans chaque séance : le mouvement principal (A) d'abord, frais, puis
+ * les secondaires, puis l'isolation, puis les abdos.
+ *
+ * Repos : longs sur les polyarticulaires, courts sur l'isolation. Les
+ * semaines de congestion (S9-S11, pas encore activées) ne raccourciront que
+ * ceux de l'isolation.
  *
  * Aucune charge n'est écrite : Teddy n'a pas de repère fiable. Elles sont
- * toutes autorégulées — trouvées en semaine 1 avec 3 reps en réserve, puis
- * suggérées à partir de ce qu'il a réellement fait.
+ * autorégulées — trouvées en semaine 1 avec 3 reps en réserve, puis suggérées
+ * par la double progression à partir de ce qu'il a réellement fait.
  */
 
 import {
@@ -53,78 +58,83 @@ const halteres = (seed?: number) => autoreg(seed, 2, 'dbPair');
 const halteres1 = () => autoreg(undefined, 2, 'dbSingle');
 const machine = () => autoreg(undefined, 1, 'cable');
 
+/** Mouvements principaux : 2-3 en réserve, 3 en semaine 1. */
+const PRINCIPAL = rir(3);
+/** Secondaires et isolation : 2 en réserve. */
+const SECONDAIRE = rirRange(2, 3);
+
 // ---------------------------------------------------------------------------
 
 const LUNDI: SessionBlueprint = {
   day: 0,
-  title: 'Haut A — développé couché',
+  title: 'Pectoraux, triceps, abdos',
   durationLabel: '≈ 55 min',
   intensity: 'DUR',
   warmup: 'upper',
   readinessTest: false,
   notes: [],
   slots: [
-    s('med-ball-chest-pass', 3, reps(5), noLoad(), null, 60),
-    s('bench-press', 3, reps(range(6, 8)), barre(), rir(3), 150),
-    s('pullup', 3, reps(range(3, 4)), bodyweight(), rir(2), 120),
-    s('incline-db-press', 3, reps(range(8, 12)), halteres(20), rir(3), 90),
-    s('db-row', 3, reps(range(10, 12), true, 'côté'), halteres1(), rir(3), 75),
-    s('lateral-raise', 2, reps(range(12, 15)), halteres(), rirRange(2, 3), 60),
+    s('bench-press', 3, reps(range(8, 12)), barre(), PRINCIPAL, 150),
+    s('incline-db-press', 3, reps(range(8, 12)), halteres(20), SECONDAIRE, 120),
+    s('pec-deck', 2, reps(range(12, 15)), machine(), rir(2), 75),
+    s('dips', 2, reps(range(8, 12)), machine(), SECONDAIRE, 105),
+    s('triceps-pushdown', 3, reps(range(10, 15)), machine(), rir(2), 75),
+    s('dead-bug', 2, reps(8, true), noLoad(), null, 45),
   ],
 };
 
 const MARDI: SessionBlueprint = {
   day: 1,
-  title: 'Bas A — squat',
+  title: 'Dos, biceps, abdos',
   durationLabel: '≈ 55 min',
   intensity: 'DUR',
-  warmup: 'lower',
-  readinessTest: true,
-  notes: [],
+  warmup: 'upper',
+  readinessTest: false,
+  notes: ['Peut se faire le mercredi à la place du mardi.'],
   slots: [
-    s('box-jump', 3, reps(3), noLoad(), null, 75),
-    s('back-squat', 3, reps(range(6, 8)), barre(), rir(3), 180),
-    s('leg-press', 3, reps(range(10, 12)), barre(), rir(3), 120),
-    s('leg-curl', 3, reps(range(10, 12)), machine(), rirRange(2, 3), 75),
-    s('calf-raise', 2, reps(range(12, 15)), machine(), null, 60),
-    s('plank', 3, hold(40), noLoad(), null, 45, '30 à 45 s.'),
+    s('lat-pulldown', 3, reps(range(8, 12)), machine(), PRINCIPAL, 150),
+    s('machine-row', 3, reps(range(8, 12)), machine(), SECONDAIRE, 120),
+    s('db-row', 2, reps(range(10, 12), true, 'côté'), halteres1(), rir(2), 90),
+    s('face-pull', 2, reps(range(12, 15)), machine(), rir(2), 75),
+    s('db-curl', 3, reps(range(10, 12)), halteres(), rir(2), 75),
+    s('reverse-crunch', 2, reps(range(10, 12)), noLoad(), null, 45),
   ],
 };
 
 const JEUDI: SessionBlueprint = {
   day: 3,
-  title: 'Haut B — développé militaire',
-  durationLabel: '≈ 56 min',
+  title: 'Jambes, abdos',
+  durationLabel: '≈ 55 min',
   intensity: 'DUR',
-  warmup: 'upper',
+  warmup: 'lower',
   readinessTest: false,
-  notes: [],
+  notes: ['Peut se faire le vendredi à la place du jeudi.'],
   slots: [
-    s('explosive-push-up', 3, reps(5), bodyweight(), null, 60),
-    s('overhead-press', 3, reps(range(6, 8)), barre(), rir(3), 150),
-    s('barbell-row', 3, reps(range(8, 10)), barre(), rir(3), 120),
-    s('lat-pulldown', 3, reps(range(10, 12)), machine(), rirRange(2, 3), 90),
-    s('dips', 3, reps(range(6, 10)), bodyweight(), rir(3), 90),
-    s('biceps-curl', 2, reps(range(10, 12)), halteres(), rirRange(2, 3), 0, 'Enchaîne directement avec les extensions triceps.'),
-    s('triceps-extension', 2, reps(range(10, 12)), machine(), rirRange(2, 3), 60, '60 s de repos après le duo curl + extensions.'),
+    s('leg-press', 3, reps(range(8, 12)), barre(), PRINCIPAL, 150),
+    s('leg-curl', 3, reps(range(10, 12)), machine(), rir(2), 90),
+    s('leg-extension', 3, reps(range(12, 15)), machine(), rir(2), 75),
+    s('split-squat', 2, reps(10, true, 'jambe'), halteres(), SECONDAIRE, 90),
+    s('calf-raise', 3, reps(range(12, 15)), machine(), rir(2), 60),
+    s('crunch', 2, reps(range(12, 15)), noLoad(), null, 45),
   ],
 };
 
-const VENDREDI: SessionBlueprint = {
-  day: 4,
-  title: 'Bas B — split squat',
-  durationLabel: '≈ 50 min',
-  intensity: 'DUR',
-  warmup: 'lower',
-  readinessTest: true,
-  notes: [],
+const SAMEDI: SessionBlueprint = {
+  day: 5,
+  title: 'Épaules, bras, rappels, abdos',
+  durationLabel: '≈ 55 min',
+  intensity: 'MODÉRÉ',
+  warmup: 'upper',
+  readinessTest: false,
+  notes: ['Peut se faire le vendredi si les jambes sont faites le jeudi.'],
   slots: [
-    s('kb-swing', 3, reps(8), autoreg(undefined, 2, 'cable'), null, 75),
-    s('split-squat', 3, reps(range(8, 10), true, 'jambe'), halteres(), rir(3), 90),
-    s('leg-extension', 3, reps(range(12, 15)), machine(), rirRange(2, 3), 75),
-    s('leg-curl', 3, reps(range(10, 12)), machine(), rirRange(2, 3), 75),
-    s('calf-raise', 2, reps(range(12, 15)), machine(), null, 60),
-    s('side-plank', 3, hold(30, true), noLoad(), null, 45),
+    s('machine-shoulder-press', 3, reps(range(8, 12)), machine(), PRINCIPAL, 150),
+    s('lateral-raise', 3, reps(range(12, 15)), halteres(), rir(2), 60),
+    s('incline-machine-press', 2, reps(range(10, 12)), machine(), rir(3), 90),
+    s('cable-row', 2, reps(range(10, 12)), machine(), rir(3), 90),
+    s('cable-curl', 2, reps(range(10, 12)), machine(), rir(2), 0, 'Enchaîne directement avec l’extension triceps.'),
+    s('overhead-triceps-extension', 2, reps(range(10, 12)), machine(), rir(2), 75, '75 s de repos après le duo curl + extension.'),
+    s('plank', 2, hold(40), bodyweight(), null, 45, '30 à 45 s.'),
   ],
 };
 
@@ -132,5 +142,5 @@ export const BASE_SESSIONS: Partial<Record<0 | 1 | 2 | 3 | 4 | 5 | 6, SessionBlu
   0: LUNDI,
   1: MARDI,
   3: JEUDI,
-  4: VENDREDI,
+  5: SAMEDI,
 };

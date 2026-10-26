@@ -3,14 +3,14 @@ import { Stepper, stepValue } from '../components/Stepper';
 import { EXERCISES } from '../data/exercises';
 import { AVEC_MAX_ESTIME, COMBINE_METRICS, maxEstime } from '../data/testSessions';
 import { fr } from '../engine/format';
-import { allCombines, getSettingsRow, saveCombine, saveSettings } from '../db/repo';
+import { allCombines, getSettingsRow, saveCombine } from '../db/repo';
 import type { CombinePhase, CombineRow } from '../db/db';
 import styles from './Screens.module.css';
 
 /** Deux combines seulement : semaine 1 et semaine 4. */
 const PHASES: Array<{ id: CombinePhase; label: string; when: string }> = [
   { id: 'initial', label: 'Initial', when: 'Semaine 1' },
-  { id: 'final', label: 'Final', when: 'Semaine 4' },
+  { id: 'final', label: 'Final', when: 'Fin de cycle' },
 ];
 
 /** Réglages du stepper par unité de mesure. */
@@ -25,13 +25,11 @@ const MEASURE = {
 /** D'où vient chaque mesure, pour que Teddy sache où la retrouver. */
 const OU: Record<string, string> = {
   'test-bodyweight': 'Relevé à la maison : moyenne de 3 matins à jeun. Se saisit aussi dans Réglages.',
-  'test-squat-8': 'La charge de ta 1re série de squat du mardi.',
-  'test-bench-8': 'La charge de ta 1re série de développé couché du lundi.',
-  'test-ohp-8': 'La charge de ta 1re série de développé militaire du jeudi.',
-  'test-strict-pullup-max': 'Le test de fin de séance du lundi.',
-  'test-broad-jump':
-    'Semaine 1 : le meilleur des 3 sauts du mardi. Semaine 4 : le meilleur saut du readiness du vendredi.',
-  'test-box-jump': 'La hauteur de box que tu as réellement utilisée, réception propre.',
+  'test-arm-cm': 'Relevé à la maison, avant la séance du lundi.',
+  'test-bench-10': 'La charge de ta 1re série de développé couché du lundi.',
+  'test-pulldown-10': 'La charge de ta 1re série de tirage vertical du mardi.',
+  'test-legpress-10': 'La charge de ta 1re série de presse du jeudi.',
+  'test-shoulder-10': 'La charge de ta 1re série de développé épaules du samedi.',
 };
 
 export function CombineScreen() {
@@ -61,15 +59,6 @@ export function CombineScreen() {
 
   async function save() {
     await saveCombine(phase, { metrics: draft, date: new Date().toISOString().slice(0, 10) });
-    /*
-     * Le broad jump du combine initial EST la référence de readiness. La
-     * reporter dans les Réglages à la main était une étape de plus qu'on
-     * finissait par oublier — et sans elle, aucun feu tricolore.
-     */
-    const saut = draft['test-broad-jump'];
-    if (phase === 'initial' && typeof saut === 'number' && saut > 0) {
-      await saveSettings({ broadJumpBaselineCm: saut });
-    }
     setRows(await allCombines());
     setSaved(true);
   }
@@ -79,8 +68,9 @@ export function CombineScreen() {
       <header className={styles.header}>
         <h1 className={styles.h1}>Combine</h1>
         <p className={styles.lead}>
-          Aucun test de maximum : des charges pour 8 reps avec 3 en réserve, des tractions, des
-          sauts. Mêmes conditions en semaine 1 et en semaine 4, c’est ce qui les rend comparables.
+          Aucun test de maximum : la charge pour 10 reps avec 3 en réserve sur les quatre
+          exercices principaux, plus le poids et le tour de bras. Mêmes conditions au début et à la
+          fin du cycle, c’est ce qui les rend comparables.
         </p>
       </header>
 
@@ -106,7 +96,7 @@ export function CombineScreen() {
       <section className={styles.card}>
         <h2 className={styles.cardTitle}>Comparaison</h2>
         <p className={styles.cardSub}>
-          Les maxima entre parenthèses sont <b>estimés</b> (formule d’Epley, 8 reps + 3 en
+          Les maxima entre parenthèses sont <b>estimés</b> (formule d’Epley, 10 reps + 3 en
           réserve) : un repère de progression, jamais une mesure.
         </p>
         <div className={styles.tableScroll}>
@@ -114,8 +104,8 @@ export function CombineScreen() {
             <thead>
               <tr>
                 <th>Mesure</th>
-                <th>S1</th>
-                <th>S4</th>
+                <th>Début</th>
+                <th>Fin</th>
               </tr>
             </thead>
             <tbody>
@@ -153,7 +143,7 @@ export function CombineScreen() {
       </h2>
       {phase === 'final' && (
         <p className={styles.hint}>
-          Développés et squat : reprends la charge de la semaine 1 pour 8 reps. Si tu as dû la
+          Exercices principaux : reprends la charge de la semaine 1 pour 10 reps. Si tu as dû la
           changer, saisis celle que tu as réellement utilisée et note le nombre de reps en réserve
           dans la remarque de l’exercice.
         </p>
@@ -212,9 +202,6 @@ export function CombineScreen() {
       {saved && (
         <p className={styles.hint}>
           Enregistré.
-          {phase === 'initial' && typeof draft['test-broad-jump'] === 'number'
-            ? ' Ton broad jump est maintenant ta référence de readiness.'
-            : ''}
         </p>
       )}
     </div>

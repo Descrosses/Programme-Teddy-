@@ -67,99 +67,107 @@ export interface BlockInfo {
 export const BLOCKS: Record<Block, BlockInfo> = {
   test: {
     block: 'test',
-    name: 'Calibration + combine initial',
+    name: 'Calibration',
     short: 'Calib.',
-    intensityLabel: '3 en réserve',
-    objective: 'Trouver et noter les charges de travail, mesurer les références',
+    intensityLabel: '2-3 en réserve',
+    objective: 'Trouver et noter les charges de travail, combine initial',
     color: '#d62f33',
   },
   accumulation: {
     block: 'accumulation',
-    name: 'Intensité',
-    short: 'Intens.',
-    intensityLabel: '2 en réserve',
-    objective: 'Même volume, un cran plus près de l’effort',
+    name: 'Accumulation hypertrophique',
+    short: 'Accum.',
+    intensityLabel: '2-3 en réserve',
+    objective: 'Volume modéré, double progression : les reps, puis la charge',
     color: '#2f6fa8',
-  },
-  maxforce: {
-    block: 'maxforce',
-    name: 'Volume',
-    short: 'Volume',
-    intensityLabel: '2 en réserve',
-    objective: 'Une série de plus sur deux accessoires, intensité stable',
-    color: '#4b6584',
   },
   deload: {
     block: 'deload',
     name: 'Deload',
     short: 'Deload',
-    intensityLabel: 'Léger',
-    objective: 'Non utilisé dans ce programme',
-    color: '#8a8a8a',
+    intensityLabel: '≥ 3 en réserve',
+    objective: 'Récupérer, refaire les tests, décider de la suite',
+    color: '#5e6b78',
+  },
+  maxforce: {
+    block: 'maxforce',
+    name: 'Force + hypertrophie',
+    short: 'Force',
+    intensityLabel: '5-8 reps, ≥ 2 en réserve',
+    objective: 'Préparé, pas activé : en attente de la validation des 12 semaines',
+    color: '#4b6584',
   },
   power: {
     block: 'power',
-    name: 'Puissance',
-    short: 'Puiss.',
-    intensityLabel: '—',
-    objective: 'Non utilisé dans ce programme',
-    color: '#8a8a8a',
+    name: 'Hypertrophie + congestion',
+    short: 'Congest.',
+    intensityLabel: '8-15 reps',
+    objective: 'Préparé, pas activé : en attente de la validation des 12 semaines',
+    color: '#a33b6b',
   },
   taper: {
     block: 'taper',
-    name: 'Allègement + combine final',
-    short: 'Bilan',
-    intensityLabel: '3 en réserve',
-    objective: 'Sortir frais, refaire les tests, décider du bloc suivant',
-    color: '#5e6b78',
+    name: 'Consolidation',
+    short: 'Consol.',
+    intensityLabel: '2-3 en réserve',
+    objective: 'Préparé, pas activé : en attente de la validation des 12 semaines',
+    color: '#1d2b3a',
   },
 };
 
 /**
- * Les semaines du programme, dans l'ordre. Teddy n'a pas de semaine 0 : son
- * combine initial se fait PENDANT la semaine 1, dans les séances de
- * calibration. Les index 0 et 5 à 12 existent dans le type mais ne portent
- * aucune séance.
+ * Semaines ACTIVES du programme. Teddy a choisi un cycle de 4 semaines.
+ *
+ * La périodisation complète sur 12 semaines est déjà décrite dans
+ * `WEEK_BLOCKS` ci-dessous ; pour la prolonger après validation de Teddy,
+ * on élargit cette liste à 1…12 et on écrit les règles des semaines 5 à 12
+ * dans `blockRules.ts`. Rien d'autre ne change : calendrier, sélecteur de
+ * semaines, historique et progression suivent cette liste.
  */
 export const PROGRAM_WEEKS = [1, 2, 3, 4] as const satisfies readonly WeekIndex[];
 export const FIRST_WEEK = 1 as WeekIndex;
-export const LAST_WEEK = 4 as WeekIndex;
+export const LAST_WEEK = PROGRAM_WEEKS[PROGRAM_WEEKS.length - 1] as WeekIndex;
 
-/** Bloc de chaque semaine. */
+/** Bloc de chaque semaine, sur les 12 semaines prévues (seules 1-4 sont actives). */
 export const WEEK_BLOCKS: Record<WeekIndex, Block> = {
   0: 'test',
   1: 'test',
   2: 'accumulation',
-  3: 'maxforce',
-  4: 'taper',
-  5: 'taper',
-  6: 'taper',
-  7: 'taper',
-  8: 'taper',
-  9: 'taper',
-  10: 'taper',
-  11: 'taper',
+  3: 'accumulation',
+  4: 'deload',
+  5: 'maxforce',
+  6: 'maxforce',
+  7: 'maxforce',
+  8: 'deload',
+  9: 'power',
+  10: 'power',
+  11: 'power',
   12: 'taper',
 };
 
+const ACTIVE = new Set<number>(PROGRAM_WEEKS);
+const jours = (w: number): readonly DayIndex[] => (ACTIVE.has(w) ? TRAINING_DAYS : []);
+
 /**
- * Jours réellement occupés : lundi, mardi, jeudi, vendredi, les semaines 1 à 4.
- * Mercredi entre les deux blocs, et 72 h entre les deux séances de jambes.
+ * Jours réellement occupés : lundi, mardi, jeudi, samedi, sur les semaines
+ * actives. Les variantes (mercredi au lieu de mardi, vendredi au lieu de
+ * jeudi ou de samedi) se font en ouvrant la séance un autre jour : rien
+ * n'oblige à la faire à la date affichée.
  */
 export const WEEK_DAYS: Record<WeekIndex, readonly DayIndex[]> = {
   0: [],
-  1: TRAINING_DAYS,
-  2: TRAINING_DAYS,
-  3: TRAINING_DAYS,
-  4: TRAINING_DAYS,
-  5: [],
-  6: [],
-  7: [],
-  8: [],
-  9: [],
-  10: [],
-  11: [],
-  12: [],
+  1: jours(1),
+  2: jours(2),
+  3: jours(3),
+  4: jours(4),
+  5: jours(5),
+  6: jours(6),
+  7: jours(7),
+  8: jours(8),
+  9: jours(9),
+  10: jours(10),
+  11: jours(11),
+  12: jours(12),
 };
 
 // ---------------------------------------------------------------------------
@@ -189,10 +197,10 @@ export const READINESS_THRESHOLDS = {
 
 /** Les mouvements qui prennent les −5 % du readiness orange. */
 export const BIG_MOVEMENT_IDS = [
-  'back-squat',
   'bench-press',
-  'overhead-press',
-  'split-squat',
+  'lat-pulldown',
+  'leg-press',
+  'machine-shoulder-press',
 ] as const;
 
 /**

@@ -129,7 +129,7 @@ export function SettingsScreen({ onChanged }: { onChanged: () => void }) {
         <h2 className={styles.cardTitle}>Date de début</h2>
         <p className={styles.cardSub}>
           Le <b>lundi</b> de la semaine 1. Tout le calendrier en découle :
-          4 séances par semaine (lundi, mardi, jeudi, vendredi) pendant
+          4 séances par semaine (lundi, mardi, jeudi, samedi) pendant
           4 semaines.
         </p>
         <div className={styles.field}>
@@ -166,9 +166,9 @@ export function SettingsScreen({ onChanged }: { onChanged: () => void }) {
           {ancreValide && (
             <p className={styles.fieldHint}>
               Semaine 1 (calibration + combine initial) le{" "}
-              {humanDate(dateFor(start, 1, 0))}, semaine 4 (combine final) le{" "}
+              {humanDate(dateFor(start, 1, 0))}, semaine 4 (deload + combine final) le{" "}
               {humanDate(dateFor(start, 4, 0))}, dernière séance le{" "}
-              {humanDate(dateFor(start, 4, 4))}.
+              {humanDate(dateFor(start, 4, 5))}.
             </p>
           )}
         </div>
@@ -221,43 +221,6 @@ export function SettingsScreen({ onChanged }: { onChanged: () => void }) {
               Reprendre {fr(last3)} kg — moyenne de tes 3 dernières pesées
             </button>
           )}
-        </div>
-      </section>
-
-      {/* --------------------------------------------- référence de saut -- */}
-      <section className={styles.card}>
-        <h2 className={styles.cardTitle}>Référence broad jump</h2>
-        <p className={styles.cardSub}>
-          Meilleur des 3 broad jumps du mardi de la semaine 1. Elle est figée :
-          c’est elle qui décide du feu tricolore avant chaque séance jambes,
-          des semaines 2 à 4. L’onglet Combine la remplit pour toi.
-        </p>
-        <div className={styles.field}>
-          <Stepper
-            label="Référence"
-            value={row.broadJumpBaselineCm}
-            step={5}
-            min={100}
-            max={400}
-            unit="cm"
-            tone="accent"
-            onStep={(d) =>
-              void patch({
-                broadJumpBaselineCm: stepValue(
-                  row.broadJumpBaselineCm,
-                  d,
-                  100,
-                  400,
-                ),
-              })
-            }
-            onCommit={(v) => void patch({ broadJumpBaselineCm: v })}
-          />
-          <p className={styles.fieldHint}>
-            {row.broadJumpBaselineCm === null
-              ? "Non définie : aucun verdict de readiness ne sera calculé."
-              : `Orange en dessous de ${fr(Math.round(row.broadJumpBaselineCm * 0.98 * 10) / 10)} cm, rouge en dessous de ${fr(Math.round(row.broadJumpBaselineCm * 0.95 * 10) / 10)} cm.`}
-          </p>
         </div>
       </section>
 

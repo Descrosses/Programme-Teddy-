@@ -108,7 +108,7 @@ export function WeekScreen({
         <h1 className={styles.h1}>{`Semaine ${week}`}</h1>
         <p className={styles.lead}>
           {week === 1 &&
-            'Calibration : tu trouves et tu notes tes charges, 3 reps en réserve. Tractions max lundi, broad jump de référence mardi.'}
+            'Calibration : tu trouves et tu notes tes charges, 2 à 3 reps en réserve. La 1re série de chaque exercice principal sert de combine initial.'}
           {week > 1 && block.objective}
         </p>
       </header>
