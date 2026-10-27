@@ -19,9 +19,9 @@ suggestion de charge : Tedhi gère ses charges lui-même. La seule progression
 écrite est le volume (une série optionnelle à partir de la semaine 2). Le
 programme 12 semaines prise de masse (sections 1 à 10) viendra ensuite.
 
-Jours déjà remplacés : **lundi, mardi, jeudi**. Le jeudi devient pecs-biceps :
-l'ancienne séance jambes (section 4) est déplacée PROVISOIREMENT au samedi
-jusqu'à réception de la feuille du samedi.
+Les 4 jours sont remplacés par les séances de Guillaume : lundi épaules-bras,
+mardi dos, jeudi pecs-biceps, samedi jambes-triceps. Les séances des
+sections 3-4 ne sont plus utilisées.
 
 ### Lundi — Épaules, triceps, biceps
 
@@ -63,12 +63,25 @@ de reps.
 | 6 | Curl machine — 3 séries différentes (même schéma que l'écarté poulie) | 3 × 8-10 | 1 min 30, puis 3 min |
 | 7 | Roman side bench, haltère ou kettlebell | 3 × 8 / côté | 1 min |
 
+### Samedi — Jambes, triceps
+
+| | Exercice | Séries × reps | Repos |
+|---|---|---|---|
+| 1 | Squat Smith : descente 3 s le plus bas possible, pause 1 s, remontée explosive | 3 × 8 en S1 ; 4 en S2-S4, la 4e optionnelle | 2 min 30 |
+| 2 | Leg extension : unilatéral en S1 et S3, bilatéral en S2 et S4 ; descente 2 s, pic 1 s | 3 × 10 (/ jambe en unilatéral) | 1 min 30 |
+| 3 | Leg curl allongé : bilatéral en S1 et S3, unilatéral en S2 et S4 ; descente 2 s, pic 1 s | 3 × 10 (/ jambe en unilatéral) | 1 min 30 |
+| 4 | Fentes avant ou arrière, haltères | 3 × 8 / jambe | 2 min |
+| 5 | Superset barre au front (descente 2 s) + dips sur banc (explosifs) | 3 × 12 + 12 | 1 min 30 après le duo |
+| 6 | Extension triceps poulie corde — 3 séries différentes | 3 × 8-10 | 45 s |
+| 7 | Relevé de buste (lombaires), descente 2 s, pic 1 s | 3 × 10 | 1 min |
+
 **Saisie des deuxièmes parties :** sous chaque série concernée, Tedhi note les reps (et la charge pour les dégressives). Échec après pause : reps seulement, charge « — » (la même).
 
 **Série optionnelle (S2-S4)** : seulement si la séance du lundi précédent a
 tenu en 60 min ou moins (durée réelle de l'appli) et sans fatigue excessive
 (pas de courbatures aux épaules 48 h après). Même règle le jeudi, avec la
-séance du jeudi précédent et les pectoraux.
+séance du jeudi précédent et les pectoraux, et le samedi (squat) avec la
+séance du samedi précédent et les jambes.
 
 **Points signalés à Guillaume et assumés par lui :** échec, rest-pause et
 séries dégressives dès la semaine 1 ; durée réelle estimée à 60-65 min en

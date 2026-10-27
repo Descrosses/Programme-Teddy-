@@ -7,7 +7,7 @@
  *   mercredi repos
  *   jeudi    Pecs, biceps                (Guillaume)
  *   vendredi repos
- *   samedi   Jambes, abdos               (provisoire, feuille à venir)
+ *   samedi   Jambes, triceps             (Guillaume)
  *   dimanche repos
  *
  * C'est l'unique trame écrite à la main. Les autres semaines s'obtiennent en
@@ -20,16 +20,13 @@
  * semaines de congestion (S9-S11, pas encore activées) ne raccourciront que
  * ceux de l'isolation.
  *
- * Aucune charge n'est écrite : Tedhi n'a pas de repère fiable. Elles sont
- * autorégulées — trouvées en semaine 1 avec 3 reps en réserve, puis suggérées
- * par la double progression à partir de ce qu'il a réellement fait.
+ * Aucune charge n'est écrite : Tedhi gère ses charges lui-même.
  */
 
 import {
   autoreg,
   bodyweight,
   hold,
-  noLoad,
   reps,
   rir,
   rirRange,
@@ -57,11 +54,6 @@ const barre = () => autoreg(undefined, 2.5, 'barbell');
 const halteres = (seed?: number) => autoreg(seed, 2, 'dbPair');
 const halteres1 = () => autoreg(undefined, 2, 'dbSingle');
 const machine = () => autoreg(undefined, 1, 'cable');
-
-/** Mouvements principaux : 2-3 en réserve, 3 en semaine 1. */
-const PRINCIPAL = rir(3);
-/** Secondaires et isolation : 2 en réserve. */
-const SECONDAIRE = rirRange(2, 3);
 
 // ---------------------------------------------------------------------------
 
@@ -140,24 +132,27 @@ const JEUDI: SessionBlueprint = {
 };
 
 /**
- * Samedi — PROVISOIRE : l'ancienne séance jambes, déplacée du jeudi en
- * attendant la feuille de Guillaume.
+ * Samedi — séance jambes, triceps écrite par Guillaume (27/10/2026). Même
+ * séance chaque semaine, sauf l'alternance unilatéral / bilatéral du leg
+ * extension et du leg curl (semaines 2 et 4, voir `blockRules.ts`).
  */
 const SAMEDI: SessionBlueprint = {
   day: 5,
-  title: 'Jambes, abdos',
-  durationLabel: '≈ 55 min',
+  title: 'Jambes, triceps',
+  durationLabel: '≈ 60 min',
   intensity: 'DUR',
   warmup: 'lower',
   readinessTest: false,
   notes: [],
   slots: [
-    s('leg-press', 3, reps(range(8, 12)), barre(), PRINCIPAL, 150),
-    s('leg-curl', 3, reps(range(10, 12)), machine(), rir(2), 90),
-    s('leg-extension', 3, reps(range(12, 15)), machine(), rir(2), 75),
-    s('split-squat', 2, reps(10, true, 'jambe'), halteres(), SECONDAIRE, 90),
-    s('calf-raise', 3, reps(range(12, 15)), machine(), rir(2), 60),
-    s('crunch', 2, reps(range(12, 15)), noLoad(), null, 45),
+    s('smith-squat', 3, reps(8), barre(), null, 150, 'Descente 3 s, le plus bas possible, pause 1 s en bas, remontée explosive.'),
+    s('leg-extension', 3, reps(10, true, 'jambe'), machine(), null, 90, 'Unilatéral cette semaine : une jambe après l’autre. Descente 2 s, pic de contraction 1 s.'),
+    s('leg-curl', 3, reps(10), machine(), null, 90, 'Les deux jambes ensemble cette semaine. Descente 2 s, pic de contraction 1 s.'),
+    s('db-lunge', 3, reps(8, true, 'jambe'), halteres(), null, 120, 'Avant ou arrière, au choix : garde la même variante tout le cycle.'),
+    { ...s('skull-crusher', 3, reps(12), barre(), null, 0, 'Descente en 2 s, contrôle total de la charge. Dips sur banc juste après, sans repos.'), superset: 'triceps-samedi' },
+    { ...s('bench-dips', 3, reps(12), bodyweight(), null, 90, 'Le plus rapide possible, explosif.'), superset: 'triceps-samedi' },
+    s('triceps-pushdown', 3, reps(range(8, 10)), machine(), null, 45, 'Les 3 séries sont différentes : ouvre les consignes.'),
+    s('back-extension', 3, reps(10), bodyweight(), null, 60, 'Descente contrôlée en 2 s, pic de contraction 1 s.'),
   ],
 };
 

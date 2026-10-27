@@ -10,6 +10,7 @@
  */
 
 import {
+  reps,
   type Block,
   type DayIndex,
   type LoadSpec,
@@ -49,6 +50,8 @@ export interface BlockRuleSet {
   day?: DayIndex;
   /** Première semaine où ces règles s'appliquent. Absent = tout le bloc. */
   fromWeek?: WeekIndex;
+  /** Seulement ces semaines-là (ex. alternance S2 et S4). Absent = tout le bloc. */
+  weeks?: WeekIndex[];
   rules: SlotRule[];
   notes?: string[];
 }
@@ -113,6 +116,7 @@ const serieOptionnelle = (jour: string, muscles: string) =>
   `4e série OPTIONNELLE. Fais-la seulement si ta séance du ${jour} précédent a tenu en 60 min ou moins (durée réelle dans le résumé de fin de séance) ET que tu n’as pas fini épuisé, sans courbatures aux ${muscles} 48 h après. Sinon, arrête-toi à 3 séries.`;
 const SERIE_OPTIONNELLE = serieOptionnelle('lundi', 'épaules');
 const SERIE_OPTIONNELLE_JEUDI = serieOptionnelle('jeudi', 'pectoraux');
+const SERIE_OPTIONNELLE_SAMEDI = serieOptionnelle('samedi', 'jambes');
 
 const S1: BlockRuleSet[] = [
   {
@@ -153,6 +157,32 @@ const S2_S4: BlockRuleSet[] = [
       }),
     ],
   },
+  {
+    block: 'accumulation',
+    day: 5,
+    rules: [
+      patch('smith-squat', {
+        sets: 4,
+        note: `Descente 3 s, le plus bas possible, pause 1 s en bas, remontée explosive. ${SERIE_OPTIONNELLE_SAMEDI}`,
+      }),
+    ],
+  },
+  {
+    // Alternance de Guillaume : S1 et S3 comme la trame, S2 et S4 inversées.
+    block: 'accumulation',
+    day: 5,
+    weeks: [2, 4],
+    rules: [
+      patch('leg-extension', {
+        work: reps(10),
+        note: 'Les deux jambes ensemble cette semaine. Descente 2 s, pic de contraction 1 s.',
+      }),
+      patch('leg-curl', {
+        work: reps(10, true, 'jambe'),
+        note: 'Unilatéral cette semaine : une jambe après l’autre. Descente 2 s, pic de contraction 1 s.',
+      }),
+    ],
+  },
 ];
 
 // ---------------------------------------------------------------------------
@@ -178,7 +208,8 @@ export const BLOCK_RULES: BlockRuleSet[] = [...S1, ...S2_S4];
 const sApplique = (r: BlockRuleSet, block: Block, day: DayIndex, week: WeekIndex): boolean =>
   r.block === block &&
   (r.day === undefined || r.day === day) &&
-  (r.fromWeek === undefined || week >= r.fromWeek);
+  (r.fromWeek === undefined || week >= r.fromWeek) &&
+  (r.weeks === undefined || r.weeks.includes(week));
 
 /** Règles applicables à une séance donnée. */
 export function rulesFor(block: Block, day: DayIndex, week: WeekIndex): SlotRule[] {

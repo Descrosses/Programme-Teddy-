@@ -149,8 +149,29 @@ describe('programme 4 semaines — séances dupliquées', () => {
     }
   });
 
-  it('chaque mouvement du lundi, du mardi et du jeudi a sa fiche, livrée avec l’appli', () => {
-    for (const e of [0, 1, 3].flatMap((d) => getSession(1, d as 0 | 1 | 3, EMPTY_CONTEXT)!.exercises)) {
+  it('samedi : la séance jambes-triceps de Guillaume, superset barre au front + dips', () => {
+    const ids = (w: 1 | 2 | 3 | 4) => getSession(w, 5, EMPTY_CONTEXT)!.exercises.map((e) => e.id).join(',');
+    expect(ids(1)).toBe(
+      'smith-squat,leg-extension,leg-curl,db-lunge,skull-crusher,bench-dips,triceps-pushdown,back-extension',
+    );
+    for (const w of [2, 3, 4] as const) expect(ids(w)).toBe(ids(1));
+    expect(ex(1, 5, 'skull-crusher').superset).toBe('triceps-samedi');
+    expect(ex(1, 5, 'bench-dips').restSec).toBe(90);
+    expect(ex(1, 5, 'smith-squat').sets).toBe(3);
+    for (const w of [2, 3, 4] as const) expect(ex(w, 5, 'smith-squat').sets).toBe(4);
+  });
+
+  it('samedi : leg extension unilatéral en S1 et S3, leg curl unilatéral en S2 et S4', () => {
+    const uni = (w: 1 | 2 | 3 | 4, id: string) => {
+      const work = ex(w, 5, id).work;
+      return work.kind === 'reps' && work.perSide === true;
+    };
+    expect([1, 2, 3, 4].map((w) => uni(w as 1, 'leg-extension'))).toEqual([true, false, true, false]);
+    expect([1, 2, 3, 4].map((w) => uni(w as 1, 'leg-curl'))).toEqual([false, true, false, true]);
+  });
+
+  it('chaque mouvement des 4 séances a sa fiche, livrée avec l’appli', () => {
+    for (const e of [0, 1, 3, 5].flatMap((d) => getSession(1, d as 0 | 1 | 3 | 5, EMPTY_CONTEXT)!.exercises)) {
       expect(e.def.fiche, e.id).toBe(`fiches/${e.id}.webp`);
       expect(existsSync(join(process.cwd(), 'public', e.def.fiche!)), e.id).toBe(true);
     }

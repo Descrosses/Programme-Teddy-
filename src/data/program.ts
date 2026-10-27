@@ -196,7 +196,7 @@ export const BIG_MOVEMENT_IDS = [
   'smith-incline-press',
   'supinated-lat-pulldown',
   'smith-military-press',
-  'leg-press',
+  'smith-squat',
 ] as const;
 
 /**

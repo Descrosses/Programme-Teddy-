@@ -26,7 +26,7 @@ const LIFTS: Array<{ id: string; label: string }> = [
   { id: 'smith-incline-press', label: 'Incliné' },
   { id: 'supinated-lat-pulldown', label: 'Tirage' },
   { id: 'smith-military-press', label: 'Militaire' },
-  { id: 'leg-press', label: 'Presse' },
+  { id: 'smith-squat', label: 'Squat' },
 ];
 
 /**

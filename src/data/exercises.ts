@@ -7,8 +7,8 @@
  *
  * Choix d'exercices : accessibles, stables, faciles à faire progresser —
  * machines guidées, poulies, haltères. Aucun mouvement technique complexe
- * imposé (pas de squat lourd, de tractions lestées ni de relevés de jambes
- * suspendus). L'Ab Wheel du mardi est un choix de Guillaume.
+ * imposé (pas de tractions lestées ni de relevés de jambes suspendus). L'Ab
+ * Wheel du mardi et le squat à la Smith du samedi sont des choix de Guillaume.
  *
  * Les abdos sont rangés par NIVEAUX. On ne change pas de niveau selon la
  * semaine, mais selon la maîtrise : haut de la plage, technique propre, deux
@@ -26,6 +26,84 @@ const PASSAGE_NIVEAU =
   'Passer au niveau suivant : quand tu fais le haut de la plage sur toutes les séries, technique propre, deux séances de suite. Jamais parce qu’une semaine le dit.';
 
 const LIST: ExerciseDef[] = [
+  // ---------------------------------- SAMEDI — jambes, triceps (Guillaume) --
+  {
+    id: 'smith-squat',
+    fiche: 'fiches/smith-squat.webp',
+    name: 'Squat à la Smith machine',
+    fn: 'squat',
+    role: 'main',
+    measure: 'kg',
+    intent: 'Descente contrôlée en 3 s, le plus bas possible, pause 1 s en bas, remontée explosive.',
+    cues: [
+      'Le plus bas possible = tant que le dos reste droit et les talons au sol.',
+      'Barre calée sur le haut des trapèzes, genoux dans l’axe des pointes de pieds.',
+    ],
+  },
+  {
+    id: 'leg-extension',
+    fiche: 'fiches/leg-extension.webp',
+    name: 'Leg extension assis',
+    fn: 'squat',
+    role: 'accessory',
+    measure: 'kg',
+    intent: 'Descente contrôlée en 2 s, pic de contraction 1 s en haut.',
+    cues: ['Semaines 1 et 3 : une jambe à la fois. Semaines 2 et 4 : les deux jambes ensemble.'],
+  },
+  {
+    id: 'leg-curl',
+    fiche: 'fiches/leg-curl.webp',
+    name: 'Leg curl allongé',
+    fn: 'hinge',
+    role: 'accessory',
+    measure: 'kg',
+    intent: 'Descente contrôlée en 2 s, pic de contraction 1 s, hanches plaquées sur le banc.',
+    cues: ['Semaines 1 et 3 : les deux jambes ensemble. Semaines 2 et 4 : une jambe à la fois.'],
+  },
+  {
+    id: 'db-lunge',
+    fiche: 'fiches/db-lunge.webp',
+    name: 'Fentes avant ou arrière, haltères',
+    fn: 'squat',
+    role: 'accessory',
+    measure: 'kg',
+    intent: 'Fente avant ou arrière, au choix. Genou arrière qui frôle le sol, poussée sur le talon avant.',
+    cues: ['Garde la même variante pendant les 4 semaines pour pouvoir comparer tes charges.'],
+  },
+  {
+    id: 'bench-dips',
+    fiche: 'fiches/bench-dips.webp',
+    name: 'Dips sur banc',
+    fn: 'push',
+    role: 'accessory',
+    measure: 'kg',
+    intent: 'Enchaînés juste après la barre au front : le plus rapide possible, explosif. Coudes proches du corps.',
+  },
+  {
+    id: 'triceps-pushdown',
+    fiche: 'fiches/triceps-pushdown.webp',
+    name: 'Extension triceps poulie, corde',
+    fn: 'push',
+    role: 'accessory',
+    measure: 'kg',
+    intent: 'Les 3 séries sont différentes : lis la consigne de chacune avant de commencer.',
+    secondPart: { label: 'Après 5 s de pause : max de reps jusqu’à l’échec', withLoad: false, onSets: [0, 2] },
+    cues: [
+      'Série 1 — 8 à 10 reps : une répétition = une demi-amplitude puis une amplitude complète. Cherche la contraction maximale, pas d’ego lifting. Ensuite 5 s de pause, puis le maximum de reps jusqu’à l’échec.',
+      'Série 2 — contraction maintenue : 5 reps, puis tiens 5 s bras tendus, triceps contractés. Enchaîne ce bloc 3 fois de suite.',
+      'Série 3 — tempo : 8 à 10 reps, extension explosive, retour en 3 s. Ensuite 5 s de pause, puis le maximum de reps.',
+      'Repos : 45 s entre les séries.',
+    ],
+  },
+  {
+    id: 'back-extension',
+    fiche: 'fiches/back-extension.webp',
+    name: 'Relevé de buste (lombaires)',
+    fn: 'core',
+    role: 'core',
+    intent: 'Descente contrôlée en 2 s sous l’horizontale, remontée jusqu’à légèrement au-dessus, pic de contraction 1 s.',
+  },
+
   // ------------------------------------ JEUDI — pecs, biceps (Guillaume) --
   {
     id: 'cable-fly-low-high',
@@ -254,7 +332,7 @@ const LIST: ExerciseDef[] = [
     fn: 'push',
     role: 'accessory',
     measure: 'kg',
-    intent: 'Superset avec le curl barre EZ. Coudes fixes, descente en 3 s vers le front, seuls les avant-bras bougent.',
+    intent: 'En superset (lundi avec le curl EZ, samedi avec les dips sur banc). Coudes fixes, descente contrôlée vers le front, seuls les avant-bras bougent.',
   },
   {
     id: 'ez-curl',
@@ -316,14 +394,6 @@ const LIST: ExerciseDef[] = [
     altBasicFit: 'Machine à dips assistée : la charge saisie est l’assistance, moins elle est lourde, plus c’est dur.',
     cues: ['Si l’épaule tire en bas du mouvement, réduis l’amplitude.'],
   },
-  {
-    id: 'triceps-pushdown',
-    name: 'Extension triceps poulie',
-    fn: 'push',
-    role: 'accessory',
-    measure: 'kg',
-    intent: 'Coudes collés au corps, extension complète, retour contrôlé.',
-  },
 
   // ------------------------------------------- MARDI — dos, biceps --
   {
@@ -374,25 +444,6 @@ const LIST: ExerciseDef[] = [
     cues: [
       'Semaine 1 : trouve la charge qui fait 10 reps en gardant 3 en réserve. Note-la, c’est ta référence.',
     ],
-  },
-  {
-    id: 'leg-curl',
-    name: 'Leg curl',
-    fn: 'hinge',
-    role: 'accessory',
-    measure: 'kg',
-    intent: 'Montée franche, descente lente, bassin collé au support.',
-    cues: [
-      'Ischio-jambiers : 4e série possible à partir de la semaine 2, seulement si tu as bien récupéré de la séance jambes précédente (plus de courbatures après 48 h).',
-    ],
-  },
-  {
-    id: 'leg-extension',
-    name: 'Leg extension',
-    fn: 'squat',
-    role: 'accessory',
-    measure: 'kg',
-    intent: 'Une seconde en haut, descente lente.',
   },
   {
     id: 'split-squat',
