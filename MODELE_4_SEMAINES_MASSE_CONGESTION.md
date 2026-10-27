@@ -104,7 +104,7 @@ Les règles du pilote s'appliquent : pas de calories, pas de macros chiffrées, 
 
 ## Fonctionnalités de l'application de référence
 
-Le dépôt GitHub **Descrosses/Programme-Teddy-** est une PWA React (GitHub Pages) qui fonctionne hors ligne. L'étiquette Git `modele-4-semaines-v1` marque cette version.
+Le dépôt GitHub **Descrosses/Programme-Teddy-** est une PWA React (GitHub Pages) qui fonctionne hors ligne. La branche Git `modele-4-semaines-v1` fige cette version.
 
 **Pendant la séance**
 - **Une carte par exercice :** reps, charge et reps en réserve, plus la saisie de la **deuxième partie** de série (dégressive : reps et charge ; échec : reps seules).
