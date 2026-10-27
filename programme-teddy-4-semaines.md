@@ -61,7 +61,7 @@ de reps.
 | 4 | Superset écarté couché haltères + pull over haltère, descente 3 s, étirement | 3 × 12 + 12 | 1 min 30 après le duo |
 | 5 | Curl haltères debout alterné, amplitude max, descente 2 s, pic de contraction | 3 × 10 / bras | 1 min 30 |
 | 6 | Curl machine — 3 séries différentes (même schéma que l'écarté poulie) | 3 × 8-10 | 1 min 30, puis 3 min |
-| 7 | Flexion latérale sur chaise romaine, haltère ou kettlebell | 3 × 8 / côté | 1 min |
+| 7 | Roman side bench, haltère ou kettlebell | 3 × 8 / côté | 1 min |
 
 **Saisie des deuxièmes parties :** sous chaque série concernée, Tedhi note les reps (et la charge pour les dégressives). Échec après pause : reps seulement, charge « — » (la même).
 

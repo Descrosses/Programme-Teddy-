@@ -93,7 +93,6 @@ const LIST: ExerciseDef[] = [
     role: 'accessory',
     measure: 'kg',
     intent: 'Alterne : une rep bras gauche, une rep bras droit. Amplitude maximale, pic de contraction en haut, descente en 2 s.',
-    cues: ['La fiche montre le curl simultané : la technique est la même, mais ici on alterne les bras.'],
   },
   {
     id: 'machine-curl',
@@ -108,17 +107,17 @@ const LIST: ExerciseDef[] = [
       'Série 1 — 8 à 10 reps : une répétition = une demi-amplitude puis une amplitude complète. Cherche la contraction maximale, pas d’ego lifting. Ensuite 5 s de pause, puis le maximum de reps jusqu’à l’échec.',
       'Série 2 — contraction maintenue : 5 reps, puis tiens 5 s bras fléchis, biceps contractés. Enchaîne ce bloc 3 fois de suite.',
       'Série 3 — tempo : 8 à 10 reps, montée explosive, retour en 3 s. Ensuite 5 s de pause, puis le maximum de reps.',
-      'Repos : 1 min 30 entre les séries, 3 min avant le gainage latéral.',
+      'Repos : 1 min 30 entre les séries, 3 min avant le roman side bench.',
     ],
   },
   {
     id: 'roman-side-bench',
     fiche: 'fiches/roman-side-bench.webp',
-    name: 'Flexion latérale sur chaise romaine, haltère',
+    name: 'Roman side bench, haltère ou kettlebell',
     fn: 'core',
     role: 'core',
     measure: 'kg',
-    intent: 'De côté sur la chaise romaine, haltère ou kettlebell dans la main du côté qui travaille. Descente 2-3 s, remontée en contractant l’oblique, sans élan ni rotation.',
+    intent: 'Installé de côté sur le banc, haltère ou kettlebell dans la main du côté qui travaille. Descente 2-3 s, remontée en contractant l’oblique, sans élan ni rotation.',
   },
 
   // ------------------------------------------- MARDI — dos (Guillaume) --
