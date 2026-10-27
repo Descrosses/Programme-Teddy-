@@ -98,7 +98,7 @@ export type Reps = number | { min: number; max: number } | 'max';
 /** Ce qu'on fait à l'intérieur d'une série. */
 export type Work =
   /** `sideLabel` : le programme écrit « / jambe » pour le Bulgarian, « / côté » ailleurs. */
-  | { kind: 'reps'; reps: Reps; perSide?: boolean; sideLabel?: 'côté' | 'jambe' }
+  | { kind: 'reps'; reps: Reps; perSide?: boolean; sideLabel?: 'côté' | 'jambe' | 'bras' }
   | { kind: 'distance'; meters: number; perSide?: boolean }
   /** `perSide` : une tenue se compte par côté, un conditioning non. */
   | { kind: 'time'; seconds: number; perSide?: boolean }
@@ -108,7 +108,7 @@ export type Work =
   /** « 1 série max ». */
   | { kind: 'maxSet' };
 
-export const reps = (r: Reps, perSide = false, sideLabel: 'côté' | 'jambe' = 'côté'): Work => ({
+export const reps = (r: Reps, perSide = false, sideLabel: 'côté' | 'jambe' | 'bras' = 'côté'): Work => ({
   kind: 'reps',
   reps: r,
   perSide,

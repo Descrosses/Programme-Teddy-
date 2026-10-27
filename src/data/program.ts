@@ -193,10 +193,10 @@ export const READINESS_THRESHOLDS = {
 
 /** Les mouvements qui prennent les −5 % du readiness orange. */
 export const BIG_MOVEMENT_IDS = [
-  'bench-press',
-  'lat-pulldown',
+  'smith-incline-press',
+  'supinated-lat-pulldown',
+  'smith-military-press',
   'leg-press',
-  'machine-shoulder-press',
 ] as const;
 
 /**

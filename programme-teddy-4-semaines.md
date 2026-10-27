@@ -19,8 +19,9 @@ suggestion de charge : Tedhi gère ses charges lui-même. La seule progression
 écrite est le volume (une série optionnelle à partir de la semaine 2). Le
 programme 12 semaines prise de masse (sections 1 à 10) viendra ensuite.
 
-Jours déjà remplacés : **lundi, mardi**. Jeudi et samedi restent ceux des
-sections 3-4 jusqu'à réception des feuilles.
+Jours déjà remplacés : **lundi, mardi, jeudi**. Le jeudi devient pecs-biceps :
+l'ancienne séance jambes (section 4) est déplacée PROVISOIREMENT au samedi
+jusqu'à réception de la feuille du samedi.
 
 ### Lundi — Épaules, triceps, biceps
 
@@ -50,11 +51,24 @@ de reps.
 | 5 | Shrugs haltères, pic de contraction 1 s, descente 2 s | 4 × 15 | 1 min |
 | 6 | Ab wheel | 4 × 8 | 1 min |
 
+### Jeudi — Pecs, biceps
+
+| | Exercice | Séries × reps | Repos |
+|---|---|---|---|
+| 1 | Écarté poulie basse (bas → haut) — 3 séries différentes | 3 × 8-10 | 45 s, puis 3 min |
+| 2 | Développé incliné Smith : 6 lourdes (1-2 en réserve) + aussitôt 10-12 à ≈ 60 % | 3 séries en S1 ; 4 en S2-S4, la 4e optionnelle | 2 min 30 |
+| 3 | Développé couché haltères, contraction maximale en haut | 3 × 10 en S1 ; 4 en S2-S4, la 4e optionnelle | 1 min 30 |
+| 4 | Superset écarté couché haltères + pull over haltère, descente 3 s, étirement | 3 × 12 + 12 | 1 min 30 après le duo |
+| 5 | Curl haltères debout alterné, amplitude max, descente 2 s, pic de contraction | 3 × 10 / bras | 1 min 30 |
+| 6 | Curl machine — 3 séries différentes (même schéma que l'écarté poulie) | 3 × 8-10 | 1 min 30, puis 3 min |
+| 7 | Flexion latérale sur chaise romaine, haltère ou kettlebell | 3 × 8 / côté | 1 min |
+
 **Saisie des deuxièmes parties :** sous chaque série concernée, Tedhi note les reps (et la charge pour les dégressives). Échec après pause : reps seulement, charge « — » (la même).
 
 **Série optionnelle (S2-S4)** : seulement si la séance du lundi précédent a
 tenu en 60 min ou moins (durée réelle de l'appli) et sans fatigue excessive
-(pas de courbatures aux épaules 48 h après).
+(pas de courbatures aux épaules 48 h après). Même règle le jeudi, avec la
+séance du jeudi précédent et les pectoraux.
 
 **Points signalés à Guillaume et assumés par lui :** échec, rest-pause et
 séries dégressives dès la semaine 1 ; durée réelle estimée à 60-65 min en

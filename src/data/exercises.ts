@@ -7,8 +7,8 @@
  *
  * Choix d'exercices : accessibles, stables, faciles à faire progresser —
  * machines guidées, poulies, haltères. Aucun mouvement technique complexe
- * imposé (pas de squat lourd, de tractions lestées, de relevés de jambes
- * suspendus ni d'Ab Wheel).
+ * imposé (pas de squat lourd, de tractions lestées ni de relevés de jambes
+ * suspendus). L'Ab Wheel du mardi est un choix de Guillaume.
  *
  * Les abdos sont rangés par NIVEAUX. On ne change pas de niveau selon la
  * semaine, mais selon la maîtrise : haut de la plage, technique propre, deux
@@ -26,6 +26,101 @@ const PASSAGE_NIVEAU =
   'Passer au niveau suivant : quand tu fais le haut de la plage sur toutes les séries, technique propre, deux séances de suite. Jamais parce qu’une semaine le dit.';
 
 const LIST: ExerciseDef[] = [
+  // ------------------------------------ JEUDI — pecs, biceps (Guillaume) --
+  {
+    id: 'cable-fly-low-high',
+    fiche: 'fiches/cable-fly-low-high.webp',
+    name: 'Écarté poulie basse (bas vers haut)',
+    fn: 'push',
+    role: 'accessory',
+    measure: 'kg',
+    intent: 'Les 3 séries sont différentes : lis la consigne de chacune avant de commencer.',
+    secondPart: { label: 'Après 5 s de pause : max de reps jusqu’à l’échec', withLoad: false, onSets: [0, 2] },
+    cues: [
+      'Série 1 — 8 à 10 reps : une répétition = une demi-amplitude puis une amplitude complète. Cherche la contraction maximale, pas d’ego lifting. Ensuite 5 s de pause, puis le maximum de reps jusqu’à l’échec.',
+      'Série 2 — contraction maintenue : 5 reps, puis tiens 5 s bras en haut, pecs contractés. Enchaîne ce bloc 3 fois de suite.',
+      'Série 3 — tempo : 8 à 10 reps, montée explosive, retour en 3 s. Ensuite 5 s de pause, puis le maximum de reps.',
+      'Repos : 45 s entre les séries, 3 min avant le développé incliné à la Smith machine.',
+    ],
+  },
+  {
+    id: 'smith-incline-press',
+    fiche: 'fiches/smith-incline-press.webp',
+    name: 'Développé incliné à la Smith machine',
+    fn: 'push',
+    role: 'main',
+    measure: 'kg',
+    intent: 'Chaque série en deux temps, sans repos entre les deux : 6 reps lourdes, puis 10 à 12 reps à environ 60 % de la charge.',
+    secondPart: { label: 'Puis aussitôt 10 à 12 reps à ≈ 60 %', withLoad: true },
+    cues: [
+      'Lourd = une charge qui t’en permettrait 7 à 8 au maximum : 1 à 2 reps en réserve.',
+      'Exemple : 6 reps à 50 kg, puis aussitôt 12 reps à 30 kg.',
+      'Saisis les deux parties : la partie lourde en haut, la partie à ≈ 60 % juste en dessous (reps et charge).',
+    ],
+  },
+  {
+    id: 'db-bench-press',
+    fiche: 'fiches/db-bench-press.webp',
+    name: 'Développé couché haltères',
+    fn: 'push',
+    role: 'accessory',
+    measure: 'kg',
+    intent: 'Descente contrôlée, poussée puissante, contraction maximale en haut.',
+  },
+  {
+    id: 'db-fly',
+    fiche: 'fiches/db-fly.webp',
+    name: 'Écarté couché haltères',
+    fn: 'push',
+    role: 'accessory',
+    measure: 'kg',
+    intent: 'Superset avec le pull over. Descente en 3 s, contrôle total de la charge, cherche l’étirement des pectoraux.',
+  },
+  {
+    id: 'db-pullover',
+    fiche: 'fiches/db-pullover.webp',
+    name: 'Pull over allongé, haltère',
+    fn: 'push',
+    role: 'accessory',
+    measure: 'kg',
+    intent: 'Enchaîné juste après l’écarté. Descente en 3 s derrière la tête, contrôle total, cherche l’étirement.',
+  },
+  {
+    id: 'db-curl',
+    fiche: 'fiches/db-curl.webp',
+    name: 'Curl haltères debout, alterné',
+    fn: 'pull',
+    role: 'accessory',
+    measure: 'kg',
+    intent: 'Alterne : une rep bras gauche, une rep bras droit. Amplitude maximale, pic de contraction en haut, descente en 2 s.',
+    cues: ['La fiche montre le curl simultané : la technique est la même, mais ici on alterne les bras.'],
+  },
+  {
+    id: 'machine-curl',
+    fiche: 'fiches/machine-curl.webp',
+    name: 'Curl biceps à la machine',
+    fn: 'pull',
+    role: 'accessory',
+    measure: 'kg',
+    intent: 'Les 3 séries sont différentes : lis la consigne de chacune avant de commencer.',
+    secondPart: { label: 'Après 5 s de pause : max de reps jusqu’à l’échec', withLoad: false, onSets: [0, 2] },
+    cues: [
+      'Série 1 — 8 à 10 reps : une répétition = une demi-amplitude puis une amplitude complète. Cherche la contraction maximale, pas d’ego lifting. Ensuite 5 s de pause, puis le maximum de reps jusqu’à l’échec.',
+      'Série 2 — contraction maintenue : 5 reps, puis tiens 5 s bras fléchis, biceps contractés. Enchaîne ce bloc 3 fois de suite.',
+      'Série 3 — tempo : 8 à 10 reps, montée explosive, retour en 3 s. Ensuite 5 s de pause, puis le maximum de reps.',
+      'Repos : 1 min 30 entre les séries, 3 min avant le gainage latéral.',
+    ],
+  },
+  {
+    id: 'roman-side-bench',
+    fiche: 'fiches/roman-side-bench.webp',
+    name: 'Flexion latérale sur chaise romaine, haltère',
+    fn: 'core',
+    role: 'core',
+    measure: 'kg',
+    intent: 'De côté sur la chaise romaine, haltère ou kettlebell dans la main du côté qui travaille. Descente 2-3 s, remontée en contractant l’oblique, sans élan ni rotation.',
+  },
+
   // ------------------------------------------- MARDI — dos (Guillaume) --
   {
     id: 'supinated-lat-pulldown',
@@ -266,14 +361,6 @@ const LIST: ExerciseDef[] = [
     role: 'accessory',
     measure: 'kg',
     intent: 'Corde à hauteur du visage, mains qui écartent la corde, coudes hauts.',
-  },
-  {
-    id: 'db-curl',
-    name: 'Curl haltères',
-    fn: 'pull',
-    role: 'accessory',
-    measure: 'kg',
-    intent: 'Coudes fixes, sans élan, descente contrôlée.',
   },
 
   // ------------------------------------------------- JEUDI — jambes --

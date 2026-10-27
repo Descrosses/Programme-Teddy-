@@ -109,8 +109,10 @@ export const CONTRAST_BY_DAY: Partial<Record<DayIndex, ContrastSpec>> = {};
  */
 
 /** Critères de la série optionnelle, les deux à remplir. */
-const SERIE_OPTIONNELLE =
-  '4e série OPTIONNELLE. Fais-la seulement si ta séance du lundi précédent a tenu en 60 min ou moins (durée réelle dans le résumé de fin de séance) ET que tu n’as pas fini épuisé, sans courbatures aux épaules 48 h après. Sinon, arrête-toi à 3 séries.';
+const serieOptionnelle = (jour: string, muscles: string) =>
+  `4e série OPTIONNELLE. Fais-la seulement si ta séance du ${jour} précédent a tenu en 60 min ou moins (durée réelle dans le résumé de fin de séance) ET que tu n’as pas fini épuisé, sans courbatures aux ${muscles} 48 h après. Sinon, arrête-toi à 3 séries.`;
+const SERIE_OPTIONNELLE = serieOptionnelle('lundi', 'épaules');
+const SERIE_OPTIONNELLE_JEUDI = serieOptionnelle('jeudi', 'pectoraux');
 
 const S1: BlockRuleSet[] = [
   {
@@ -134,6 +136,20 @@ const S2_S4: BlockRuleSet[] = [
       patch('lateral-raise', {
         sets: 4,
         note: `Puis aussitôt le max de reps à environ 60 % de la charge : saisis-les sous les 10 reps. ${SERIE_OPTIONNELLE}`,
+      }),
+    ],
+  },
+  {
+    block: 'accumulation',
+    day: 3,
+    rules: [
+      patch('smith-incline-press', {
+        sets: 4,
+        note: `Puis aussitôt 10 à 12 reps à environ 60 % de la charge : saisis-les sous la partie lourde. ${SERIE_OPTIONNELLE_JEUDI}`,
+      }),
+      patch('db-bench-press', {
+        sets: 4,
+        note: `Contraction maximale en haut. ${SERIE_OPTIONNELLE_JEUDI}`,
       }),
     ],
   },

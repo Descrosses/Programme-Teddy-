@@ -126,8 +126,31 @@ describe('programme 4 semaines — séances dupliquées', () => {
     expect(ex(1, 1, 'cable-pullover').restSec).toBe(120);
   });
 
-  it('chaque mouvement du lundi et du mardi a sa fiche, livrée avec l’appli', () => {
-    for (const e of [0, 1].flatMap((d) => getSession(1, d as 0 | 1, EMPTY_CONTEXT)!.exercises)) {
+  it('jeudi : la séance pecs-biceps de Guillaume, superset écarté + pull over', () => {
+    const ids = (w: 1 | 2 | 3 | 4) => getSession(w, 3, EMPTY_CONTEXT)!.exercises.map((e) => e.id).join(',');
+    expect(ids(1)).toBe(
+      'cable-fly-low-high,smith-incline-press,db-bench-press,db-fly,db-pullover,db-curl,machine-curl,roman-side-bench',
+    );
+    for (const w of [2, 3, 4] as const) expect(ids(w)).toBe(ids(1));
+    expect(ex(1, 3, 'db-fly').superset).toBe('pecs-jeudi');
+    expect(ex(1, 3, 'db-pullover').superset).toBe('pecs-jeudi');
+    expect(ex(1, 3, 'db-fly').restSec).toBe(0);
+    expect(ex(1, 3, 'db-pullover').restSec).toBe(90);
+    expect(ex(1, 3, 'smith-incline-press').restSec).toBe(150);
+  });
+
+  it('incliné Smith et couché haltères : 3 séries en S1, 4 (dont une optionnelle) ensuite', () => {
+    for (const id of ['smith-incline-press', 'db-bench-press']) {
+      expect(ex(1, 3, id).sets, id).toBe(3);
+      for (const w of [2, 3, 4] as const) {
+        expect(ex(w, 3, id).sets, id).toBe(4);
+        expect(ex(w, 3, id).notes.join(' '), id).toMatch(/OPTIONNELLE.*jeudi/);
+      }
+    }
+  });
+
+  it('chaque mouvement du lundi, du mardi et du jeudi a sa fiche, livrée avec l’appli', () => {
+    for (const e of [0, 1, 3].flatMap((d) => getSession(1, d as 0 | 1 | 3, EMPTY_CONTEXT)!.exercises)) {
       expect(e.def.fiche, e.id).toBe(`fiches/${e.id}.webp`);
       expect(existsSync(join(process.cwd(), 'public', e.def.fiche!)), e.id).toBe(true);
     }

@@ -2,12 +2,12 @@
  * POWERBUILDING — MASSE & FORCE : les 4 séances de référence, sous leur
  * forme de semaine 1 (calibration). 60 min maximum, échauffement compris.
  *
- *   lundi    Pectoraux, triceps, abdos
- *   mardi    Dos, biceps, abdos          (ou mercredi)
+ *   lundi    Épaules, triceps, biceps   (Guillaume)
+ *   mardi    Dos                         (Guillaume)
  *   mercredi repos
- *   jeudi    Jambes, abdos               (ou vendredi)
+ *   jeudi    Pecs, biceps                (Guillaume)
  *   vendredi repos
- *   samedi   Épaules, bras, rappels pectoraux / dos, abdos
+ *   samedi   Jambes, abdos               (provisoire, feuille à venir)
  *   dimanche repos
  *
  * C'est l'unique trame écrite à la main. Les autres semaines s'obtiennent en
@@ -114,14 +114,43 @@ const MARDI: SessionBlueprint = {
   ],
 };
 
+/**
+ * Jeudi — séance pecs, biceps écrite par Guillaume (27/10/2026), identique de
+ * la semaine 1 à la semaine 4. Développé incliné et développé couché : 3 séries
+ * en semaine 1, la 4e devient optionnelle à partir de la semaine 2.
+ */
 const JEUDI: SessionBlueprint = {
   day: 3,
+  title: 'Pecs, biceps',
+  durationLabel: '≈ 60 min',
+  intensity: 'DUR',
+  warmup: 'upper',
+  readinessTest: false,
+  notes: [],
+  slots: [
+    s('cable-fly-low-high', 3, reps(range(8, 10)), machine(), null, 45, 'Les 3 séries sont différentes : ouvre les consignes. 3 min de repos avant l’exercice suivant.'),
+    s('smith-incline-press', 3, reps(6), barre(), rirRange(1, 2), 150, 'Puis aussitôt 10 à 12 reps à environ 60 % de la charge : saisis-les sous la partie lourde.'),
+    s('db-bench-press', 3, reps(10), halteres(), null, 90, 'Contraction maximale en haut.'),
+    { ...s('db-fly', 3, reps(12), halteres(), null, 0, 'Descente en 3 s sur les deux mouvements, contrôle total. Pull over juste après, sans repos.'), superset: 'pecs-jeudi' },
+    { ...s('db-pullover', 3, reps(12), halteres1(), null, 90, 'Cherche la sensation d’étirement.'), superset: 'pecs-jeudi' },
+    s('db-curl', 3, reps(10, true, 'bras'), halteres(), null, 90, 'Une rep bras gauche, une rep bras droit. Amplitude maximale, descente en 2 s, pic de contraction.'),
+    s('machine-curl', 3, reps(range(8, 10)), machine(), null, 90, 'Les 3 séries sont différentes : ouvre les consignes. 3 min de repos avant l’exercice suivant.'),
+    s('roman-side-bench', 3, reps(8, true, 'côté'), halteres1(), null, 60),
+  ],
+};
+
+/**
+ * Samedi — PROVISOIRE : l'ancienne séance jambes, déplacée du jeudi en
+ * attendant la feuille de Guillaume.
+ */
+const SAMEDI: SessionBlueprint = {
+  day: 5,
   title: 'Jambes, abdos',
   durationLabel: '≈ 55 min',
   intensity: 'DUR',
   warmup: 'lower',
   readinessTest: false,
-  notes: ['Peut se faire le vendredi à la place du jeudi.'],
+  notes: [],
   slots: [
     s('leg-press', 3, reps(range(8, 12)), barre(), PRINCIPAL, 150),
     s('leg-curl', 3, reps(range(10, 12)), machine(), rir(2), 90),
@@ -129,25 +158,6 @@ const JEUDI: SessionBlueprint = {
     s('split-squat', 2, reps(10, true, 'jambe'), halteres(), SECONDAIRE, 90),
     s('calf-raise', 3, reps(range(12, 15)), machine(), rir(2), 60),
     s('crunch', 2, reps(range(12, 15)), noLoad(), null, 45),
-  ],
-};
-
-const SAMEDI: SessionBlueprint = {
-  day: 5,
-  title: 'Épaules, bras, rappels, abdos',
-  durationLabel: '≈ 55 min',
-  intensity: 'MODÉRÉ',
-  warmup: 'upper',
-  readinessTest: false,
-  notes: ['Peut se faire le vendredi si les jambes sont faites le jeudi.'],
-  slots: [
-    s('machine-shoulder-press', 3, reps(range(8, 12)), machine(), PRINCIPAL, 150),
-    s('lateral-raise', 3, reps(range(12, 15)), halteres(), rir(2), 60),
-    s('incline-machine-press', 2, reps(range(10, 12)), machine(), rir(3), 90),
-    s('cable-row', 2, reps(range(10, 12)), machine(), rir(3), 90),
-    s('cable-curl', 2, reps(range(10, 12)), machine(), rir(2), 0, 'Enchaîne directement avec l’extension triceps.'),
-    s('overhead-triceps-extension', 2, reps(range(10, 12)), machine(), rir(2), 75, '75 s de repos après le duo curl + extension.'),
-    s('plank', 2, hold(40), bodyweight(), null, 45, '30 à 45 s.'),
   ],
 };
 

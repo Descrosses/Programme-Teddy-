@@ -23,10 +23,10 @@ import styles from './Screens.module.css';
 
 /** Les quatre mouvements principaux de Tedhi (lettre A de chaque séance). */
 const LIFTS: Array<{ id: string; label: string }> = [
-  { id: 'bench-press', label: 'Couché' },
-  { id: 'lat-pulldown', label: 'Tirage' },
+  { id: 'smith-incline-press', label: 'Incliné' },
+  { id: 'supinated-lat-pulldown', label: 'Tirage' },
+  { id: 'smith-military-press', label: 'Militaire' },
   { id: 'leg-press', label: 'Presse' },
-  { id: 'machine-shoulder-press', label: 'Épaules' },
 ];
 
 /**
@@ -53,7 +53,7 @@ export function ProgressScreen() {
     oneRM: Record<string, number>;
     ctx: SessionContext;
   } | null>(null);
-  const [lift, setLift] = useState<string>('bench-press');
+  const [lift, setLift] = useState<string>('smith-incline-press');
 
   useEffect(() => {
     void (async () => {
