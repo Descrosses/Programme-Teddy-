@@ -121,8 +121,13 @@ Le dépôt GitHub **Descrosses/Programme-Teddy-** est une PWA React (GitHub Page
 - Le programme est séparé du code : les séances, les règles par semaine et le catalogue d'exercices sont des fichiers de données.
 - Pour créer un nouveau programme, on change ces fichiers, pas l'appli.
 
-## Pour en faire une offre (pistes, non validées)
+## Déclinaisons prévues (décision de Guillaume, 27/10/2026)
 
-- **Anonymiser et paramétrer** : prénom, date de début et salle (choix de remplacements quand une machine manque).
-- **Prévoir une version « débutant »** : semaine 1 sans échec, comme expliqué dans les limites plus haut.
-- **Garder le questionnaire de bilan** et le contrôle d'éligibilité avant de donner l'accès.
+- **Public :** intermédiaires et confirmés. Pas de version débutant pour l'instant.
+- **Intermédiaire :** cette version, telle quelle.
+- **Confirmé :** même base, avec quelques séries ou exercices en plus.
+- **Ajustement individuel :** selon le nombre de séances possibles par semaine et le temps disponible par séance.
+
+Avant de lancer quoi que ce soit, ces déclinaisons doivent être écrites puis testées sur au moins une personne chacune. Le contrôle d'éligibilité du questionnaire de bilan reste obligatoire.
+
+À compléter avant la mise en ligne : un choix de remplacements pour chaque mouvement, quand la salle n'a pas la machine prévue.
