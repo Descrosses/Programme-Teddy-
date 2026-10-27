@@ -18,6 +18,7 @@ import {
   DELOAD_CORE,
   DELOAD_POLICY,
   LOAD_SUGGESTIONS,
+  PROGRAM_WEEKS,
   READINESS_THRESHOLDS,
   WEEK_BLOCKS,
   WEEK_DAYS,
@@ -75,6 +76,8 @@ export interface ResolvedExercise {
   ramp?: RampStep[];
   /** Superset : identifiant partagé avec l'exercice voisin. */
   superset?: string;
+  /** Alternance une jambe / deux jambes : le mode de cette semaine et la frise du cycle. */
+  alternance?: { uni: boolean; week: number; weeks: Array<{ week: number; uni: boolean }> };
   /**
    * Dernière charge réellement enregistrée sur cet exercice, ou `null`.
    *
@@ -554,6 +557,15 @@ function resolveSlot(slot: Slot, o: ResolveOpts): ResolvedExercise | null {
     ...(contrastWith && o.contrast ? { contrast: o.contrast } : {}),
     ...(slot.ramp ? { ramp: slot.ramp } : {}),
     ...(slot.superset ? { superset: slot.superset } : {}),
+    ...(slot.alternance
+      ? {
+          alternance: {
+            uni: slot.alternance.uniWeeks.includes(o.week),
+            week: o.week,
+            weeks: PROGRAM_WEEKS.map((w) => ({ week: w, uni: slot.alternance!.uniWeeks.includes(w) })),
+          },
+        }
+      : {}),
     suggestion,
     adjustments,
   };

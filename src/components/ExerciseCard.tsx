@@ -140,11 +140,33 @@ export function ExerciseCard({
     overrideKg === null &&
     savedSets.length === 0;
 
+  const alt = ex.alternance;
+  const altClass = alt ? (alt.uni ? styles.altUni : styles.altBi) : '';
+
   return (
-    <article className={`${styles.exercise} ${allDone ? styles.exerciseDone : ''}`}>
+    <article className={`${styles.exercise} ${altClass} ${allDone ? styles.exerciseDone : ''}`}>
+      {alt && <AlternanceBand uni={alt.uni} />}
       <div className={styles.exHead}>
         <div className={styles.exName}>{ex.name}</div>
-        <div className={`${styles.loadLine} tnum`}>{shownLoadLine}</div>
+        <div className={`${styles.loadLine} tnum`}>
+          {alt?.uni ? <LigneUnilaterale ligne={shownLoadLine} /> : shownLoadLine}
+        </div>
+        {alt && (
+          <div className={styles.altWeeks} aria-label="Alternance sur le cycle">
+            {alt.weeks.map((w) => (
+              <div
+                key={w.week}
+                className={`${styles.altWeek} ${w.week === alt.week ? styles.altWeekNow : ''}`}
+              >
+                <b>S{w.week}</b>
+                <span>
+                  <i className={w.uni ? styles.altDotUni : styles.altDotBi} />
+                  {w.uni ? '1 jambe' : '2 jambes'}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
 
         <div className={styles.exSub}>
           {ex.targetRPE && <span>{ex.targetRPE.label}</span>}
@@ -697,7 +719,7 @@ function SetEntry({
               />
             ) : (
               <Stepper
-                label="Reps"
+                label={ex.work.kind === 'reps' && ex.work.perSide ? `Reps / ${ex.work.sideLabel ?? 'côté'}` : 'Reps'}
                 value={reps}
                 step={1}
                 min={0}
@@ -894,4 +916,32 @@ export function showsLoadField(ex: ResolvedExercise): boolean {
 function buildLoadLine(ex: ResolvedExercise, kg: number | null): string {
   if (kg === null || kg === ex.load.kg) return ex.loadLine;
   return loadLine(ex.sets, ex.work, { ...ex.load, kg });
+}
+
+/** Bandeau d'alternance, en tête de carte : jaune = une jambe, marine = deux. */
+function AlternanceBand({ uni }: { uni: boolean }) {
+  return (
+    <div className={uni ? styles.altBandUni : styles.altBandBi}>
+      <span className={styles.altIcon} aria-hidden="true">
+        <i />
+        <i className={uni ? styles.altIconOff : ''} />
+      </span>
+      <span>
+        <span className={styles.altTitle}>{uni ? 'UNE JAMBE À LA FOIS' : 'LES DEUX JAMBES ENSEMBLE'}</span>
+        <span className={styles.altSub}>Cette semaine : {uni ? 'unilatéral' : 'bilatéral'}</span>
+      </span>
+    </div>
+  );
+}
+
+/** « 3 × 10 / jambe » : le « / jambe » surligné, pour qu'il ne passe pas inaperçu. */
+function LigneUnilaterale({ ligne }: { ligne: string }) {
+  const i = ligne.indexOf(' / jambe');
+  if (i < 0) return <>{ligne}</>;
+  return (
+    <>
+      {ligne.slice(0, i)} <em className={styles.altPerSide}>/ jambe</em>
+      {ligne.slice(i + ' / jambe'.length)}
+    </>
+  );
 }

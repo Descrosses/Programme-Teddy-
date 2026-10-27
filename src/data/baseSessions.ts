@@ -146,8 +146,8 @@ const SAMEDI: SessionBlueprint = {
   notes: [],
   slots: [
     s('smith-squat', 3, reps(8), barre(), null, 150, 'Descente 3 s, le plus bas possible, pause 1 s en bas, remontée explosive.'),
-    s('leg-extension', 3, reps(10, true, 'jambe'), machine(), null, 90, 'Unilatéral cette semaine : une jambe après l’autre. Descente 2 s, pic de contraction 1 s.'),
-    s('leg-curl', 3, reps(10), machine(), null, 90, 'Les deux jambes ensemble cette semaine. Descente 2 s, pic de contraction 1 s.'),
+    { ...s('leg-extension', 3, reps(10, true, 'jambe'), machine(), null, 90, 'Fais les 10 reps d’une jambe, puis les 10 de l’autre. Descente 2 s, pic de contraction 1 s.'), alternance: { uniWeeks: [1, 3] } },
+    { ...s('leg-curl', 3, reps(10), machine(), null, 90, 'Descente 2 s, pic de contraction 1 s.'), alternance: { uniWeeks: [2, 4] } },
     s('db-lunge', 3, reps(8, true, 'jambe'), halteres(), null, 120, 'Avant ou arrière, au choix : garde la même variante tout le cycle.'),
     { ...s('skull-crusher', 3, reps(12), barre(), null, 0, 'Descente en 2 s, contrôle total de la charge. Dips sur banc juste après, sans repos.'), superset: 'triceps-samedi' },
     { ...s('bench-dips', 3, reps(12), bodyweight(), null, 90, 'Le plus rapide possible, explosif.'), superset: 'triceps-samedi' },

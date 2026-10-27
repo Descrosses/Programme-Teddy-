@@ -175,11 +175,11 @@ const S2_S4: BlockRuleSet[] = [
     rules: [
       patch('leg-extension', {
         work: reps(10),
-        note: 'Les deux jambes ensemble cette semaine. Descente 2 s, pic de contraction 1 s.',
+        note: 'Descente 2 s, pic de contraction 1 s.',
       }),
       patch('leg-curl', {
         work: reps(10, true, 'jambe'),
-        note: 'Unilatéral cette semaine : une jambe après l’autre. Descente 2 s, pic de contraction 1 s.',
+        note: 'Fais les 10 reps d’une jambe, puis les 10 de l’autre. Descente 2 s, pic de contraction 1 s.',
       }),
     ],
   },

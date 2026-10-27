@@ -1503,3 +1503,132 @@
   max-width: none;
   height: auto;
 }
+
+/* ------------------------------------- alternance une jambe / deux jambes -- */
+/* Jaune = une jambe à la fois ; marine = les deux ensemble. Le jaune n'est
+   utilisé nulle part ailleurs : impossible de le confondre avec le superset. */
+
+.altUni {
+  border: 2px solid #f2b33d;
+  box-shadow: 0 0 0 4px rgba(242, 179, 61, 0.18);
+}
+
+.altBi {
+  border: 2px solid var(--marine);
+  box-shadow: 0 0 0 4px rgba(29, 43, 58, 0.1);
+}
+
+.altBandUni,
+.altBandBi {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px var(--pad);
+}
+
+.altBandUni {
+  background: #f2b33d;
+  color: var(--ink);
+}
+
+.altBandBi {
+  background: var(--marine);
+  color: #ffffff;
+}
+
+.altIcon {
+  display: flex;
+  gap: 3px;
+  align-items: flex-end;
+  flex: none;
+}
+
+.altIcon i {
+  display: block;
+  width: 9px;
+  height: 24px;
+  border-radius: 5px 5px 3px 3px;
+  background: currentColor;
+}
+
+.altIcon i.altIconOff {
+  opacity: 0.25;
+}
+
+.altTitle {
+  display: block;
+  font-family: var(--font-cond);
+  font-weight: 800;
+  font-size: 1.5rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.altSub {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.altPerSide {
+  font-style: normal;
+  padding: 0 8px;
+  border-radius: 8px;
+  background: #fdf3dd;
+  color: #7a4f00;
+}
+
+.altWeeks {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.altWeek {
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  padding: 5px 0;
+  text-align: center;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--ink-3);
+}
+
+.altWeek b {
+  display: block;
+  font-family: var(--font-cond);
+  font-size: 1.0625rem;
+  color: var(--ink-2);
+}
+
+.altWeekNow {
+  border-color: var(--ink);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.altWeekNow b {
+  color: var(--ink);
+}
+
+.altDotUni,
+.altDotBi {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 4px;
+  vertical-align: 1px;
+}
+
+.altDotUni {
+  background: #f2b33d;
+}
+
+.altDotBi {
+  background: var(--marine);
+}

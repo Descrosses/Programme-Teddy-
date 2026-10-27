@@ -451,6 +451,13 @@ export interface Slot {
    * seul chrono (le repos du second).
    */
   superset?: string;
+  /**
+   * Alternance unilatéral / bilatéral d'une semaine à l'autre : semaines où
+   * l'exercice se fait une jambe à la fois. Les autres semaines, les deux
+   * ensemble. Le travail (`work`) de chaque semaine reste écrit par la trame et
+   * les règles ; ce champ ne sert qu'à l'afficher bien en évidence.
+   */
+  alternance?: { uniWeeks: number[] };
 }
 
 /** Une séance entièrement résolue pour une semaine donnée (sortie de l'engine). */

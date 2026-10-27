@@ -168,6 +168,14 @@ describe('programme 4 semaines — séances dupliquées', () => {
     };
     expect([1, 2, 3, 4].map((w) => uni(w as 1, 'leg-extension'))).toEqual([true, false, true, false]);
     expect([1, 2, 3, 4].map((w) => uni(w as 1, 'leg-curl'))).toEqual([false, true, false, true]);
+    // Le bandeau affiché suit exactement le travail prescrit, semaine par semaine.
+    for (const w of [1, 2, 3, 4] as const) {
+      for (const id of ['leg-extension', 'leg-curl']) {
+        const e = ex(w, 5, id);
+        expect(e.alternance?.uni, `${id} S${w}`).toBe(uni(w, id));
+        expect(e.alternance?.weeks.map((x) => x.uni), id).toEqual([1, 2, 3, 4].map((x) => uni(x as 1, id)));
+      }
+    }
   });
 
   it('chaque mouvement des 4 séances a sa fiche, livrée avec l’appli', () => {
